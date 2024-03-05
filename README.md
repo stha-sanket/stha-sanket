@@ -3,7 +3,7 @@
 
 - 🔭 I’m currently working on **Animal Detection using YOLOv5**
 
-- 🌱 I’m currently learning **my coursework here at Sunway College**
+- 🌱 I’m currently learning **my coursework related AI and DataScience here at Sunway College**
 
 - 👯 I’m looking to collaborate on **various project in machine learning**
 
