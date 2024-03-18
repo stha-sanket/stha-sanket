@@ -1,5 +1,5 @@
 <h1 align="center">Hi 👋, I'm Sanket Shrestha</h1>
-<h3 align="center">A passionate developer and a CS/Data Sciecne Student here at Nepal. Working as a partime copywriter and Designer.</h3>
+<h3 align="center">A passionate developer and a CS/Data Sciecne Student here at Nepal. Pursuing my degree For Data Science. Currently enrolled at DataCamp to improve my skills.</h3>
 
 - 🔭 I’m currently working on **Animal Detection using YOLOv5**
 
