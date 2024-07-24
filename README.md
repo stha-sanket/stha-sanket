@@ -1,6 +1,7 @@
 <h1 align="center">Hi 👋, I'm Sanket Shrestha</h1>
 <h3 align="center">A passionate developer and a CS/Data Sciecne Student here at Nepal. Pursuing my degree For Data Science. Currently enrolled at DataCamp to improve my skills.</h3>
----------
+<hr>
+
 - 🔭 I’m currently working on **Web based Heart Disease Detection**
 
 - 🌱 I’m currently learning **my coursework related AI and DataScience here at Sunway College**
@@ -12,7 +13,7 @@
 <h3 align="left">Connect with me:</h3>
 <p align="left">
 <a href="https://www.linkedin.com/in/sanketstha" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="www.linkedin.com/in/sanketstha" height="30" width="40" /></a>
-<a href="https://stackoverflow.com/users/sanket shrestha" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/stack-overflow.svg" alt="sanket shrestha" height="30" width="40" /></a>
+<a href="https://stackoverflow.com/users/23519007/sanket-shrestha" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/stack-overflow.svg" alt="sanket shrestha" height="30" width="40" /></a>
 <a href="https://fb.com/sanket shrestha" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/facebook.svg" alt="sanket shrestha" height="30" width="40" /></a>
 <a href="https://instagram.com/sanket_k.stha" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/instagram.svg" alt="sanket_k.stha" height="30" width="40" /></a>
 <a href="https://discord.gg/ashuranoryoshi" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/discord.svg" alt="ashuranoryoshi" height="30" width="40" /></a>
