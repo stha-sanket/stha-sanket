@@ -1,7 +1,7 @@
 <h1 align="center">Hi 👋, I'm Sanket Shrestha</h1>
 <h3 align="center">A passionate developer and a CS/Data Sciecne Student here at Nepal. Pursuing my degree For Data Science. Currently enrolled at DataCamp to improve my skills.</h3>
 
-- 🔭 I’m currently working on **Animal Detection using YOLOv5**
+- 🔭 I’m currently working on **Web based Heart Disease Detection**
 
 - 🌱 I’m currently learning **my coursework related AI and DataScience here at Sunway College**
 
