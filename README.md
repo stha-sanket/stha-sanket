@@ -1,6 +1,6 @@
 <h1 align="center">Hi 👋, I'm Sanket Shrestha</h1>
-<h3 align="center">A passionate developer and a CS/Data Sciecne Student here at Nepal. Pursuing my degree For Data Science at Sunway COllege.
-  - Currently enrolled at DataCamp to improve my skills.</h3>
+<h3 align="center">A passionate developer and a CS/Data Sciecne Student here at Nepal. Pursuing my degree For Data Science at Sunway College Kathmandu.
+  Currently enrolled at DataCamp to improve my skills.</h3>
 <hr>
 
 - 🔭 I’m currently working on **Web based Heart Disease Detection**
