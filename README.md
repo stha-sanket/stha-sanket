@@ -1,5 +1,5 @@
 <h1 align="center">Hi 👋, I'm Sanket Shrestha</h1>
-<h3 align="center">A passionate developer and a CS/Data Sciecne Student here at Nepal. Pursuing my degree For Data Science at Sunway College Kathmandu.
+<h3 align="center">A passionate developer and a CS/Data Sciecne Student here at Nepal. Pursuing my degree For Data Science and Artificial Intelligence at Sunway College Kathmandu.
   Currently enrolled at DataCamp to improve my skills.</h3>
 <hr>
 
