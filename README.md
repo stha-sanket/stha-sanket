@@ -1,37 +1,80 @@
-<h1 align="center">Hi 👋, I'm Sanket Shrestha</h1>
-<h3 align="center">A passionate developer and a CS/Data Sciecne Student here at Nepal. Pursuing my degree For Data Science and Artificial Intelligence at Sunway College Kathmandu.
-  Currently enrolled at DataCamp to improve my skills.</h3>
-<hr>
+# Hi 👋 I'm a Computer Science Student from Nepal 🇳🇵
 
-- 🔭 I’m currently working on **Web based Heart Disease Detection**
+I’m a **Computer Science undergraduate** who enjoys building **practical, problem-driven applications** using Python and web technologies.  
+I focus on **learning by building**, especially through **hackathons and side projects** that solve real-world problems.
 
-- 🌱 I’m currently learning **my coursework related AI and DataScience here at Sunway College**
+---
 
-- 👯 I’m looking to collaborate on **various project in machine learning**
+## 🚀 What I’m Working On
+- 🫀 **Health-tech projects**  
+  - Heart disease prediction systems  
+  - Patient management applications  
+- 🌍 **Tourism & travel tech**
+  - Budget-based itinerary and recommendation systems
+- 🚦 **Smart systems (IoT + software)**
+  - Traffic optimization and emergency vehicle prioritization
+- ⚙️ **Backend & logic-heavy applications**
+  - Django, Streamlit, CLI & GUI-based tools
 
-- 📫 How to reach me **sanketshrestha09@gmail.com**
+---
 
-<h3 align="left">Connect with me:</h3>
-<p align="left">
-<a href="https://www.linkedin.com/in/sanketstha" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="www.linkedin.com/in/sanketstha" height="30" width="40" /></a>
-<a href="https://stackoverflow.com/users/23519007/sanket-shrestha" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/stack-overflow.svg" alt="sanket shrestha" height="30" width="40" /></a>
-<a href="https://fb.com/sanket shrestha" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/facebook.svg" alt="sanket shrestha" height="30" width="40" /></a>
-<a href="https://instagram.com/sanket_k.stha" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/instagram.svg" alt="sanket_k.stha" height="30" width="40" /></a>
-<a href="https://discord.gg/ashuranoryoshi" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/discord.svg" alt="ashuranoryoshi" height="30" width="40" /></a>
-</p>
+## 🧠 Skills & Technologies
 
+**Languages**
+- Python  
+- C / C++ (basics)  
+- SQL (fundamentals)
 
-<h3 align="left">Languages and Tools:</h3>
-<p align="left"> <a href="https://www.arduino.cc/" target="_blank" rel="noreferrer"> <img src="https://cdn.worldvectorlogo.com/logos/arduino-1.svg" alt="arduino" width="40" height="40"/> </a> <a href="https://aws.amazon.com" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" alt="aws" width="40" height="40"/> </a> <a href="https://www.blender.org/" target="_blank" rel="noreferrer"> <img src="https://download.blender.org/branding/community/blender_community_badge_white.svg" alt="blender" width="40" height="40"/> </a> <a href="https://www.cprogramming.com/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/c/c-original.svg" alt="c" width="40" height="40"/> </a> <a href="https://www.w3schools.com/css/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original-wordmark.svg" alt="css3" width="40" height="40"/> </a> <a href="https://www.figma.com/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/figma/figma-icon.svg" alt="figma" width="40" height="40"/> </a> <a href="https://git-scm.com/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/git-scm/git-scm-icon.svg" alt="git" width="40" height="40"/> </a> <a href="https://www.w3.org/html/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original-wordmark.svg" alt="html5" width="40" height="40"/> </a> <a href="https://www.adobe.com/in/products/illustrator.html" target="_blank" rel="noreferrer"> 
-  
-<img src="https://www.vectorlogo.zone/logos/adobe_illustrator/adobe_illustrator-icon.svg" alt="illustrator" width="40" height="40"/> </a> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" alt="javascript" width="40" height="40"/> </a> 
+**Frameworks & Tools**
+- Django  
+- Streamlit  
+- Tkinter  
+- Git & GitHub  
 
-<a href="https://www.mysql.com/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original-wordmark.svg" alt="mysql" width="40" height="40"/> </a> <a href="https://pandas.pydata.org/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/2ae2a900d2f041da66e950e4d48052658d850630/icons/pandas/pandas-original.svg" alt="pandas" width="40" height="40"/> </a> <a href="https://www.python.org" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" alt="python" width="40" height="40"/> </a> <a href="https://pytorch.org/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/pytorch/pytorch-icon.svg" alt="pytorch" width="40" height="40"/> </a> <a href="https://www.tensorflow.org" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/tensorflow/tensorflow-icon.svg" alt="tensorflow" width="40" height="40"/> </a> </p>
-<div align="center">
+**Domains**
+- Machine Learning (beginner–intermediate)  
+- Data handling & feature engineering  
+- Backend logic & system design  
+- Hackathon development
 
-  <img src="https://github-readme-stats.vercel.app/api?username=stha-sanket&hide_title=false&hide_rank=false&show_icons=true&include_all_commits=true&count_private=true&disable_animations=false&theme=dracula&locale=en&hide_border=false" height="150" alt="stats graph"  />
-  <img src="https://streak-stats.demolab.com?user=stha-sanket&locale=en&mode=daily&theme=dracula&hide_border=false&border_radius=5" height="150" alt="streak graph"  />
-  <img src="https://github-readme-stats.vercel.app/api/top-langs?username=stha-sanket&locale=en&hide_title=false&layout=compact&card_width=320&langs_count=5&theme=dracula&hide_border=false" height="150" alt="languages graph"  />
-</div>
+---
 
-###
+## 🛠️ Notable Projects
+- 🫀 **Heart Disease Prediction System**  
+  Machine learning–based risk prediction with personalized recommendations.
+
+- 🏥 **Hospital Management System**  
+  CLI & GUI applications with patient, doctor, and admin management.
+
+- 🌄 **Sahayatri**  
+  A budget-aware travel recommendation platform suggesting hotels, landmarks, and cultural experiences.
+
+- 🚦 **Smart Traffic Light System (IoT)**  
+  Dynamic lane prioritization with emergency vehicle detection.
+
+---
+
+## 🌱 Currently Learning
+- Advanced Django & backend architecture  
+- Cleaner UI/UX for functional apps  
+- Writing better technical documentation  
+- Improving problem-solving and system design
+
+---
+
+## 📌 How I Build
+- Simple > Complex  
+- Function > Flash  
+- Logic > Libraries  
+
+I prefer **working systems** over over-engineered code.
+
+---
+
+## 📫 Connect With Me
+- GitHub: *You’re already here* 🙂
+- Open to collaboration on **hackathons, Python projects, and backend systems**
+
+---
+
+> “Build first. Understand deeply. Improve continuously.”
