@@ -17,6 +17,8 @@
 ### 🔝 Top Contributed Repo
 ![](https://github-contributor-stats.vercel.app/api?username=stha-sanket&limit=5&theme=dark&combine_all_yearly_contributions=true)
 <!-- Pacman Contribution Graph (Dark/Light Mode) -->
+
+<!-- Pacman Contribution Graph (Dark/Light Mode) -->
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/stha-sanket/stha-sanket/output/pacman-contribution-graph-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/stha-sanket/stha-sanket/output/pacman-contribution-graph.svg">
@@ -49,3 +51,4 @@
   <!-- Streak Stats -->
   <img src="https://streak-stats.demolab.com?user=stha-sanket&locale=en&mode=daily&theme=dracula&hide_border=false&border_radius=5&order=3" height="150" alt="Streak Stats" />
 </div>
+
