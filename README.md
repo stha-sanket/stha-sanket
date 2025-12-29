@@ -14,13 +14,7 @@
 
 ### 📊 GitHub Overview
 <div style="display: flex; justify-content: space-between; gap: 10px;">
-  <img src="https://github-readme-stats.vercel.app/api?username=stha-sanket&theme=dark&hide_border=false&include_all_commits=false&count_private=false" width="48%" />
   <img src="https://nirzak-streak-stats.vercel.app/?user=stha-sanket&theme=dark&hide_border=false" width="48%" />
-</div>
-
-### 🛠️ Top Languages
-<div style="text-align: center;">
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=stha-sanket&theme=dark&hide_border=false&include_all_commits=false&count_private=false&layout=compact" width="100%" />
 </div>
 
 ### 🔝 Top Contributed Repos
