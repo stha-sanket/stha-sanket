@@ -5,13 +5,19 @@ on:
     - cron: '0 0 * * *'  # Runs daily at midnight UTC
   workflow_dispatch:    # Allows you to run it manually
   push:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
   generate:
-    permissions: contents: write
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Ensure write permission for the contents of the repo
+
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
       - name: Generate Pacman SVGs
         uses: abozanona/pacman-contribution-graph@main
         with:
@@ -21,6 +27,6 @@ jobs:
         uses: crazy-max/ghaction-github-pages@v4
         with:
           target_branch: output
-          build_dir: dist
+          build_dir: dist  # Make sure that your build directory is correct (it may differ)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
