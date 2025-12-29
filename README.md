@@ -24,11 +24,12 @@
   <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/stha-sanket/stha-sanket/output/pacman-contribution-graph.svg">
   <img alt="Pacman Contribution Graph" src="https://raw.githubusercontent.com/stha-sanket/stha-sanket/output/pacman-contribution-graph.svg">
 </picture>
+
 <div align="center">
-  <h3>Latest Blog Posts on Medium</h3>
+  <h3>📝 Latest Blog Post on Medium</h3>
   <br/>
-  <a href="https://medium.com/@sanketshrestha09" target="_blank">
-    <img src="https://github-readme-medium-card-yourname.vercel.app/getMediumBlogs?username=sanketshrestha09&limit=4&theme=dracula" alt="Latest Medium Blogs" style="width: 500px;" />
+  <a target="_blank" href="https://medium.com/@sanketshrestha09">
+    <img src="https://github-readme-medium-recent-article.vercel.app/medium/@sanketshrestha09/0" alt="Latest Medium Post" style="width: 400px; border-radius: 10px;" />
   </a>
 </div>
 
