@@ -25,13 +25,17 @@
   <img alt="Pacman Contribution Graph" src="https://raw.githubusercontent.com/stha-sanket/stha-sanket/output/pacman-contribution-graph.svg">
 </picture>
 
-<div align="center">
-  <h3>📝 Latest Blog Post on Medium</h3>
-  <br/>
-  <a target="_blank" href="https://medium.com/@sanketshrestha09">
-    <img src="https://github-readme-medium-recent-article.vercel.app/medium/@sanketshrestha09/0" alt="Latest Medium Post" style="width: 400px; border-radius: 10px;" />
+<div style="width: 100%; text-align: center; margin: 20px 0;">
+  <a href="https://github-readme-medium-recent-article.vercel.app/medium/@sanketshrestha09/0" target="_blank" 
+     style="display: inline-block; max-width: 100%; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+    <img 
+      src="https://github-readme-medium-recent-article.vercel.app/medium/@sanketshrestha09/0" 
+      alt="Medium post 1" 
+      style="width: 100%; border-radius: 8px; transition: transform 0.3s ease-in-out;" 
+      onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
   </a>
 </div>
+
 
 
 <div>
