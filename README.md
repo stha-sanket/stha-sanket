@@ -11,8 +11,6 @@
 
 
 # 🚀 My GitHub Stats
-
-### 📊 GitHub Overview
 <div align="center">
   <img src="https://nirzak-streak-stats.vercel.app/?user=stha-sanket&theme=dark&hide_border=false" width="80%" />
 </div>
