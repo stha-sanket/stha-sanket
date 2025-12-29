@@ -13,9 +13,10 @@
 # 🚀 My GitHub Stats
 
 ### 📊 GitHub Overview
-<div style="display: flex; justify-content: space-between; gap: 10px;">
-  <img src="https://nirzak-streak-stats.vercel.app/?user=stha-sanket&theme=dark&hide_border=false" width="48%" />
+<div style="display: flex; justify-content: center;">
+  <img src="https://nirzak-streak-stats.vercel.app/?user=stha-sanket&theme=dark&hide_border=false" width="80%" />
 </div>
+
 
 ### 🔝 Top Contributed Repos
 <div style="text-align: center;">
