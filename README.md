@@ -27,9 +27,9 @@
 
 ### Recent Medium Articles
 <div align="center">
-  <img src="https://github-readme-medium-card.vercel.app/getMediumBlogs?username=sanketshrestha09&limit=1&theme=dracula" alt="Post 1" />
-  <img src="https://github-readme-medium-card.vercel.app/getMediumBlogs?username=sanketshrestha09&limit=1&offset=1&theme=dracula" alt="Post 2" />
-  <img src="https://github-readme-medium-card.vercel.app/getMediumBlogs?username=sanketshrestha09&limit=1&offset=2&theme=dracula" alt="Post 3" />
+  <a href="https://medium.com/@sanketshrestha09" target="_blank">
+    <img src="https://github-readme-medium-card.vercel.app/getMediumBlogs?username=sanketshrestha09&limit=4&theme=dracula" alt="Latest Medium Blogs" style="width: 500px;" />
+  </a>
 </div>
 
 
