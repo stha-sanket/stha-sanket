@@ -1,5 +1,5 @@
 # 💫 About Me:
-<br>I’m a **Computer Science undergraduate** who enjoys building **practical, problem-driven applications** using Python and web technologies.  <br>I focus on **learning by building**, especially through **hackathons and side projects** that solve real-world problems.<br>
+<br>I’m a **Computer Science undergraduate** who enjoys building **practical, problem-driven applications** using Python and web technologies.I focus on **learning by building**, especially through **hackathons and side projects** that solve real-world problems.<br>
 
 
 ## 🌐 Socials:
