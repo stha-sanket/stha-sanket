@@ -14,14 +14,6 @@
   <img src="https://nirzak-streak-stats.vercel.app/?user=stha-sanket&theme=dark&hide_border=false" width="80%" />
 </div>
 
-
-
-### 🔝 Top Contributed Repos
-<div style="text-align: center;">
-  <img src="https://github-contributor-stats.vercel.app/api?username=stha-sanket&limit=5&theme=dark&combine_all_yearly_contributions=true" width="100%" />
-</div>
-
-
 <!-- Pacman Contribution Graph (Dark/Light Mode) -->
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/stha-sanket/stha-sanket/output/pacman-contribution-graph-dark.svg">
