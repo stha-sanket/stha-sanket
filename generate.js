@@ -73,22 +73,68 @@ function calculateStreak(days) {
 
     const { current, longest } = calculateStreak(days);
 
-    const svg = `
-<svg width="500" height="160" xmlns="http://www.w3.org/2000/svg">
-  <style>
-    .title { fill: #58a6ff; font-size: 22px; font-family: Arial; }
-    .text { fill: #c9d1d9; font-size: 18px; font-family: Arial; }
-  </style>
+const svg = `
+<svg width="600" height="220" viewBox="0 0 600 220" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f2027">
+        <animate attributeName="stop-color" values="#0f2027;#203a43;#2c5364;#0f2027" dur="8s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" stop-color="#2c5364">
+        <animate attributeName="stop-color" values="#2c5364;#0f2027;#203a43;#2c5364" dur="8s" repeatCount="indefinite"/>
+      </stop>
+    </linearGradient>
 
-  <rect width="100%" height="100%" fill="#0d1117" rx="15"/>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
 
-  <text x="20" y="40" class="title">GitHub Streak Stats</text>
+  <rect width="100%" height="100%" rx="25" fill="url(#bgGradient)" />
 
-  <text x="20" y="80" class="text">Total Contributions: ${total}</text>
-  <text x="20" y="110" class="text">Current Streak: ${current} days</text>
-  <text x="20" y="140" class="text">Longest Streak: ${longest} days</text>
+  <text x="50%" y="50" text-anchor="middle"
+        font-size="26"
+        font-family="Verdana"
+        fill="#ffffff"
+        opacity="0">
+        GitHub Streak
+        <animate attributeName="opacity" from="0" to="1" dur="1s" fill="freeze"/>
+  </text>
+
+  <text x="50%" y="105" text-anchor="middle"
+        font-size="40"
+        font-weight="bold"
+        font-family="Verdana"
+        fill="#00f5ff"
+        filter="url(#glow)">
+        🔥 ${current} Day Streak
+        <animate attributeName="opacity" from="0" to="1" dur="1.5s" fill="freeze"/>
+  </text>
+
+  <text x="50%" y="145" text-anchor="middle"
+        font-size="18"
+        font-family="Verdana"
+        fill="#ffffff"
+        opacity="0">
+        Total Contributions: ${total}
+        <animate attributeName="opacity" from="0" to="1" dur="2s" fill="freeze"/>
+  </text>
+
+  <text x="50%" y="175" text-anchor="middle"
+        font-size="18"
+        font-family="Verdana"
+        fill="#ffffff"
+        opacity="0">
+        Longest Streak: ${longest} days
+        <animate attributeName="opacity" from="0" to="1" dur="2.3s" fill="freeze"/>
+  </text>
 </svg>
 `;
+
 
     fs.mkdirSync("output", { recursive: true });
     fs.writeFileSync("output/streak.svg", svg);
