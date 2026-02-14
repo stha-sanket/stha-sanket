@@ -10,6 +10,8 @@
 
 
 # 🚀 My GitHub Stats
+<br>
+<br>
 <div align="center">
   <picture>
     <img src="https://raw.githubusercontent.com/stha-sanket/stha-sanket/main/output/streak.svg" />
