@@ -2,26 +2,33 @@ name: Generate Streak Card
 
 on:
   schedule:
-    - cron: "0 0 * * *"   # runs daily
+    - cron: "0 0 * * *"
   workflow_dispatch:
+  push:
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: write
+
     steps:
       - uses: actions/checkout@v3
 
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
       - name: Generate SVG
-        run: |
-          npm install node-fetch
-          node generate.js
+        run: node generate.js
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Commit SVG
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "actions@github.com"
           git add output/streak.svg
-          git commit -m "update streak"
+          git diff --quiet && git diff --staged --quiet || git commit -m "update streak"
           git push
-
