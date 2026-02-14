@@ -1,7 +1,6 @@
 const fs = require("fs");
-const fetch = require("node-fetch");
 
-const username = "YOUR_USERNAME";
+const username = "stha-sanket"; // change if needed
 const token = process.env.GITHUB_TOKEN;
 
 async function getData() {
@@ -31,7 +30,8 @@ async function getData() {
     body: JSON.stringify({ query }),
   });
 
-  return res.json();
+  const json = await res.json();
+  return json.data.user.contributionsCollection.contributionCalendar;
 }
 
 function calculateStreak(days) {
@@ -39,41 +39,63 @@ function calculateStreak(days) {
   let longest = 0;
   let temp = 0;
 
-  for (let day of days.reverse()) {
+  // Sort ascending by date
+  days.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+  // Calculate longest streak
+  for (let day of days) {
     if (day.contributionCount > 0) {
       temp++;
-      current = temp;
-    } else {
       longest = Math.max(longest, temp);
+    } else {
       temp = 0;
     }
   }
 
-  longest = Math.max(longest, temp);
+  // Calculate current streak (from today backwards)
+  for (let i = days.length - 1; i >= 0; i--) {
+    if (days[i].contributionCount > 0) {
+      current++;
+    } else {
+      break;
+    }
+  }
+
   return { current, longest };
 }
 
 (async () => {
-  const data = await getData();
-  const weeks = data.data.user.contributionsCollection.contributionCalendar.weeks;
-  const days = weeks.flatMap(w => w.contributionDays);
+  try {
+    const calendar = await getData();
 
-  const total = data.data.user.contributionsCollection.contributionCalendar.totalContributions;
-  const { current, longest } = calculateStreak(days);
+    const total = calendar.totalContributions;
+    const days = calendar.weeks.flatMap(w => w.contributionDays);
 
-  const svg = `
-  <svg width="400" height="120" xmlns="http://www.w3.org/2000/svg">
-    <style>
-      .text { fill: white; font-family: Arial; font-size: 18px; }
-    </style>
-    <rect width="100%" height="100%" fill="#0d1117"/>
-    <text x="20" y="40" class="text">Total: ${total}</text>
-    <text x="20" y="70" class="text">Current Streak: ${current}</text>
-    <text x="20" y="100" class="text">Longest Streak: ${longest}</text>
-  </svg>
-  `;
+    const { current, longest } = calculateStreak(days);
 
-  fs.mkdirSync("output", { recursive: true });
-  fs.writeFileSync("output/streak.svg", svg);
+    const svg = `
+<svg width="500" height="160" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .title { fill: #58a6ff; font-size: 22px; font-family: Arial; }
+    .text { fill: #c9d1d9; font-size: 18px; font-family: Arial; }
+  </style>
+
+  <rect width="100%" height="100%" fill="#0d1117" rx="15"/>
+
+  <text x="20" y="40" class="title">GitHub Streak Stats</text>
+
+  <text x="20" y="80" class="text">Total Contributions: ${total}</text>
+  <text x="20" y="110" class="text">Current Streak: ${current} days</text>
+  <text x="20" y="140" class="text">Longest Streak: ${longest} days</text>
+</svg>
+`;
+
+    fs.mkdirSync("output", { recursive: true });
+    fs.writeFileSync("output/streak.svg", svg);
+
+    console.log("SVG generated successfully!");
+  } catch (err) {
+    console.error("Error:", err);
+    process.exit(1);
+  }
 })();
-
