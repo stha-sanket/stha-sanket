@@ -11,7 +11,7 @@
 
 # 🚀 My GitHub Stats
 <picture>
-  <img src="https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_USERNAME/main/output/streak.svg">
+<img src="https://raw.githubusercontent.com/stha-sanket/stha-sanket/main/output/streak.svg" />
 </picture>
 
 
