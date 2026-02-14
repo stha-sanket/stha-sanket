@@ -1,9 +1,13 @@
 const fs = require("fs");
 
-const username = "stha-sanket"; // change if needed
+const username = "stha-sanket";
 const token = process.env.GITHUB_TOKEN;
 
 async function getData() {
+  if (!token) {
+    throw new Error("GITHUB_TOKEN is not defined");
+  }
+
   const query = `
   {
     user(login: "${username}") {
@@ -24,25 +28,28 @@ async function getData() {
   const res = await fetch("https://api.github.com/graphql", {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: \`Bearer \${token}\`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ query }),
   });
 
   const json = await res.json();
+
+  if (!json.data) {
+    console.error(json);
+    throw new Error("Failed to fetch contribution data");
+  }
+
   return json.data.user.contributionsCollection.contributionCalendar;
 }
 
 function calculateStreak(days) {
-  let current = 0;
+  days.sort((a, b) => new Date(a.date) - new Date(b.date));
+
   let longest = 0;
   let temp = 0;
 
-  // Sort ascending by date
-  days.sort((a, b) => new Date(a.date) - new Date(b.date));
-
-  // Calculate longest streak
   for (let day of days) {
     if (day.contributionCount > 0) {
       temp++;
@@ -52,7 +59,7 @@ function calculateStreak(days) {
     }
   }
 
-  // Calculate current streak (from today backwards)
+  let current = 0;
   for (let i = days.length - 1; i >= 0; i--) {
     if (days[i].contributionCount > 0) {
       current++;
@@ -70,76 +77,121 @@ function calculateStreak(days) {
 
     const total = calendar.totalContributions;
     const days = calendar.weeks.flatMap(w => w.contributionDays);
-
     const { current, longest } = calculateStreak(days);
 
-const svg = `
-<svg width="600" height="220" viewBox="0 0 600 220" xmlns="http://www.w3.org/2000/svg">
+    const progress = Math.min((current / (longest || 1)) * 100, 100);
+    const circumference = 2 * Math.PI * 60;
+    const offset = circumference - (progress / 100) * circumference;
+
+    const svg = `
+<svg width="720" height="280" viewBox="0 0 720 280" xmlns="http://www.w3.org/2000/svg">
+
   <defs>
-    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0f2027">
-        <animate attributeName="stop-color" values="#0f2027;#203a43;#2c5364;#0f2027" dur="8s" repeatCount="indefinite"/>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f0c29">
+        <animate attributeName="stop-color" values="#0f0c29;#302b63;#24243e;#0f0c29" dur="10s" repeatCount="indefinite"/>
       </stop>
-      <stop offset="100%" stop-color="#2c5364">
-        <animate attributeName="stop-color" values="#2c5364;#0f2027;#203a43;#2c5364" dur="8s" repeatCount="indefinite"/>
+      <stop offset="100%" stop-color="#302b63">
+        <animate attributeName="stop-color" values="#302b63;#0f0c29;#24243e;#302b63" dur="10s" repeatCount="indefinite"/>
+      </stop>
+    </linearGradient>
+
+    <linearGradient id="neonText" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00f5ff"/>
+      <stop offset="50%" stop-color="#ff00ff"/>
+      <stop offset="100%" stop-color="#00f5ff">
+        <animate attributeName="offset" values="0;1;0" dur="6s" repeatCount="indefinite"/>
       </stop>
     </linearGradient>
 
     <filter id="glow">
-      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feGaussianBlur stdDeviation="5" result="blur"/>
       <feMerge>
-        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="blur"/>
         <feMergeNode in="SourceGraphic"/>
       </feMerge>
     </filter>
   </defs>
 
-  <rect width="100%" height="100%" rx="25" fill="url(#bgGradient)" />
+  <rect width="100%" height="100%" rx="30" fill="url(#bg)" />
 
-  <text x="50%" y="50" text-anchor="middle"
+  <text x="50%" y="50"
+        text-anchor="middle"
         font-size="26"
         font-family="Verdana"
-        fill="#ffffff"
-        opacity="0">
-        GitHub Streak
-        <animate attributeName="opacity" from="0" to="1" dur="1s" fill="freeze"/>
+        fill="url(#neonText)"
+        filter="url(#glow)">
+        ⚡ ${username.toUpperCase()} STREAK DASHBOARD ⚡
   </text>
 
-  <text x="50%" y="105" text-anchor="middle"
-        font-size="40"
+  <circle cx="180" cy="150" r="60"
+          stroke="#ffffff20"
+          stroke-width="12"
+          fill="none"/>
+
+  <circle cx="180" cy="150" r="60"
+          stroke="url(#neonText)"
+          stroke-width="12"
+          fill="none"
+          stroke-linecap="round"
+          stroke-dasharray="${circumference}"
+          stroke-dashoffset="${circumference}">
+      <animate attributeName="stroke-dashoffset"
+               from="${circumference}"
+               to="${offset}"
+               dur="2s"
+               fill="freeze"/>
+  </circle>
+
+  <text x="180" y="155"
+        text-anchor="middle"
+        font-size="28"
         font-weight="bold"
+        font-family="Verdana"
+        fill="#ffffff"
+        filter="url(#glow)">
+        ${current}🔥
+  </text>
+
+  <text x="180" y="185"
+        text-anchor="middle"
+        font-size="14"
+        font-family="Verdana"
+        fill="#cccccc">
+        Current Streak
+  </text>
+
+  <text x="380" y="120"
+        font-size="22"
         font-family="Verdana"
         fill="#00f5ff"
         filter="url(#glow)">
-        🔥 ${current} Day Streak
-        <animate attributeName="opacity" from="0" to="1" dur="1.5s" fill="freeze"/>
+        Total Contributions
   </text>
 
-  <text x="50%" y="145" text-anchor="middle"
-        font-size="18"
+  <text x="380" y="150"
+        font-size="28"
+        font-weight="bold"
         font-family="Verdana"
-        fill="#ffffff"
-        opacity="0">
-        Total Contributions: ${total}
-        <animate attributeName="opacity" from="0" to="1" dur="2s" fill="freeze"/>
+        fill="#ffffff">
+        ${total}
   </text>
 
-  <text x="50%" y="175" text-anchor="middle"
-        font-size="18"
+  <text x="380" y="190"
+        font-size="20"
         font-family="Verdana"
-        fill="#ffffff"
-        opacity="0">
+        fill="#ff00ff"
+        filter="url(#glow)">
         Longest Streak: ${longest} days
-        <animate attributeName="opacity" from="0" to="1" dur="2.3s" fill="freeze"/>
   </text>
+
 </svg>
 `;
-
 
     fs.mkdirSync("output", { recursive: true });
     fs.writeFileSync("output/streak.svg", svg);
 
-    console.log("SVG generated successfully!");
+    console.log("Nuclear streak SVG generated successfully 🚀");
   } catch (err) {
     console.error("Error:", err);
     process.exit(1);
