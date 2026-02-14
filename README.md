@@ -10,7 +10,9 @@
 
 
 # 🚀 My GitHub Stats
-
+<picture>
+<img src="https://raw.githubusercontent.com/stha-sanket/stha-sanket/main/output/streak.svg" />
+</picture>
 
 
 <!-- Pacman Contribution Graph (Dark/Light Mode) -->
