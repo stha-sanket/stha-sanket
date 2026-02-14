@@ -10,9 +10,10 @@
 
 
 # 🚀 My GitHub Stats
-<div align="center">
-  <img src="https://nirzak-streak-stats.vercel.app/?user=stha-sanket&theme=dark&hide_border=false" width="80%" />
-</div>
+<picture>
+  <img src="https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_USERNAME/main/output/streak.svg">
+</picture>
+
 
 <!-- Pacman Contribution Graph (Dark/Light Mode) -->
 <picture>
