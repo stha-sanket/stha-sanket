@@ -9,7 +9,7 @@ async function getAllContributions() {
   }
 
   const currentYear = new Date().getFullYear();
-  const startYear = 2015; // Start from when GitHub started (or user joined)
+  const startYear = 2015;
   
   let allDays = [];
   let totalContributions = 0;
@@ -56,41 +56,41 @@ async function getAllContributions() {
 
       if (json.data && json.data.user) {
         const calendar = json.data.user.contributionsCollection.contributionCalendar;
-        totalContributions += calendar.totalContributions;
-        const days = calendar.weeks.flatMap(w => w.contributionDays);
+        const yearTotal = calendar.totalContributions || 0;
+        totalContributions += yearTotal;
+        
+        const days = calendar.weeks?.flatMap(w => w.contributionDays) || [];
         allDays = [...allDays, ...days];
-        console.log(`     ✓ ${calendar.totalContributions} contributions in ${year}`);
+        
+        console.log(`     ✓ ${yearTotal} contributions in ${year}`);
       }
 
       // Add a small delay to avoid rate limiting
-      await new Promise(resolve => setTimeout(resolve, 500));
+      await new Promise(resolve => setTimeout(resolve, 300));
       
     } catch (error) {
       console.log(`     ⚠ Error fetching ${year}, skipping...`);
     }
   }
 
-  // Remove duplicates (just in case)
+  // Remove duplicates and sort
   const uniqueDays = Array.from(
     new Map(allDays.map(day => [day.date, day])).values()
-  );
+  ).sort((a, b) => new Date(a.date) - new Date(b.date));
 
   console.log(`\n✅ Total across all years: ${totalContributions} contributions`);
   console.log(`📊 Days with data: ${uniqueDays.length}`);
 
   return {
-    totalContributions,
-    days: uniqueDays.sort((a, b) => new Date(a.date) - new Date(b.date))
+    total: totalContributions,
+    days: uniqueDays
   };
 }
 
 function calculateStreak(days) {
-  if (days.length === 0) {
+  if (!days || days.length === 0) {
     return { current: 0, longest: 0 };
   }
-
-  // Sort days chronologically
-  days.sort((a, b) => new Date(a.date) - new Date(b.date));
 
   let longest = 0;
   let temp = 0;
@@ -122,32 +122,34 @@ function calculateStreak(days) {
   try {
     console.log("🚀 Starting GitHub stats generator...\n");
     
-    const { total, days } = await getAllContributions();
-    const { current, longest } = calculateStreak(days);
+    const data = await getAllContributions();
+    const { current, longest } = calculateStreak(data.days);
 
-    // Calculate statistics
-    const firstDate = days.length > 0 ? days[0].date : 'N/A';
-    const lastDate = days.length > 0 ? days[days.length - 1].date : 'N/A';
+    // Calculate statistics with safe defaults
+    const firstDate = data.days.length > 0 ? data.days[0].date : 'N/A';
+    const lastDate = data.days.length > 0 ? data.days[data.days.length - 1].date : 'N/A';
     
     let yearsOfData = 0;
-    if (days.length > 0) {
+    if (data.days.length > 0) {
       const first = new Date(firstDate);
       const last = new Date(lastDate);
       yearsOfData = ((last - first) / (1000 * 60 * 60 * 24 * 365)).toFixed(1);
     }
 
-    const activeDays = days.filter(d => d.contributionCount > 0).length;
-    const consistency = days.length > 0 ? ((activeDays / days.length) * 100).toFixed(1) : 0;
+    const activeDays = data.days.filter(d => d.contributionCount > 0).length;
+    const totalDays = data.days.length;
+    const consistency = totalDays > 0 ? ((activeDays / totalDays) * 100).toFixed(1) : 0;
+    const avgPerActiveDay = activeDays > 0 ? Math.round(data.total / activeDays) : 0;
 
     console.log(`\n📊 Final Stats for ${username}:`);
     console.log(`📅 Period: ${firstDate} to ${lastDate} (${yearsOfData} years)`);
     console.log(`🔥 Current Streak: ${current} days`);
     console.log(`🏆 Longest Streak: ${longest} days`);
-    console.log(`📈 Total Contributions: ${total.toLocaleString()}`);
-    console.log(`📊 Active Days: ${activeDays} out of ${days.length} (${consistency}%)`);
+    console.log(`📈 Total Contributions: ${data.total.toLocaleString()}`);
+    console.log(`📊 Active Days: ${activeDays} out of ${totalDays} (${consistency}%)`);
 
     const svg = `
-<svg width="950" height="450" viewBox="0 0 950 450" xmlns="http://www.w3.org/2000/svg">
+<svg width="900" height="400" viewBox="0 0 900 400" xmlns="http://www.w3.org/2000/svg">
 
   <defs>
     <!-- Animated gradient background -->
@@ -212,133 +214,78 @@ function calculateStreak(days) {
         <feMergeNode in="SourceGraphic"/>
       </feMerge>
     </filter>
-
-    <!-- Floating particles -->
-    <circle id="particle1" cx="0" cy="0" r="3" fill="#ff6b6b" opacity="0.2">
-      <animate attributeName="opacity" values="0.2;0.5;0.2" dur="3s" repeatCount="indefinite"/>
-    </circle>
-    <circle id="particle2" cx="0" cy="0" r="4" fill="#4ecdc4" opacity="0.2">
-      <animate attributeName="opacity" values="0.2;0.5;0.2" dur="4s" repeatCount="indefinite"/>
-    </circle>
-    <circle id="particle3" cx="0" cy="0" r="2" fill="#ffd93d" opacity="0.2">
-      <animate attributeName="opacity" values="0.2;0.4;0.2" dur="5s" repeatCount="indefinite"/>
-    </circle>
   </defs>
 
   <!-- Background -->
   <rect width="100%" height="100%" rx="30" fill="url(#bgGradient)" />
-  
-  <!-- Animated particles -->
-  <use href="#particle1" x="100" y="80">
-    <animate attributeName="x" values="100;120;80;100" dur="8s" repeatCount="indefinite"/>
-    <animate attributeName="y" values="80;100;60;80" dur="8s" repeatCount="indefinite"/>
-  </use>
-  <use href="#particle2" x="800" y="350">
-    <animate attributeName="x" values="800;830;770;800" dur="10s" repeatCount="indefinite"/>
-    <animate attributeName="y" values="350;370;330;350" dur="10s" repeatCount="indefinite"/>
-  </use>
-  <use href="#particle3" x="500" y="150">
-    <animate attributeName="x" values="500;520;480;500" dur="7s" repeatCount="indefinite"/>
-    <animate attributeName="y" values="150;170;130;150" dur="7s" repeatCount="indefinite"/>
-  </use>
 
   <!-- Header -->
-  <g transform="translate(475, 45)">
-    <text text-anchor="middle" font-size="34" font-family="'Segoe UI', 'Poppins', 'Verdana', sans-serif" font-weight="700" fill="url(#textGradient)" filter="url(#glow)">
+  <g transform="translate(450, 40)">
+    <text text-anchor="middle" font-size="32" font-family="'Segoe UI', 'Verdana', sans-serif" font-weight="700" fill="url(#textGradient)" filter="url(#glow)">
       ${username.toUpperCase()}
     </text>
-    <text x="0" y="35" text-anchor="middle" font-size="16" font-family="'Segoe UI', 'Verdana', sans-serif" fill="#a0a0a0" letter-spacing="3">
-      ALL-TIME GITHUB JOURNEY
+    <text x="0" y="30" text-anchor="middle" font-size="14" font-family="'Segoe UI', 'Verdana', sans-serif" fill="#a0a0a0">
+      GITHUB STREAK · ALL TIME
     </text>
-    <text x="0" y="55" text-anchor="middle" font-size="12" font-family="'Segoe UI', 'Verdana', sans-serif" fill="#808080">
-      ${firstDate} — ${lastDate} · ${yearsOfData} years of coding
+    <text x="0" y="50" text-anchor="middle" font-size="11" font-family="'Segoe UI', 'Verdana', sans-serif" fill="#606060">
+      ${firstDate} — ${lastDate} · ${yearsOfData} years
     </text>
   </g>
 
   <!-- Stats Cards -->
-  <g transform="translate(125, 135)">
+  <g transform="translate(150, 120)">
     
-    <!-- Current Streak Card -->
+    <!-- Current Streak -->
     <g transform="translate(0, 0)">
-      <rect x="0" y="0" width="200" height="200" rx="25" fill="url(#cardCurrent)" stroke="#ff6b6b" stroke-width="2" stroke-opacity="0.5">
-        <animate attributeName="stroke-opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite"/>
-      </rect>
-      
-      <g transform="translate(100, 60)">
-        <circle cx="0" cy="0" r="30" fill="none" stroke="#ff6b6b" stroke-width="2" stroke-dasharray="5,5">
-          <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="20s" repeatCount="indefinite"/>
-        </circle>
-        <text x="0" y="10" text-anchor="middle" font-size="24" fill="#ff6b6b" filter="url(#glowSmall)">🔥</text>
-      </g>
-      
-      <text x="100" y="120" text-anchor="middle" font-size="14" fill="#b0b0b0">CURRENT STREAK</text>
-      <text x="100" y="165" text-anchor="middle" font-size="48" font-weight="bold" fill="#ffffff">
-        <animate attributeName="y" values="180;165;165" dur="0.5s" fill="freeze"/>
-        ${current}
-      </text>
-      <text x="100" y="190" text-anchor="middle" font-size="14" fill="#ff6b6b" filter="url(#glowSmall)">days</text>
+      <rect x="0" y="0" width="180" height="180" rx="20" fill="url(#cardCurrent)" stroke="#ff6b6b" stroke-width="2"/>
+      <circle cx="90" cy="55" r="25" fill="none" stroke="#ff6b6b" stroke-width="2" stroke-dasharray="4,4">
+        <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="15s" repeatCount="indefinite" origin="90 55"/>
+      </circle>
+      <text x="90" y="65" text-anchor="middle" font-size="20" fill="#ff6b6b" filter="url(#glowSmall)">🔥</text>
+      <text x="90" y="105" text-anchor="middle" font-size="12" fill="#b0b0b0">CURRENT</text>
+      <text x="90" y="140" text-anchor="middle" font-size="42" font-weight="bold" fill="#ffffff">${current}</text>
+      <text x="90" y="165" text-anchor="middle" font-size="12" fill="#ff6b6b">days</text>
     </g>
 
-    <!-- Longest Streak Card -->
-    <g transform="translate(260, 0)">
-      <rect x="0" y="0" width="200" height="200" rx="25" fill="url(#cardLongest)" stroke="#6c5ce7" stroke-width="2" stroke-opacity="0.5">
-        <animate attributeName="stroke-opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite" begin="0.5s"/>
-      </rect>
-      
-      <g transform="translate(100, 60)">
-        <circle cx="0" cy="0" r="30" fill="none" stroke="#6c5ce7" stroke-width="2" stroke-dasharray="5,5">
-          <animateTransform attributeName="transform" type="rotate" from="360" to="0" dur="20s" repeatCount="indefinite"/>
-        </circle>
-        <text x="0" y="10" text-anchor="middle" font-size="24" fill="#6c5ce7" filter="url(#glowSmall)">🏆</text>
-      </g>
-      
-      <text x="100" y="120" text-anchor="middle" font-size="14" fill="#b0b0b0">LONGEST STREAK</text>
-      <text x="100" y="165" text-anchor="middle" font-size="48" font-weight="bold" fill="#ffffff">
-        <animate attributeName="y" values="180;165;165" dur="0.5s" fill="freeze" begin="0.2s"/>
-        ${longest}
-      </text>
-      <text x="100" y="190" text-anchor="middle" font-size="14" fill="#6c5ce7" filter="url(#glowSmall)">days</text>
+    <!-- Longest Streak -->
+    <g transform="translate(220, 0)">
+      <rect x="0" y="0" width="180" height="180" rx="20" fill="url(#cardLongest)" stroke="#6c5ce7" stroke-width="2"/>
+      <circle cx="90" cy="55" r="25" fill="none" stroke="#6c5ce7" stroke-width="2" stroke-dasharray="4,4">
+        <animateTransform attributeName="transform" type="rotate" from="360" to="0" dur="15s" repeatCount="indefinite" origin="90 55"/>
+      </circle>
+      <text x="90" y="65" text-anchor="middle" font-size="20" fill="#6c5ce7" filter="url(#glowSmall)">🏆</text>
+      <text x="90" y="105" text-anchor="middle" font-size="12" fill="#b0b0b0">LONGEST</text>
+      <text x="90" y="140" text-anchor="middle" font-size="42" font-weight="bold" fill="#ffffff">${longest}</text>
+      <text x="90" y="165" text-anchor="middle" font-size="12" fill="#6c5ce7">days</text>
     </g>
 
-    <!-- Total Contributions Card -->
-    <g transform="translate(520, 0)">
-      <rect x="0" y="0" width="200" height="200" rx="25" fill="url(#cardTotal)" stroke="#00b894" stroke-width="2" stroke-opacity="0.5">
-        <animate attributeName="stroke-opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite" begin="1s"/>
-      </rect>
-      
-      <g transform="translate(100, 60)">
-        <circle cx="0" cy="0" r="30" fill="none" stroke="#00b894" stroke-width="2" stroke-dasharray="5,5">
-          <animateTransform attributeName="transform" type="rotate" from="0" to="-360" dur="20s" repeatCount="indefinite"/>
-        </circle>
-        <text x="0" y="10" text-anchor="middle" font-size="24" fill="#00b894" filter="url(#glowSmall)">📊</text>
-      </g>
-      
-      <text x="100" y="120" text-anchor="middle" font-size="14" fill="#b0b0b0">TOTAL CONTRIBUTIONS</text>
-      <text x="100" y="165" text-anchor="middle" font-size="48" font-weight="bold" fill="#ffffff">
-        <animate attributeName="y" values="180;165;165" dur="0.5s" fill="freeze" begin="0.4s"/>
-        ${total.toLocaleString()}
-      </text>
-      <text x="100" y="190" text-anchor="middle" font-size="14" fill="#00b894" filter="url(#glowSmall)">all-time</text>
+    <!-- Total Contributions -->
+    <g transform="translate(440, 0)">
+      <rect x="0" y="0" width="180" height="180" rx="20" fill="url(#cardTotal)" stroke="#00b894" stroke-width="2"/>
+      <circle cx="90" cy="55" r="25" fill="none" stroke="#00b894" stroke-width="2" stroke-dasharray="4,4">
+        <animateTransform attributeName="transform" type="rotate" from="0" to="-360" dur="15s" repeatCount="indefinite" origin="90 55"/>
+      </circle>
+      <text x="90" y="65" text-anchor="middle" font-size="20" fill="#00b894" filter="url(#glowSmall)">📊</text>
+      <text x="90" y="105" text-anchor="middle" font-size="12" fill="#b0b0b0">TOTAL</text>
+      <text x="90" y="140" text-anchor="middle" font-size="42" font-weight="bold" fill="#ffffff">${data.total}</text>
+      <text x="90" y="165" text-anchor="middle" font-size="12" fill="#00b894">contributions</text>
     </g>
   </g>
 
-  <!-- Stats Summary -->
-  <g transform="translate(475, 370)">
-    <text text-anchor="middle" font-size="13" font-family="'Segoe UI', 'Verdana', sans-serif" fill="#808080">
-      ⚡ ${activeDays.toLocaleString()} active days · ${consistency}% consistency
-    </text>
-    <text x="0" y="25" text-anchor="middle" font-size="12" font-family="'Segoe UI', 'Verdana', sans-serif" fill="#606060">
-      ✦ average ${Math.round(total/days.length)} contributions per active day ✦
+  <!-- Footer Stats -->
+  <g transform="translate(450, 340)">
+    <text text-anchor="middle" font-size="12" font-family="'Segoe UI', 'Verdana', sans-serif" fill="#808080">
+      ⚡ ${activeDays} active days · ${consistency}% consistency · ✦ ${avgPerActiveDay} per active day
     </text>
   </g>
 
   <!-- Footer -->
-  <g transform="translate(475, 425)">
-    <line x1="-350" y1="0" x2="350" y2="0" stroke="url(#textGradient)" stroke-width="2" stroke-dasharray="5,5">
+  <g transform="translate(450, 380)">
+    <line x1="-300" y1="0" x2="300" y2="0" stroke="url(#textGradient)" stroke-width="2" stroke-dasharray="4,4">
       <animate attributeName="stroke-dashoffset" values="20;0;20" dur="3s" repeatCount="indefinite"/>
     </line>
-    <text x="0" y="20" text-anchor="middle" font-size="11" font-family="'Segoe UI', 'Verdana', sans-serif" fill="#606060">
-      github.com/${username} · every contribution tells a story
+    <text x="0" y="18" text-anchor="middle" font-size="10" font-family="'Segoe UI', 'Verdana', sans-serif" fill="#505050">
+      github.com/${username} · updated daily
     </text>
   </g>
 
