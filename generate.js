@@ -287,9 +287,6 @@ function generateSVG({ username, current, longest, total, activeDays, totalDays,
     <!-- Top micro accent bar -->
     <rect x="0" y="0" width="80" height="2" rx="1" fill="url(#accentCyan)"/>
 
-    <!-- Icon area -->
-    <text x="20" y="44" font-family="monospace" font-size="28">🔥</text>
-
     <!-- Label -->
     <text x="60" y="32" font-family="'Courier New', monospace" font-size="9" letter-spacing="2" fill="#64748b">CURRENT STREAK</text>
 
@@ -315,8 +312,6 @@ function generateSVG({ username, current, longest, total, activeDays, totalDays,
   <g transform="translate(307, 88)" filter="url(#cardGlow)">
     <rect width="245" height="130" rx="14" fill="url(#card2)" stroke="#f59e0b" stroke-width="1" stroke-opacity="0.35"/>
     <rect x="0" y="0" width="80" height="2" rx="1" fill="url(#accentAmber)"/>
-
-    <text x="20" y="44" font-family="monospace" font-size="28">🏆</text>
 
     <text x="60" y="32" font-family="'Courier New', monospace" font-size="9" letter-spacing="2" fill="#64748b">LONGEST STREAK</text>
 
