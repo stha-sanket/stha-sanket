@@ -1,524 +1,327 @@
-<svg width="920" height="480" viewBox="0 0 920 480" xmlns="http://www.w3.org/2000/svg" font-family="'SF Mono', 'Fira Code', 'Cascadia Code', monospace">
-
+<svg width="860" height="420" viewBox="0 0 860 420" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <!-- Deep space background -->
-    <radialGradient id="bg" cx="30%" cy="25%" r="80%">
-      <stop offset="0%"   stop-color="#0d1424"/>
-      <stop offset="60%"  stop-color="#070c18"/>
-      <stop offset="100%" stop-color="#04080f"/>
-    </radialGradient>
 
-    <!-- Teal accent gradient -->
-    <linearGradient id="teal" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%"   stop-color="#00ffc3"/>
-      <stop offset="100%" stop-color="#00c8ff"/>
+    <!-- Base background -->
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#050b14"/>
+      <stop offset="100%" stop-color="#0a1628"/>
+    </linearGradient>
+
+    <!-- Cyan accent gradient -->
+    <linearGradient id="accentCyan" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#06b6d4"/>
+      <stop offset="100%" stop-color="#22d3ee"/>
     </linearGradient>
 
     <!-- Amber accent gradient -->
-    <linearGradient id="amber" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%"   stop-color="#ffb347"/>
-      <stop offset="100%" stop-color="#ff6b6b"/>
+    <linearGradient id="accentAmber" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#fbbf24"/>
     </linearGradient>
 
     <!-- Purple accent gradient -->
-    <linearGradient id="purple" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%"   stop-color="#a78bfa"/>
-      <stop offset="100%" stop-color="#818cf8"/>
+    <linearGradient id="accentPurple" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#a78bfa"/>
     </linearGradient>
 
-    <!-- Card fill -->
-    <linearGradient id="cardFill" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%"   stop-color="#ffffff" stop-opacity="0.04"/>
-      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.01"/>
+    <!-- Green accent gradient -->
+    <linearGradient id="accentGreen" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#34d399"/>
     </linearGradient>
 
-    <!-- Glow for numbers -->
-    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
-      <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur"/>
+    <!-- Card 1 fill -->
+    <linearGradient id="card1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#06b6d4" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#06b6d4" stop-opacity="0.04"/>
+    </linearGradient>
+
+    <!-- Card 2 fill -->
+    <linearGradient id="card2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#f59e0b" stop-opacity="0.04"/>
+    </linearGradient>
+
+    <!-- Card 3 fill -->
+    <linearGradient id="card3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#34d399" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#34d399" stop-opacity="0.04"/>
+    </linearGradient>
+
+    <!-- Title shimmer -->
+    <linearGradient id="titleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#e2e8f0"/>
+      <stop offset="40%" stop-color="#ffffff"/>
+      <stop offset="60%" stop-color="#94a3b8"/>
+      <stop offset="100%" stop-color="#e2e8f0"/>
+      <animateTransform attributeName="gradientTransform" type="translate" values="-1.5 0;1.5 0;-1.5 0" dur="4s" repeatCount="indefinite"/>
+    </linearGradient>
+
+    <!-- Glow filters -->
+    <filter id="glowCyan" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+
+    <filter id="glowAmber" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+
+    <filter id="softShadow" x="-5%" y="-5%" width="110%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
+
+    <filter id="cardGlow" x="-10%" y="-10%" width="120%" height="130%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
       <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
 
-    <!-- Subtle card glow -->
-    <filter id="cardGlow" x="-5%" y="-5%" width="110%" height="110%">
-      <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur"/>
-      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-
-    <!-- Noise texture -->
+    <!-- Noise texture for depth -->
     <filter id="noise">
-      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/>
       <feColorMatrix type="saturate" values="0"/>
       <feBlend in="SourceGraphic" mode="overlay" result="blend"/>
       <feComposite in="blend" in2="SourceGraphic" operator="in"/>
     </filter>
 
-    <!-- Grid clip -->
-    <clipPath id="heatClip">
-      <rect x="274" y="291" width="372" height="106" rx="6"/>
+    <!-- Clip card corners -->
+    <clipPath id="cardClip">
+      <rect width="860" height="420" rx="20"/>
     </clipPath>
+
   </defs>
 
-  <!-- Background -->
-  <rect width="920" height="480" rx="24" fill="url(#bg)"/>
+  <!-- === BACKGROUND === -->
+  <rect width="860" height="420" rx="20" fill="url(#bg)" filter="url(#softShadow)"/>
 
-  <!-- Subtle noise overlay -->
-  <rect width="920" height="480" rx="24" fill="#ffffff" opacity="0.015" filter="url(#noise)"/>
-
-  <!-- Border -->
-  <rect width="920" height="480" rx="24" fill="none" stroke="url(#teal)" stroke-width="1" stroke-opacity="0.25"/>
-
-  <!-- Top-left accent line -->
-  <line x1="24" y1="24" x2="100" y2="24" stroke="url(#teal)" stroke-width="1.5" stroke-opacity="0.6"/>
-  <line x1="24" y1="24" x2="24" y2="80" stroke="url(#teal)" stroke-width="1.5" stroke-opacity="0.6"/>
-
-  <!-- Top-right accent line -->
-  <line x1="896" y1="24" x2="820" y2="24" stroke="url(#purple)" stroke-width="1.5" stroke-opacity="0.6"/>
-  <line x1="896" y1="24" x2="896" y2="80" stroke="url(#purple)" stroke-width="1.5" stroke-opacity="0.6"/>
-
-  <!-- Bottom corners -->
-  <line x1="24" y1="456" x2="100" y2="456" stroke="url(#teal)" stroke-width="1.5" stroke-opacity="0.3"/>
-  <line x1="24" y1="456" x2="24" y2="400" stroke="url(#teal)" stroke-width="1.5" stroke-opacity="0.3"/>
-  <line x1="896" y1="456" x2="820" y2="456" stroke="url(#purple)" stroke-width="1.5" stroke-opacity="0.3"/>
-  <line x1="896" y1="456" x2="896" y2="400" stroke="url(#purple)" stroke-width="1.5" stroke-opacity="0.3"/>
-
-  <!-- Header: username -->
-  <text x="50" y="62" font-size="11" letter-spacing="4" fill="url(#teal)" fill-opacity="0.7" text-anchor="start">GITHUB STATS</text>
-  <text x="460" y="70" font-size="28" font-weight="700" letter-spacing="6" fill="#e8eaf6" text-anchor="middle" filter="url(#cardGlow)">STHA-SANKET</text>
-  <text x="870" y="62" font-size="11" letter-spacing="2" fill="url(#purple)" fill-opacity="0.7" text-anchor="end">2015-01-01 → 2026-02-24</text>
-
-  <!-- Divider -->
-  <line x1="50" y1="90" x2="870" y2="90" stroke="#ffffff" stroke-width="0.5" stroke-opacity="0.08"/>
-
-  <!-- ── STAT CARDS ──────────────────────────────────────────────────────── -->
-
-  <!-- Current Streak Card -->
-  <g transform="translate(50, 112)">
-    <rect x="0" y="0" width="250" height="145" rx="16" fill="url(#cardFill)" stroke="url(#teal)" stroke-width="1" stroke-opacity="0.35"/>
-    <!-- Glow blob -->
-    <ellipse cx="50" cy="30" rx="60" ry="30" fill="#00ffc3" fill-opacity="0.04"/>
-    <!-- Label row -->
-    <text x="20" y="28" font-size="9" letter-spacing="3" fill="#00ffc3" fill-opacity="0.6">CURRENT STREAK</text>
-    <!-- Value -->
-    <text x="20" y="95" font-size="64" font-weight="700" fill="url(#teal)" filter="url(#glow)">1</text>
-    <!-- Unit -->
-    <text x="20" y="120" font-size="11" letter-spacing="2" fill="#00ffc3" fill-opacity="0.5">DAYS IN A ROW</text>
-    <!-- Decorative tick marks -->
-    <line x1="0" y1="145" x2="60" y2="145" stroke="url(#teal)" stroke-width="2" stroke-opacity="0.5"/>
+  <!-- Grid lines (subtle) -->
+  <g stroke="#ffffff" stroke-opacity="0.025" stroke-width="1">
+    <line x1="0" y1="105" x2="860" y2="105"/>
+    <line x1="0" y1="210" x2="860" y2="210"/>
+    <line x1="0" y1="315" x2="860" y2="315"/>
+    <line x1="215" y1="0" x2="215" y2="420"/>
+    <line x1="430" y1="0" x2="430" y2="420"/>
+    <line x1="645" y1="0" x2="645" y2="420"/>
   </g>
 
-  <!-- Longest Streak Card -->
-  <g transform="translate(335, 112)">
-    <rect x="0" y="0" width="250" height="145" rx="16" fill="url(#cardFill)" stroke="url(#amber)" stroke-width="1" stroke-opacity="0.35"/>
-    <ellipse cx="50" cy="30" rx="60" ry="30" fill="#ffb347" fill-opacity="0.04"/>
-    <text x="20" y="28" font-size="9" letter-spacing="3" fill="#ffb347" fill-opacity="0.6">LONGEST STREAK</text>
-    <text x="20" y="95" font-size="64" font-weight="700" fill="url(#amber)" filter="url(#glow)">41</text>
-    <text x="20" y="120" font-size="11" letter-spacing="2" fill="#ffb347" fill-opacity="0.5">PERSONAL BEST</text>
-    <line x1="0" y1="145" x2="60" y2="145" stroke="url(#amber)" stroke-width="2" stroke-opacity="0.5"/>
-  </g>
+  <!-- Ambient glow orbs -->
+  <ellipse cx="150" cy="80" rx="180" ry="120" fill="#06b6d4" fill-opacity="0.04"/>
+  <ellipse cx="710" cy="340" rx="200" ry="140" fill="#7c3aed" fill-opacity="0.05"/>
+  <ellipse cx="430" cy="210" rx="250" ry="160" fill="#0ea5e9" fill-opacity="0.02"/>
 
-  <!-- Total Contributions Card -->
-  <g transform="translate(620, 112)">
-    <rect x="0" y="0" width="250" height="145" rx="16" fill="url(#cardFill)" stroke="url(#purple)" stroke-width="1" stroke-opacity="0.35"/>
-    <ellipse cx="50" cy="30" rx="60" ry="30" fill="#a78bfa" fill-opacity="0.04"/>
-    <text x="20" y="28" font-size="9" letter-spacing="3" fill="#a78bfa" fill-opacity="0.6">TOTAL CONTRIBUTIONS</text>
-    <text x="20" y="95" font-size="64" font-weight="700" fill="url(#purple)" filter="url(#glow)">782</text>
-    <text x="20" y="120" font-size="11" letter-spacing="2" fill="#a78bfa" fill-opacity="0.5">OVER 11.2 YEARS</text>
-    <line x1="0" y1="145" x2="60" y2="145" stroke="url(#purple)" stroke-width="2" stroke-opacity="0.5"/>
-  </g>
+  <!-- Top accent line -->
+  <rect x="0" y="0" width="860" height="2" rx="1" fill="url(#accentCyan)" opacity="0.9">
+    <animate attributeName="opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite"/>
+  </rect>
 
-  <!-- ── HEATMAP SECTION ─────────────────────────────────────────────────── -->
+  <!-- === HEADER SECTION === -->
+  <!-- Left: username + handle -->
+  <g transform="translate(40, 38)">
+    <!-- Tiny decorative bracket -->
+    <text x="0" y="14" font-family="'Courier New', monospace" font-size="11" fill="#06b6d4" fill-opacity="0.7">&lt;/&gt;</text>
 
-  <!-- Section label -->
-  <text x="50" y="281" font-size="9" letter-spacing="3" fill="#ffffff" fill-opacity="0.25">LAST 26 WEEKS</text>
-  <text x="870" y="281" font-size="9" letter-spacing="2" fill="#ffffff" fill-opacity="0.25" text-anchor="end">TODAY</text>
+    <!-- Username -->
+    <text x="28" y="16" font-family="'Courier New', monospace" font-size="22" font-weight="700" letter-spacing="3" fill="url(#titleGrad)" filter="url(#glowCyan)">
+      stha-sanket
+    </text>
 
-  <!-- Heatmap cells -->
-  <g transform="translate(278, 295)" clip-path="url(#heatClip)">
-    <rect x="0" y="0" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2025-08-27: 1 contributions</title>
-      </rect><rect x="0" y="14" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-08-28: 0 contributions</title>
-      </rect><rect x="0" y="28" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-08-29: 0 contributions</title>
-      </rect><rect x="0" y="42" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2025-08-30: 4 contributions</title>
-      </rect><rect x="0" y="56" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2025-08-31: 6 contributions</title>
-      </rect><rect x="0" y="70" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-09-01: 0 contributions</title>
-      </rect><rect x="0" y="84" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-09-02: 0 contributions</title>
-      </rect><rect x="14" y="0" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-09-03: 0 contributions</title>
-      </rect><rect x="14" y="14" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-09-04: 0 contributions</title>
-      </rect><rect x="14" y="28" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-09-05: 0 contributions</title>
-      </rect><rect x="14" y="42" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-09-06: 0 contributions</title>
-      </rect><rect x="14" y="56" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2025-09-07: 3 contributions</title>
-      </rect><rect x="14" y="70" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-09-08: 0 contributions</title>
-      </rect><rect x="14" y="84" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-09-09: 0 contributions</title>
-      </rect><rect x="28" y="0" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-09-10: 0 contributions</title>
-      </rect><rect x="28" y="14" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-09-11: 0 contributions</title>
-      </rect><rect x="28" y="28" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-09-12: 0 contributions</title>
-      </rect><rect x="28" y="42" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-09-13: 0 contributions</title>
-      </rect><rect x="28" y="56" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-09-14: 0 contributions</title>
-      </rect><rect x="28" y="70" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-09-15: 0 contributions</title>
-      </rect><rect x="28" y="84" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-09-16: 0 contributions</title>
-      </rect><rect x="42" y="0" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-09-17: 0 contributions</title>
-      </rect><rect x="42" y="14" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-09-18: 0 contributions</title>
-      </rect><rect x="42" y="28" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-09-19: 0 contributions</title>
-      </rect><rect x="42" y="42" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-09-20: 0 contributions</title>
-      </rect><rect x="42" y="56" width="11" height="11" rx="2.5" fill="#1a7a5a" opacity="1">
-        <title>2025-09-21: 13 contributions</title>
-      </rect><rect x="42" y="70" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2025-09-22: 9 contributions</title>
-      </rect><rect x="42" y="84" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-09-23: 0 contributions</title>
-      </rect><rect x="56" y="0" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-09-24: 0 contributions</title>
-      </rect><rect x="56" y="14" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-09-25: 0 contributions</title>
-      </rect><rect x="56" y="28" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-09-26: 0 contributions</title>
-      </rect><rect x="56" y="42" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-09-27: 0 contributions</title>
-      </rect><rect x="56" y="56" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-09-28: 0 contributions</title>
-      </rect><rect x="56" y="70" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-09-29: 0 contributions</title>
-      </rect><rect x="56" y="84" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-09-30: 0 contributions</title>
-      </rect><rect x="70" y="0" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-10-01: 0 contributions</title>
-      </rect><rect x="70" y="14" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-10-02: 0 contributions</title>
-      </rect><rect x="70" y="28" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-10-03: 0 contributions</title>
-      </rect><rect x="70" y="42" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-10-04: 0 contributions</title>
-      </rect><rect x="70" y="56" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-10-05: 0 contributions</title>
-      </rect><rect x="70" y="70" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-10-06: 0 contributions</title>
-      </rect><rect x="70" y="84" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-10-07: 0 contributions</title>
-      </rect><rect x="84" y="0" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-10-08: 0 contributions</title>
-      </rect><rect x="84" y="14" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-10-09: 0 contributions</title>
-      </rect><rect x="84" y="28" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-10-10: 0 contributions</title>
-      </rect><rect x="84" y="42" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-10-11: 0 contributions</title>
-      </rect><rect x="84" y="56" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-10-12: 0 contributions</title>
-      </rect><rect x="84" y="70" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-10-13: 0 contributions</title>
-      </rect><rect x="84" y="84" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-10-14: 0 contributions</title>
-      </rect><rect x="98" y="0" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2025-10-15: 1 contributions</title>
-      </rect><rect x="98" y="14" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-10-16: 0 contributions</title>
-      </rect><rect x="98" y="28" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-10-17: 0 contributions</title>
-      </rect><rect x="98" y="42" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2025-10-18: 2 contributions</title>
-      </rect><rect x="98" y="56" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-10-19: 0 contributions</title>
-      </rect><rect x="98" y="70" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-10-20: 0 contributions</title>
-      </rect><rect x="98" y="84" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-10-21: 0 contributions</title>
-      </rect><rect x="112" y="0" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-10-22: 0 contributions</title>
-      </rect><rect x="112" y="14" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-10-23: 0 contributions</title>
-      </rect><rect x="112" y="28" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-10-24: 0 contributions</title>
-      </rect><rect x="112" y="42" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-10-25: 0 contributions</title>
-      </rect><rect x="112" y="56" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-10-26: 0 contributions</title>
-      </rect><rect x="112" y="70" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-10-27: 0 contributions</title>
-      </rect><rect x="112" y="84" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-10-28: 0 contributions</title>
-      </rect><rect x="126" y="0" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-10-29: 0 contributions</title>
-      </rect><rect x="126" y="14" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-10-30: 0 contributions</title>
-      </rect><rect x="126" y="28" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-10-31: 0 contributions</title>
-      </rect><rect x="126" y="42" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2025-11-01: 2 contributions</title>
-      </rect><rect x="126" y="56" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2025-11-02: 3 contributions</title>
-      </rect><rect x="126" y="70" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-11-03: 0 contributions</title>
-      </rect><rect x="126" y="84" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-11-04: 0 contributions</title>
-      </rect><rect x="140" y="0" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2025-11-05: 9 contributions</title>
-      </rect><rect x="140" y="14" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-11-06: 0 contributions</title>
-      </rect><rect x="140" y="28" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-11-07: 0 contributions</title>
-      </rect><rect x="140" y="42" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-11-08: 0 contributions</title>
-      </rect><rect x="140" y="56" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-11-09: 0 contributions</title>
-      </rect><rect x="140" y="70" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-11-10: 0 contributions</title>
-      </rect><rect x="140" y="84" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-11-11: 0 contributions</title>
-      </rect><rect x="154" y="0" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2025-11-12: 4 contributions</title>
-      </rect><rect x="154" y="14" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-11-13: 0 contributions</title>
-      </rect><rect x="154" y="28" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-11-14: 0 contributions</title>
-      </rect><rect x="154" y="42" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-11-15: 0 contributions</title>
-      </rect><rect x="154" y="56" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-11-16: 0 contributions</title>
-      </rect><rect x="154" y="70" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-11-17: 0 contributions</title>
-      </rect><rect x="154" y="84" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-11-18: 0 contributions</title>
-      </rect><rect x="168" y="0" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2025-11-19: 1 contributions</title>
-      </rect><rect x="168" y="14" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-11-20: 0 contributions</title>
-      </rect><rect x="168" y="28" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-11-21: 0 contributions</title>
-      </rect><rect x="168" y="42" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-11-22: 0 contributions</title>
-      </rect><rect x="168" y="56" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-11-23: 0 contributions</title>
-      </rect><rect x="168" y="70" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-11-24: 0 contributions</title>
-      </rect><rect x="168" y="84" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-11-25: 0 contributions</title>
-      </rect><rect x="182" y="0" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-11-26: 0 contributions</title>
-      </rect><rect x="182" y="14" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-11-27: 0 contributions</title>
-      </rect><rect x="182" y="28" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-11-28: 0 contributions</title>
-      </rect><rect x="182" y="42" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-11-29: 0 contributions</title>
-      </rect><rect x="182" y="56" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-11-30: 0 contributions</title>
-      </rect><rect x="182" y="70" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-12-01: 0 contributions</title>
-      </rect><rect x="182" y="84" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-12-02: 0 contributions</title>
-      </rect><rect x="196" y="0" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-12-03: 0 contributions</title>
-      </rect><rect x="196" y="14" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-12-04: 0 contributions</title>
-      </rect><rect x="196" y="28" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-12-05: 0 contributions</title>
-      </rect><rect x="196" y="42" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-12-06: 0 contributions</title>
-      </rect><rect x="196" y="56" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-12-07: 0 contributions</title>
-      </rect><rect x="196" y="70" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-12-08: 0 contributions</title>
-      </rect><rect x="196" y="84" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-12-09: 0 contributions</title>
-      </rect><rect x="210" y="0" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-12-10: 0 contributions</title>
-      </rect><rect x="210" y="14" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-12-11: 0 contributions</title>
-      </rect><rect x="210" y="28" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-12-12: 0 contributions</title>
-      </rect><rect x="210" y="42" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-12-13: 0 contributions</title>
-      </rect><rect x="210" y="56" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2025-12-14: 2 contributions</title>
-      </rect><rect x="210" y="70" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-12-15: 0 contributions</title>
-      </rect><rect x="210" y="84" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-12-16: 0 contributions</title>
-      </rect><rect x="224" y="0" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-12-17: 0 contributions</title>
-      </rect><rect x="224" y="14" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-12-18: 0 contributions</title>
-      </rect><rect x="224" y="28" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2025-12-19: 3 contributions</title>
-      </rect><rect x="224" y="42" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2025-12-20: 2 contributions</title>
-      </rect><rect x="224" y="56" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2025-12-21: 1 contributions</title>
-      </rect><rect x="224" y="70" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2025-12-22: 11 contributions</title>
-      </rect><rect x="224" y="84" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2025-12-23: 3 contributions</title>
-      </rect><rect x="238" y="0" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2025-12-24: 7 contributions</title>
-      </rect><rect x="238" y="14" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2025-12-25: 3 contributions</title>
-      </rect><rect x="238" y="28" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2025-12-26: 1 contributions</title>
-      </rect><rect x="238" y="42" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2025-12-27: 10 contributions</title>
-      </rect><rect x="238" y="56" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2025-12-28: 0 contributions</title>
-      </rect><rect x="238" y="70" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2025-12-29: 1 contributions</title>
-      </rect><rect x="238" y="84" width="11" height="11" rx="2.5" fill="#00c896" opacity="1">
-        <title>2025-12-30: 28 contributions</title>
-      </rect><rect x="252" y="0" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2025-12-31: 1 contributions</title>
-      </rect><rect x="252" y="14" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2026-01-01: 7 contributions</title>
-      </rect><rect x="252" y="28" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2026-01-02: 3 contributions</title>
-      </rect><rect x="252" y="42" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2026-01-03: 6 contributions</title>
-      </rect><rect x="252" y="56" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2026-01-04: 1 contributions</title>
-      </rect><rect x="252" y="70" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2026-01-05: 3 contributions</title>
-      </rect><rect x="252" y="84" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2026-01-06: 1 contributions</title>
-      </rect><rect x="266" y="0" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2026-01-07: 1 contributions</title>
-      </rect><rect x="266" y="14" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2026-01-08: 1 contributions</title>
-      </rect><rect x="266" y="28" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2026-01-09: 1 contributions</title>
-      </rect><rect x="266" y="42" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2026-01-10: 1 contributions</title>
-      </rect><rect x="266" y="56" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2026-01-11: 1 contributions</title>
-      </rect><rect x="266" y="70" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2026-01-12: 1 contributions</title>
-      </rect><rect x="266" y="84" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2026-01-13: 1 contributions</title>
-      </rect><rect x="280" y="0" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2026-01-14: 1 contributions</title>
-      </rect><rect x="280" y="14" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2026-01-15: 1 contributions</title>
-      </rect><rect x="280" y="28" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2026-01-16: 1 contributions</title>
-      </rect><rect x="280" y="42" width="11" height="11" rx="2.5" fill="#00c896" opacity="1">
-        <title>2026-01-17: 32 contributions</title>
-      </rect><rect x="280" y="56" width="11" height="11" rx="2.5" fill="#00ffc3" opacity="1">
-        <title>2026-01-18: 45 contributions</title>
-      </rect><rect x="280" y="70" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2026-01-19: 2 contributions</title>
-      </rect><rect x="280" y="84" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2026-01-20: 1 contributions</title>
-      </rect><rect x="294" y="0" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2026-01-21: 1 contributions</title>
-      </rect><rect x="294" y="14" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2026-01-22: 1 contributions</title>
-      </rect><rect x="294" y="28" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2026-01-23: 2 contributions</title>
-      </rect><rect x="294" y="42" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2026-01-24: 1 contributions</title>
-      </rect><rect x="294" y="56" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2026-01-25: 1 contributions</title>
-      </rect><rect x="294" y="70" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2026-01-26: 1 contributions</title>
-      </rect><rect x="294" y="84" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2026-01-27: 1 contributions</title>
-      </rect><rect x="308" y="0" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2026-01-28: 1 contributions</title>
-      </rect><rect x="308" y="14" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2026-01-29: 1 contributions</title>
-      </rect><rect x="308" y="28" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2026-01-30: 3 contributions</title>
-      </rect><rect x="308" y="42" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2026-01-31: 3 contributions</title>
-      </rect><rect x="308" y="56" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2026-02-01: 3 contributions</title>
-      </rect><rect x="308" y="70" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2026-02-02: 4 contributions</title>
-      </rect><rect x="308" y="84" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2026-02-03: 7 contributions</title>
-      </rect><rect x="322" y="0" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2026-02-04: 1 contributions</title>
-      </rect><rect x="322" y="14" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2026-02-05: 1 contributions</title>
-      </rect><rect x="322" y="28" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2026-02-06: 1 contributions</title>
-      </rect><rect x="322" y="42" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2026-02-07: 7 contributions</title>
-      </rect><rect x="322" y="56" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2026-02-08: 0 contributions</title>
-      </rect><rect x="322" y="70" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2026-02-09: 0 contributions</title>
-      </rect><rect x="322" y="84" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2026-02-10: 0 contributions</title>
-      </rect><rect x="336" y="0" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2026-02-11: 0 contributions</title>
-      </rect><rect x="336" y="14" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2026-02-12: 0 contributions</title>
-      </rect><rect x="336" y="28" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2026-02-13: 0 contributions</title>
-      </rect><rect x="336" y="42" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2026-02-14: 3 contributions</title>
-      </rect><rect x="336" y="56" width="11" height="11" rx="2.5" fill="#1a7a5a" opacity="1">
-        <title>2026-02-15: 18 contributions</title>
-      </rect><rect x="336" y="70" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2026-02-16: 1 contributions</title>
-      </rect><rect x="336" y="84" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2026-02-17: 0 contributions</title>
-      </rect><rect x="350" y="0" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2026-02-18: 0 contributions</title>
-      </rect><rect x="350" y="14" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2026-02-19: 0 contributions</title>
-      </rect><rect x="350" y="28" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2026-02-20: 0 contributions</title>
-      </rect><rect x="350" y="42" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2026-02-21: 0 contributions</title>
-      </rect><rect x="350" y="56" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2026-02-22: 0 contributions</title>
-      </rect><rect x="350" y="70" width="11" height="11" rx="2.5" fill="#1a1e2a" opacity="0.4">
-        <title>2026-02-23: 0 contributions</title>
-      </rect><rect x="350" y="84" width="11" height="11" rx="2.5" fill="#1a4a3a" opacity="1">
-        <title>2026-02-24: 1 contributions</title>
-      </rect>
-  </g>
-
-  <!-- ── FOOTER STATS ────────────────────────────────────────────────────── -->
-  <line x1="50" y1="420" x2="870" y2="420" stroke="#ffffff" stroke-width="0.5" stroke-opacity="0.08"/>
-
-  <g transform="translate(460, 446)" text-anchor="middle">
-    <!-- Three mini stats in one line -->
-    <text font-size="10" letter-spacing="1" fill="#60687a">
-      <tspan fill="#00ffc3" fill-opacity="0.7">178</tspan>
-      <tspan fill="#404858" dx="4">active days</tspan>
-      <tspan fill="#2a3040" dx="12">·</tspan>
-      <tspan fill="#ffb347" fill-opacity="0.7" dx="12">4.4%</tspan>
-      <tspan fill="#404858" dx="4">consistency</tspan>
-      <tspan fill="#2a3040" dx="12">·</tspan>
-      <tspan fill="#a78bfa" fill-opacity="0.7" dx="12">4</tspan>
-      <tspan fill="#404858" dx="4">avg / active day</tspan>
+    <!-- Subtitle -->
+    <text x="28" y="34" font-family="'Courier New', monospace" font-size="10" letter-spacing="2" fill="#475569">
+      GITHUB  CONTRIBUTION  STATS
     </text>
   </g>
 
-  <!-- Bottom attribution -->
-  <text x="460" y="466" font-size="9" letter-spacing="2" fill="#ffffff" fill-opacity="0.1" text-anchor="middle">github.com/stha-sanket</text>
+  <!-- Right: rank badge + date range -->
+  <g transform="translate(820, 20)" text-anchor="end">
+    <!-- Rank badge pill -->
+    <rect x="-66" y="0" width="66" height="22" rx="11" fill="#34d399" fill-opacity="0.15" stroke="#34d399" stroke-width="1" stroke-opacity="0.6"/>
+    <text x="-33" y="15" text-anchor="middle" font-family="'Courier New', monospace" font-size="10" font-weight="700" letter-spacing="2" fill="#34d399">
+      ACTIVE
+    </text>
+
+    <!-- Date range -->
+    <text x="0" y="44" font-family="'Courier New', monospace" font-size="9" fill="#334155" letter-spacing="1">
+      2015-01-01 → 2026-02-24
+    </text>
+    <text x="0" y="57" font-family="'Courier New', monospace" font-size="9" fill="#1e3a5f">
+      11.2 YRS OF DATA
+    </text>
+  </g>
+
+  <!-- Divider line under header -->
+  <line x1="40" y1="70" x2="820" y2="70" stroke="#1e293b" stroke-width="1"/>
+  <line x1="40" y1="70" x2="280" y2="70" stroke="url(#accentCyan)" stroke-width="1" stroke-opacity="0.4"/>
+
+  <!-- === STAT CARDS === -->
+
+  <!-- CARD 1: Current Streak -->
+  <g transform="translate(40, 88)" filter="url(#cardGlow)">
+    <rect width="245" height="130" rx="14" fill="url(#card1)" stroke="#06b6d4" stroke-width="1" stroke-opacity="0.35"/>
+    <!-- Top micro accent bar -->
+    <rect x="0" y="0" width="80" height="2" rx="1" fill="url(#accentCyan)"/>
+
+    <!-- Icon area -->
+    <text x="20" y="44" font-family="monospace" font-size="28">🔥</text>
+
+    <!-- Label -->
+    <text x="60" y="32" font-family="'Courier New', monospace" font-size="9" letter-spacing="2" fill="#64748b">CURRENT STREAK</text>
+
+    <!-- Value -->
+    <text x="60" y="68" font-family="'Courier New', monospace" font-size="40" font-weight="700" fill="#e2e8f0" filter="url(#glowCyan)">
+      1
+    </text>
+
+    <!-- Unit -->
+    <text x="60" y="88" font-family="'Courier New', monospace" font-size="10" letter-spacing="1" fill="#06b6d4">days</text>
+
+    <!-- Animated pulse ring if current > 0 -->
+    
+    <circle cx="20" cy="112" r="4" fill="#06b6d4" fill-opacity="0.9">
+      <animate attributeName="r" values="3;6;3" dur="2s" repeatCount="indefinite"/>
+      <animate attributeName="fill-opacity" values="0.9;0.2;0.9" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <text x="34" y="116" font-family="'Courier New', monospace" font-size="9" fill="#06b6d4" fill-opacity="0.7">ACTIVE NOW</text>
+    
+  </g>
+
+  <!-- CARD 2: Longest Streak -->
+  <g transform="translate(307, 88)" filter="url(#cardGlow)">
+    <rect width="245" height="130" rx="14" fill="url(#card2)" stroke="#f59e0b" stroke-width="1" stroke-opacity="0.35"/>
+    <rect x="0" y="0" width="80" height="2" rx="1" fill="url(#accentAmber)"/>
+
+    <text x="20" y="44" font-family="monospace" font-size="28">🏆</text>
+
+    <text x="60" y="32" font-family="'Courier New', monospace" font-size="9" letter-spacing="2" fill="#64748b">LONGEST STREAK</text>
+
+    <text x="60" y="68" font-family="'Courier New', monospace" font-size="40" font-weight="700" fill="#e2e8f0" filter="url(#glowAmber)">
+      41
+    </text>
+
+    <text x="60" y="88" font-family="'Courier New', monospace" font-size="10" letter-spacing="1" fill="#f59e0b">days all-time</text>
+
+    <!-- Progress bar: current vs longest -->
+    <text x="20" y="112" font-family="'Courier New', monospace" font-size="8" fill="#475569">CURRENT vs BEST</text>
+    <rect x="20" y="116" width="200" height="4" rx="2" fill="#1e293b"/>
+    <rect x="20" y="116" width="5" height="4" rx="2" fill="url(#accentAmber)" opacity="0.8"/>
+  </g>
+
+  <!-- CARD 3: Total Contributions -->
+  <g transform="translate(574, 88)" filter="url(#cardGlow)">
+    <rect width="245" height="130" rx="14" fill="url(#card3)" stroke="#34d399" stroke-width="1" stroke-opacity="0.35"/>
+    <rect x="0" y="0" width="80" height="2" rx="1" fill="url(#accentGreen)"/>
+
+    <text x="20" y="44" font-family="monospace" font-size="28">⚡</text>
+
+    <text x="60" y="32" font-family="'Courier New', monospace" font-size="9" letter-spacing="2" fill="#64748b">TOTAL COMMITS</text>
+
+    <text x="60" y="68" font-family="'Courier New', monospace" font-size="40" font-weight="700" fill="#e2e8f0">
+      783
+    </text>
+
+    <text x="60" y="88" font-family="'Courier New', monospace" font-size="10" letter-spacing="1" fill="#34d399">contributions</text>
+
+    <!-- Consistency stat -->
+    <text x="20" y="112" font-family="'Courier New', monospace" font-size="8" fill="#475569">4.4% CONSISTENCY · 4/ACTIVE DAY</text>
+    <rect x="20" y="116" width="200" height="4" rx="2" fill="#1e293b"/>
+    <rect x="20" y="116" width="9" height="4" rx="2" fill="url(#accentGreen)" opacity="0.8"/>
+  </g>
+
+  <!-- === MINI BAR CHART === -->
+  <g transform="translate(40, 244)">
+    <!-- Section label -->
+    <text x="0" y="0" font-family="'Courier New', monospace" font-size="9" letter-spacing="2" fill="#334155">LAST 26 WEEKS  ·  WEEKLY ACTIVITY</text>
+
+    <!-- Chart area -->
+    <g transform="translate(182, 12)">
+      <rect x="0" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.23"/>
+    <rect x="16" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.21"/>
+    <rect x="32" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.20"/>
+    <rect x="48" y="37.20634920634921" width="12" height="2.7936507936507935" rx="3" fill="#22d3ee" fill-opacity="0.26"/>
+    <rect x="64" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.20"/>
+    <rect x="80" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.20"/>
+    <rect x="96" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.20"/>
+    <rect x="112" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.21"/>
+    <rect x="128" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.20"/>
+    <rect x="144" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.21"/>
+    <rect x="160" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.22"/>
+    <rect x="176" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.21"/>
+    <rect x="192" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.20"/>
+    <rect x="208" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.20"/>
+    <rect x="224" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.20"/>
+    <rect x="240" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.21"/>
+    <rect x="256" y="37.46031746031746" width="12" height="2.5396825396825395" rx="3" fill="#22d3ee" fill-opacity="0.25"/>
+    <rect x="272" y="33.65079365079365" width="12" height="6.349206349206349" rx="3" fill="#22d3ee" fill-opacity="0.33"/>
+    <rect x="288" y="37.20634920634921" width="12" height="2.7936507936507935" rx="3" fill="#22d3ee" fill-opacity="0.26"/>
+    <rect x="304" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.22"/>
+    <rect x="320" y="29.460317460317462" width="12" height="10.53968253968254" rx="3" fill="#22d3ee" fill-opacity="0.41"/>
+    <rect x="336" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.22"/>
+    <rect x="352" y="37.20634920634921" width="12" height="2.7936507936507935" rx="3" fill="#22d3ee" fill-opacity="0.26"/>
+    <rect x="368" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.23"/>
+    <rect x="384" y="37.20634920634921" width="12" height="2.7936507936507935" rx="3" fill="#22d3ee" fill-opacity="0.26"/>
+    <rect x="400" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.21"/>
+    </g>
+
+    <!-- Horizontal baseline -->
+    <line x1="0" y1="54" x2="780" y2="54" stroke="#1e293b" stroke-width="1"/>
+  </g>
+
+  <!-- === FOOTER METRICS ROW === -->
+  <g transform="translate(40, 336)">
+    <!-- Divider -->
+    <line x1="0" y1="0" x2="780" y2="0" stroke="#1e293b" stroke-width="1"/>
+
+    <!-- Metric pills -->
+    <!-- Active Days -->
+    <g transform="translate(0, 14)">
+      <rect x="0" y="0" width="140" height="24" rx="12" fill="#0f172a" stroke="#1e3a5f" stroke-width="1"/>
+      <text x="12" y="16" font-family="'Courier New', monospace" font-size="9" fill="#475569">ACTIVE DAYS</text>
+      <text x="128" y="16" text-anchor="end" font-family="'Courier New', monospace" font-size="9" font-weight="700" fill="#22d3ee">178</text>
+    </g>
+
+    <g transform="translate(154, 14)">
+      <rect x="0" y="0" width="140" height="24" rx="12" fill="#0f172a" stroke="#1e3a5f" stroke-width="1"/>
+      <text x="12" y="16" font-family="'Courier New', monospace" font-size="9" fill="#475569">TOTAL DAYS</text>
+      <text x="128" y="16" text-anchor="end" font-family="'Courier New', monospace" font-size="9" font-weight="700" fill="#94a3b8">4073</text>
+    </g>
+
+    <g transform="translate(308, 14)">
+      <rect x="0" y="0" width="140" height="24" rx="12" fill="#0f172a" stroke="#1e3a5f" stroke-width="1"/>
+      <text x="12" y="16" font-family="'Courier New', monospace" font-size="9" fill="#475569">CONSISTENCY</text>
+      <text x="128" y="16" text-anchor="end" font-family="'Courier New', monospace" font-size="9" font-weight="700" fill="#34d399">4.4%</text>
+    </g>
+
+    <g transform="translate(462, 14)">
+      <rect x="0" y="0" width="140" height="24" rx="12" fill="#0f172a" stroke="#1e3a5f" stroke-width="1"/>
+      <text x="12" y="16" font-family="'Courier New', monospace" font-size="9" fill="#475569">AVG / ACTIVE</text>
+      <text x="128" y="16" text-anchor="end" font-family="'Courier New', monospace" font-size="9" font-weight="700" fill="#fbbf24">4</text>
+    </g>
+
+    <g transform="translate(616, 14)">
+      <rect x="0" y="0" width="164" height="24" rx="12" fill="#0f172a" stroke="#1e3a5f" stroke-width="1"/>
+      <text x="12" y="16" font-family="'Courier New', monospace" font-size="9" fill="#475569">YEARS OF DATA</text>
+      <text x="152" y="16" text-anchor="end" font-family="'Courier New', monospace" font-size="9" font-weight="700" fill="#a78bfa">11.2 yrs</text>
+    </g>
+  </g>
+
+  <!-- === FOOTER === -->
+  <g transform="translate(40, 392)">
+    <text font-family="'Courier New', monospace" font-size="9" fill="#1e3a5f" letter-spacing="1">
+      github.com/stha-sanket
+    </text>
+    <text x="780" text-anchor="end" font-family="'Courier New', monospace" font-size="9" fill="#1e3a5f" letter-spacing="1">
+      UPDATED DAILY  ·  ALL-TIME STATS
+    </text>
+  </g>
+
+  <!-- Bottom accent line -->
+  <rect x="0" y="418" width="860" height="2" rx="1" fill="url(#accentPurple)" opacity="0.5"/>
+
+  <!-- Corner accents -->
+  <path d="M 0 20 L 0 0 L 20 0" stroke="#06b6d4" stroke-width="2" fill="none" stroke-opacity="0.6" stroke-linecap="round"/>
+  <path d="M 840 0 L 860 0 L 860 20" stroke="#06b6d4" stroke-width="2" fill="none" stroke-opacity="0.6" stroke-linecap="round"/>
+  <path d="M 0 400 L 0 420 L 20 420" stroke="#7c3aed" stroke-width="2" fill="none" stroke-opacity="0.4" stroke-linecap="round"/>
+  <path d="M 840 420 L 860 420 L 860 400" stroke="#7c3aed" stroke-width="2" fill="none" stroke-opacity="0.4" stroke-linecap="round"/>
 
 </svg>
