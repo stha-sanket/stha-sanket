@@ -4,39 +4,33 @@ const username = "stha-sanket";
 const token = process.env.GITHUB_TOKEN;
 
 async function getAllContributions() {
-  if (!token) {
-    throw new Error("GITHUB_TOKEN is not defined");
-  }
+  if (!token) throw new Error("GITHUB_TOKEN is not defined");
 
   const currentYear = new Date().getFullYear();
   const startYear = 2015;
-  
+
   let allDays = [];
   let totalContributions = 0;
 
   console.log(`Fetching contributions year by year for ${username}...`);
 
-  // Fetch data year by year
   for (let year = currentYear; year >= startYear; year--) {
     try {
       const fromDate = `${year}-01-01T00:00:00Z`;
-      const toDate = year === currentYear 
-        ? new Date().toISOString() 
-        : `${year}-12-31T23:59:59Z`;
+      const toDate =
+        year === currentYear
+          ? new Date().toISOString()
+          : `${year}-12-31T23:59:59Z`;
 
       console.log(`  📅 Fetching ${year}...`);
 
-      const query = `
-      {
+      const query = `{
         user(login: "${username}") {
           contributionsCollection(from: "${fromDate}", to: "${toDate}") {
             contributionCalendar {
               totalContributions
               weeks {
-                contributionDays {
-                  date
-                  contributionCount
-                }
+                contributionDays { date contributionCount }
               }
             }
           }
@@ -54,252 +48,313 @@ async function getAllContributions() {
 
       const json = await res.json();
 
-      if (json.data && json.data.user) {
-        const calendar = json.data.user.contributionsCollection.contributionCalendar;
-        const yearTotal = calendar.totalContributions || 0;
-        totalContributions += yearTotal;
-        
-        const days = calendar.weeks?.flatMap(w => w.contributionDays) || [];
-        allDays = [...allDays, ...days];
-        
-        console.log(`     ✓ ${yearTotal} contributions in ${year}`);
+      if (json.data?.user) {
+        const cal =
+          json.data.user.contributionsCollection.contributionCalendar;
+        totalContributions += cal.totalContributions || 0;
+        allDays = [...allDays, ...cal.weeks.flatMap((w) => w.contributionDays)];
+        console.log(`     ✓ ${cal.totalContributions} contributions in ${year}`);
       }
 
-      // Add a small delay to avoid rate limiting
-      await new Promise(resolve => setTimeout(resolve, 300));
-      
-    } catch (error) {
+      await new Promise((r) => setTimeout(r, 300));
+    } catch {
       console.log(`     ⚠ Error fetching ${year}, skipping...`);
     }
   }
 
-  // Remove duplicates and sort
-  const uniqueDays = Array.from(
-    new Map(allDays.map(day => [day.date, day])).values()
+  const days = Array.from(
+    new Map(allDays.map((d) => [d.date, d])).values()
   ).sort((a, b) => new Date(a.date) - new Date(b.date));
 
-  console.log(`\n✅ Total across all years: ${totalContributions} contributions`);
-  console.log(`📊 Days with data: ${uniqueDays.length}`);
-
-  return {
-    total: totalContributions,
-    days: uniqueDays
-  };
+  console.log(`\n✅ Total: ${totalContributions} contributions over ${days.length} days`);
+  return { total: totalContributions, days };
 }
 
 function calculateStreak(days) {
-  if (!days || days.length === 0) {
-    return { current: 0, longest: 0 };
+  if (!days?.length) return { current: 0, longest: 0 };
+
+  let longest = 0, temp = 0, current = 0;
+
+  for (const day of days) {
+    if (day.contributionCount > 0) { temp++; longest = Math.max(longest, temp); }
+    else temp = 0;
   }
 
-  let longest = 0;
-  let temp = 0;
-  let current = 0;
-
-  // Calculate longest streak
-  for (let day of days) {
-    if (day.contributionCount > 0) {
-      temp++;
-      longest = Math.max(longest, temp);
-    } else {
-      temp = 0;
-    }
-  }
-
-  // Calculate current streak (from most recent day backwards)
   for (let i = days.length - 1; i >= 0; i--) {
-    if (days[i].contributionCount > 0) {
-      current++;
-    } else {
-      break;
-    }
+    if (days[i].contributionCount > 0) current++;
+    else break;
   }
 
   return { current, longest };
 }
 
-(async () => {
-  try {
-    console.log("🚀 Starting GitHub stats generator...\n");
-    
-    const data = await getAllContributions();
-    const { current, longest } = calculateStreak(data.days);
+// ─── Heatmap builder ────────────────────────────────────────────────────────
+function buildHeatmap(days) {
+  // Take last 182 days (26 weeks)
+  const recent = days.slice(-182);
+  const max = Math.max(...recent.map((d) => d.contributionCount), 1);
 
-    // Calculate statistics with safe defaults
-    const firstDate = data.days.length > 0 ? data.days[0].date : 'N/A';
-    const lastDate = data.days.length > 0 ? data.days[data.days.length - 1].date : 'N/A';
-    
-    let yearsOfData = 0;
-    if (data.days.length > 0) {
-      const first = new Date(firstDate);
-      const last = new Date(lastDate);
-      yearsOfData = ((last - first) / (1000 * 60 * 60 * 24 * 365)).toFixed(1);
-    }
+  // Arrange into weeks (columns) × days (rows)
+  const weeks = [];
+  for (let i = 0; i < recent.length; i += 7) {
+    weeks.push(recent.slice(i, i + 7));
+  }
 
-    const activeDays = data.days.filter(d => d.contributionCount > 0).length;
-    const totalDays = data.days.length;
-    const consistency = totalDays > 0 ? ((activeDays / totalDays) * 100).toFixed(1) : 0;
-    const avgPerActiveDay = activeDays > 0 ? Math.round(data.total / activeDays) : 0;
+  const cellSize = 11;
+  const gap = 3;
+  const cols = weeks.length;
+  const rows = 7;
+  const width = cols * (cellSize + gap);
+  const height = rows * (cellSize + gap);
 
-    console.log(`\n📊 Final Stats for ${username}:`);
-    console.log(`📅 Period: ${firstDate} to ${lastDate} (${yearsOfData} years)`);
-    console.log(`🔥 Current Streak: ${current} days`);
-    console.log(`🏆 Longest Streak: ${longest} days`);
-    console.log(`📈 Total Contributions: ${data.total.toLocaleString()}`);
-    console.log(`📊 Active Days: ${activeDays} out of ${totalDays} (${consistency}%)`);
+  const levelColor = (count) => {
+    const ratio = count / max;
+    if (count === 0) return "#1a1e2a";
+    if (ratio < 0.25) return "#1a4a3a";
+    if (ratio < 0.5)  return "#1a7a5a";
+    if (ratio < 0.75) return "#00c896";
+    return "#00ffc3";
+  };
 
-    const svg = `
-<svg width="900" height="400" viewBox="0 0 900 400" xmlns="http://www.w3.org/2000/svg">
+  let cells = "";
+  weeks.forEach((week, col) => {
+    week.forEach((day, row) => {
+      const x = col * (cellSize + gap);
+      const y = row * (cellSize + gap);
+      const fill = levelColor(day.contributionCount);
+      const opacity = day.contributionCount === 0 ? "0.4" : "1";
+      cells += `<rect x="${x}" y="${y}" width="${cellSize}" height="${cellSize}" rx="2.5" fill="${fill}" opacity="${opacity}">
+        <title>${day.date}: ${day.contributionCount} contributions</title>
+      </rect>`;
+    });
+  });
+
+  return { svg: cells, width, height };
+}
+
+// ─── SVG generator ──────────────────────────────────────────────────────────
+function generateSVG({ username, current, longest, total, activeDays, totalDays, consistency, avgPerActiveDay, firstDate, lastDate, yearsOfData, days }) {
+  const heatmap = buildHeatmap(days);
+  const W = 920;
+  const H = 480;
+  const heatX = (W - heatmap.width) / 2;
+  const heatY = 295;
+
+  // Format large numbers
+  const fmt = (n) => n >= 1000 ? `${(n / 1000).toFixed(1)}k` : String(n);
+
+  return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" font-family="'SF Mono', 'Fira Code', 'Cascadia Code', monospace">
 
   <defs>
-    <!-- Animated gradient background -->
-    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0a0c10">
-        <animate attributeName="stop-color" values="#0a0c10;#1a1f2b;#0f1219;#0a0c10" dur="10s" repeatCount="indefinite"/>
-      </stop>
-      <stop offset="50%" stop-color="#1a1f2b">
-        <animate attributeName="stop-color" values="#1a1f2b;#0f1219;#0a0c10;#1a1f2b" dur="10s" repeatCount="indefinite"/>
-      </stop>
-      <stop offset="100%" stop-color="#0f1219">
-        <animate attributeName="stop-color" values="#0f1219;#0a0c10;#1a1f2b;#0f1219" dur="10s" repeatCount="indefinite"/>
-      </stop>
+    <!-- Deep space background -->
+    <radialGradient id="bg" cx="30%" cy="25%" r="80%">
+      <stop offset="0%"   stop-color="#0d1424"/>
+      <stop offset="60%"  stop-color="#070c18"/>
+      <stop offset="100%" stop-color="#04080f"/>
+    </radialGradient>
+
+    <!-- Teal accent gradient -->
+    <linearGradient id="teal" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#00ffc3"/>
+      <stop offset="100%" stop-color="#00c8ff"/>
     </linearGradient>
 
-    <!-- Animated gradient for text -->
-    <linearGradient id="textGradient" x1="0%" y1="0%" x2="200%" y2="0%">
-      <stop offset="0%" stop-color="#ff6b6b">
-        <animate attributeName="stop-color" values="#ff6b6b;#4ecdc4;#ffd93d;#ff6b6b" dur="5s" repeatCount="indefinite"/>
-      </stop>
-      <stop offset="33%" stop-color="#4ecdc4">
-        <animate attributeName="stop-color" values="#4ecdc4;#ffd93d;#ff6b6b;#4ecdc4" dur="5s" repeatCount="indefinite"/>
-      </stop>
-      <stop offset="66%" stop-color="#ffd93d">
-        <animate attributeName="stop-color" values="#ffd93d;#ff6b6b;#4ecdc4;#ffd93d" dur="5s" repeatCount="indefinite"/>
-      </stop>
-      <stop offset="100%" stop-color="#ff6b6b">
-        <animate attributeName="stop-color" values="#ff6b6b;#4ecdc4;#ffd93d;#ff6b6b" dur="5s" repeatCount="indefinite"/>
-      </stop>
-      <animateTransform attributeName="gradientTransform" type="translate" from="-1" to="1" dur="4s" repeatCount="indefinite"/>
+    <!-- Amber accent gradient -->
+    <linearGradient id="amber" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#ffb347"/>
+      <stop offset="100%" stop-color="#ff6b6b"/>
     </linearGradient>
 
-    <!-- Card gradients -->
-    <linearGradient id="cardCurrent" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#ff8c8c" stop-opacity="0.2"/>
-      <stop offset="100%" stop-color="#ff6b6b" stop-opacity="0.1"/>
-    </linearGradient>
-    
-    <linearGradient id="cardLongest" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#6c5ce7" stop-opacity="0.2"/>
-      <stop offset="100%" stop-color="#a463f5" stop-opacity="0.1"/>
-    </linearGradient>
-    
-    <linearGradient id="cardTotal" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#00b894" stop-opacity="0.2"/>
-      <stop offset="100%" stop-color="#00cec9" stop-opacity="0.1"/>
+    <!-- Purple accent gradient -->
+    <linearGradient id="purple" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#a78bfa"/>
+      <stop offset="100%" stop-color="#818cf8"/>
     </linearGradient>
 
-    <!-- Glow filters -->
-    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="4" result="blur"/>
-      <feMerge>
-        <feMergeNode in="blur"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
+    <!-- Card fill -->
+    <linearGradient id="cardFill" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#ffffff" stop-opacity="0.04"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.01"/>
+    </linearGradient>
+
+    <!-- Glow for numbers -->
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
-    
-    <filter id="glowSmall" x="-10%" y="-10%" width="120%" height="120%">
-      <feGaussianBlur stdDeviation="2" result="blur"/>
-      <feMerge>
-        <feMergeNode in="blur"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
+
+    <!-- Subtle card glow -->
+    <filter id="cardGlow" x="-5%" y="-5%" width="110%" height="110%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
+
+    <!-- Noise texture -->
+    <filter id="noise">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feBlend in="SourceGraphic" mode="overlay" result="blend"/>
+      <feComposite in="blend" in2="SourceGraphic" operator="in"/>
+    </filter>
+
+    <!-- Grid clip -->
+    <clipPath id="heatClip">
+      <rect x="${heatX - 4}" y="${heatY - 4}" width="${heatmap.width + 8}" height="${heatmap.height + 8}" rx="6"/>
+    </clipPath>
   </defs>
 
   <!-- Background -->
-  <rect width="100%" height="100%" rx="30" fill="url(#bgGradient)" />
+  <rect width="${W}" height="${H}" rx="24" fill="url(#bg)"/>
 
-  <!-- Header -->
-  <g transform="translate(450, 40)">
-    <text text-anchor="middle" font-size="32" font-family="'Segoe UI', 'Verdana', sans-serif" font-weight="700" fill="url(#textGradient)" filter="url(#glow)">
-      ${username.toUpperCase()}
-    </text>
-    <text x="0" y="30" text-anchor="middle" font-size="14" font-family="'Segoe UI', 'Verdana', sans-serif" fill="#a0a0a0">
-      GITHUB STREAK · ALL TIME
-    </text>
-    <text x="0" y="50" text-anchor="middle" font-size="11" font-family="'Segoe UI', 'Verdana', sans-serif" fill="#606060">
-      ${firstDate} — ${lastDate} · ${yearsOfData} years
+  <!-- Subtle noise overlay -->
+  <rect width="${W}" height="${H}" rx="24" fill="#ffffff" opacity="0.015" filter="url(#noise)"/>
+
+  <!-- Border -->
+  <rect width="${W}" height="${H}" rx="24" fill="none" stroke="url(#teal)" stroke-width="1" stroke-opacity="0.25"/>
+
+  <!-- Top-left accent line -->
+  <line x1="24" y1="24" x2="100" y2="24" stroke="url(#teal)" stroke-width="1.5" stroke-opacity="0.6"/>
+  <line x1="24" y1="24" x2="24" y2="80" stroke="url(#teal)" stroke-width="1.5" stroke-opacity="0.6"/>
+
+  <!-- Top-right accent line -->
+  <line x1="${W - 24}" y1="24" x2="${W - 100}" y2="24" stroke="url(#purple)" stroke-width="1.5" stroke-opacity="0.6"/>
+  <line x1="${W - 24}" y1="24" x2="${W - 24}" y2="80" stroke="url(#purple)" stroke-width="1.5" stroke-opacity="0.6"/>
+
+  <!-- Bottom corners -->
+  <line x1="24" y1="${H - 24}" x2="100" y2="${H - 24}" stroke="url(#teal)" stroke-width="1.5" stroke-opacity="0.3"/>
+  <line x1="24" y1="${H - 24}" x2="24" y2="${H - 80}" stroke="url(#teal)" stroke-width="1.5" stroke-opacity="0.3"/>
+  <line x1="${W - 24}" y1="${H - 24}" x2="${W - 100}" y2="${H - 24}" stroke="url(#purple)" stroke-width="1.5" stroke-opacity="0.3"/>
+  <line x1="${W - 24}" y1="${H - 24}" x2="${W - 24}" y2="${H - 80}" stroke="url(#purple)" stroke-width="1.5" stroke-opacity="0.3"/>
+
+  <!-- Header: username -->
+  <text x="50" y="62" font-size="11" letter-spacing="4" fill="url(#teal)" fill-opacity="0.7" text-anchor="start">GITHUB STATS</text>
+  <text x="${W / 2}" y="70" font-size="28" font-weight="700" letter-spacing="6" fill="#e8eaf6" text-anchor="middle" filter="url(#cardGlow)">${username.toUpperCase()}</text>
+  <text x="${W - 50}" y="62" font-size="11" letter-spacing="2" fill="url(#purple)" fill-opacity="0.7" text-anchor="end">${firstDate} → ${lastDate}</text>
+
+  <!-- Divider -->
+  <line x1="50" y1="90" x2="${W - 50}" y2="90" stroke="#ffffff" stroke-width="0.5" stroke-opacity="0.08"/>
+
+  <!-- ── STAT CARDS ──────────────────────────────────────────────────────── -->
+
+  <!-- Current Streak Card -->
+  <g transform="translate(50, 112)">
+    <rect x="0" y="0" width="250" height="145" rx="16" fill="url(#cardFill)" stroke="url(#teal)" stroke-width="1" stroke-opacity="0.35"/>
+    <!-- Glow blob -->
+    <ellipse cx="50" cy="30" rx="60" ry="30" fill="#00ffc3" fill-opacity="0.04"/>
+    <!-- Label row -->
+    <text x="20" y="28" font-size="9" letter-spacing="3" fill="#00ffc3" fill-opacity="0.6">CURRENT STREAK</text>
+    <!-- Value -->
+    <text x="20" y="95" font-size="64" font-weight="700" fill="url(#teal)" filter="url(#glow)">${current}</text>
+    <!-- Unit -->
+    <text x="20" y="120" font-size="11" letter-spacing="2" fill="#00ffc3" fill-opacity="0.5">DAYS IN A ROW</text>
+    <!-- Decorative tick marks -->
+    <line x1="0" y1="145" x2="60" y2="145" stroke="url(#teal)" stroke-width="2" stroke-opacity="0.5"/>
+  </g>
+
+  <!-- Longest Streak Card -->
+  <g transform="translate(335, 112)">
+    <rect x="0" y="0" width="250" height="145" rx="16" fill="url(#cardFill)" stroke="url(#amber)" stroke-width="1" stroke-opacity="0.35"/>
+    <ellipse cx="50" cy="30" rx="60" ry="30" fill="#ffb347" fill-opacity="0.04"/>
+    <text x="20" y="28" font-size="9" letter-spacing="3" fill="#ffb347" fill-opacity="0.6">LONGEST STREAK</text>
+    <text x="20" y="95" font-size="64" font-weight="700" fill="url(#amber)" filter="url(#glow)">${longest}</text>
+    <text x="20" y="120" font-size="11" letter-spacing="2" fill="#ffb347" fill-opacity="0.5">PERSONAL BEST</text>
+    <line x1="0" y1="145" x2="60" y2="145" stroke="url(#amber)" stroke-width="2" stroke-opacity="0.5"/>
+  </g>
+
+  <!-- Total Contributions Card -->
+  <g transform="translate(620, 112)">
+    <rect x="0" y="0" width="250" height="145" rx="16" fill="url(#cardFill)" stroke="url(#purple)" stroke-width="1" stroke-opacity="0.35"/>
+    <ellipse cx="50" cy="30" rx="60" ry="30" fill="#a78bfa" fill-opacity="0.04"/>
+    <text x="20" y="28" font-size="9" letter-spacing="3" fill="#a78bfa" fill-opacity="0.6">TOTAL CONTRIBUTIONS</text>
+    <text x="20" y="95" font-size="64" font-weight="700" fill="url(#purple)" filter="url(#glow)">${fmt(total)}</text>
+    <text x="20" y="120" font-size="11" letter-spacing="2" fill="#a78bfa" fill-opacity="0.5">OVER ${yearsOfData} YEARS</text>
+    <line x1="0" y1="145" x2="60" y2="145" stroke="url(#purple)" stroke-width="2" stroke-opacity="0.5"/>
+  </g>
+
+  <!-- ── HEATMAP SECTION ─────────────────────────────────────────────────── -->
+
+  <!-- Section label -->
+  <text x="50" y="${heatY - 14}" font-size="9" letter-spacing="3" fill="#ffffff" fill-opacity="0.25">LAST 26 WEEKS</text>
+  <text x="${W - 50}" y="${heatY - 14}" font-size="9" letter-spacing="2" fill="#ffffff" fill-opacity="0.25" text-anchor="end">TODAY</text>
+
+  <!-- Heatmap cells -->
+  <g transform="translate(${heatX}, ${heatY})" clip-path="url(#heatClip)">
+    ${heatmap.svg}
+  </g>
+
+  <!-- ── FOOTER STATS ────────────────────────────────────────────────────── -->
+  <line x1="50" y1="${H - 60}" x2="${W - 50}" y2="${H - 60}" stroke="#ffffff" stroke-width="0.5" stroke-opacity="0.08"/>
+
+  <g transform="translate(${W / 2}, ${H - 34})" text-anchor="middle">
+    <!-- Three mini stats in one line -->
+    <text font-size="10" letter-spacing="1" fill="#60687a">
+      <tspan fill="#00ffc3" fill-opacity="0.7">${activeDays}</tspan>
+      <tspan fill="#404858" dx="4">active days</tspan>
+      <tspan fill="#2a3040" dx="12">·</tspan>
+      <tspan fill="#ffb347" fill-opacity="0.7" dx="12">${consistency}%</tspan>
+      <tspan fill="#404858" dx="4">consistency</tspan>
+      <tspan fill="#2a3040" dx="12">·</tspan>
+      <tspan fill="#a78bfa" fill-opacity="0.7" dx="12">${avgPerActiveDay}</tspan>
+      <tspan fill="#404858" dx="4">avg / active day</tspan>
     </text>
   </g>
 
-  <!-- Stats Cards -->
-  <g transform="translate(150, 120)">
-    
-    <!-- Current Streak -->
-    <g transform="translate(0, 0)">
-      <rect x="0" y="0" width="180" height="180" rx="20" fill="url(#cardCurrent)" stroke="#ff6b6b" stroke-width="2"/>
-      <circle cx="90" cy="55" r="25" fill="none" stroke="#ff6b6b" stroke-width="2" stroke-dasharray="4,4">
-        <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="15s" repeatCount="indefinite" origin="90 55"/>
-      </circle>
-      <text x="90" y="65" text-anchor="middle" font-size="20" fill="#ff6b6b" filter="url(#glowSmall)">🔥</text>
-      <text x="90" y="105" text-anchor="middle" font-size="12" fill="#b0b0b0">CURRENT</text>
-      <text x="90" y="140" text-anchor="middle" font-size="42" font-weight="bold" fill="#ffffff">${current}</text>
-      <text x="90" y="165" text-anchor="middle" font-size="12" fill="#ff6b6b">days</text>
-    </g>
+  <!-- Bottom attribution -->
+  <text x="${W / 2}" y="${H - 14}" font-size="9" letter-spacing="2" fill="#ffffff" fill-opacity="0.1" text-anchor="middle">github.com/${username}</text>
 
-    <!-- Longest Streak -->
-    <g transform="translate(220, 0)">
-      <rect x="0" y="0" width="180" height="180" rx="20" fill="url(#cardLongest)" stroke="#6c5ce7" stroke-width="2"/>
-      <circle cx="90" cy="55" r="25" fill="none" stroke="#6c5ce7" stroke-width="2" stroke-dasharray="4,4">
-        <animateTransform attributeName="transform" type="rotate" from="360" to="0" dur="15s" repeatCount="indefinite" origin="90 55"/>
-      </circle>
-      <text x="90" y="65" text-anchor="middle" font-size="20" fill="#6c5ce7" filter="url(#glowSmall)">🏆</text>
-      <text x="90" y="105" text-anchor="middle" font-size="12" fill="#b0b0b0">LONGEST</text>
-      <text x="90" y="140" text-anchor="middle" font-size="42" font-weight="bold" fill="#ffffff">${longest}</text>
-      <text x="90" y="165" text-anchor="middle" font-size="12" fill="#6c5ce7">days</text>
-    </g>
+</svg>`;
+}
 
-    <!-- Total Contributions -->
-    <g transform="translate(440, 0)">
-      <rect x="0" y="0" width="180" height="180" rx="20" fill="url(#cardTotal)" stroke="#00b894" stroke-width="2"/>
-      <circle cx="90" cy="55" r="25" fill="none" stroke="#00b894" stroke-width="2" stroke-dasharray="4,4">
-        <animateTransform attributeName="transform" type="rotate" from="0" to="-360" dur="15s" repeatCount="indefinite" origin="90 55"/>
-      </circle>
-      <text x="90" y="65" text-anchor="middle" font-size="20" fill="#00b894" filter="url(#glowSmall)">📊</text>
-      <text x="90" y="105" text-anchor="middle" font-size="12" fill="#b0b0b0">TOTAL</text>
-      <text x="90" y="140" text-anchor="middle" font-size="42" font-weight="bold" fill="#ffffff">${data.total}</text>
-      <text x="90" y="165" text-anchor="middle" font-size="12" fill="#00b894">contributions</text>
-    </g>
-  </g>
+// ─── Main ────────────────────────────────────────────────────────────────────
+(async () => {
+  try {
+    console.log("🚀 GitHub Stats Generator\n");
 
-  <!-- Footer Stats -->
-  <g transform="translate(450, 340)">
-    <text text-anchor="middle" font-size="12" font-family="'Segoe UI', 'Verdana', sans-serif" fill="#808080">
-      ⚡ ${activeDays} active days · ${consistency}% consistency · ✦ ${avgPerActiveDay} per active day
-    </text>
-  </g>
+    const data = await getAllContributions();
+    const { current, longest } = calculateStreak(data.days);
 
-  <!-- Footer -->
-  <g transform="translate(450, 380)">
-    <line x1="-300" y1="0" x2="300" y2="0" stroke="url(#textGradient)" stroke-width="2" stroke-dasharray="4,4">
-      <animate attributeName="stroke-dashoffset" values="20;0;20" dur="3s" repeatCount="indefinite"/>
-    </line>
-    <text x="0" y="18" text-anchor="middle" font-size="10" font-family="'Segoe UI', 'Verdana', sans-serif" fill="#505050">
-      github.com/${username} · updated daily
-    </text>
-  </g>
+    const firstDate = data.days.at(0)?.date ?? "N/A";
+    const lastDate  = data.days.at(-1)?.date ?? "N/A";
+    const yearsOfData =
+      data.days.length > 0
+        ? (
+            (new Date(lastDate) - new Date(firstDate)) /
+            (1000 * 60 * 60 * 24 * 365)
+          ).toFixed(1)
+        : 0;
 
-</svg>
-`;
+    const activeDays      = data.days.filter((d) => d.contributionCount > 0).length;
+    const totalDays       = data.days.length;
+    const consistency     = totalDays > 0 ? ((activeDays / totalDays) * 100).toFixed(1) : 0;
+    const avgPerActiveDay = activeDays > 0 ? Math.round(data.total / activeDays) : 0;
+
+    console.log(`\n📊 Stats for ${username}:`);
+    console.log(`   Period    : ${firstDate} → ${lastDate} (${yearsOfData} yrs)`);
+    console.log(`   Streak    : ${current} days (longest: ${longest})`);
+    console.log(`   Total     : ${data.total.toLocaleString()}`);
+    console.log(`   Consistency: ${consistency}%`);
+
+    const svg = generateSVG({
+      username,
+      current,
+      longest,
+      total: data.total,
+      activeDays,
+      totalDays,
+      consistency,
+      avgPerActiveDay,
+      firstDate,
+      lastDate,
+      yearsOfData,
+      days: data.days,
+    });
 
     fs.mkdirSync("output", { recursive: true });
     fs.writeFileSync("output/streak.svg", svg);
 
-    console.log("\n✅ All-time GitHub stats SVG generated successfully!");
-    console.log(`📁 Saved to: output/streak.svg`);
-    
+    console.log("\n✅ SVG saved → output/streak.svg");
   } catch (err) {
-    console.error("\n❌ Error:", err);
+    console.error("\n❌ Error:", err.message);
     process.exit(1);
   }
 })();
