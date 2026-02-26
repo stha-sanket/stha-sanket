@@ -143,7 +143,7 @@
 
     <!-- Date range -->
     <text x="0" y="44" font-family="'Courier New', monospace" font-size="9" fill="#334155" letter-spacing="1">
-      2015-01-01 → 2026-02-25
+      2015-01-01 → 2026-02-26
     </text>
     <text x="0" y="57" font-family="'Courier New', monospace" font-size="9" fill="#1e3a5f">
       11.2 YRS OF DATA
@@ -240,9 +240,9 @@
     <rect x="208" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.20"/>
     <rect x="224" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.20"/>
     <rect x="240" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.21"/>
-    <rect x="256" y="36.57142857142857" width="12" height="3.428571428571429" rx="3" fill="#22d3ee" fill-opacity="0.27"/>
-    <rect x="272" y="34.41269841269841" width="12" height="5.587301587301587" rx="3" fill="#22d3ee" fill-opacity="0.31"/>
-    <rect x="288" y="37.20634920634921" width="12" height="2.7936507936507935" rx="3" fill="#22d3ee" fill-opacity="0.26"/>
+    <rect x="256" y="36.19047619047619" width="12" height="3.8095238095238093" rx="3" fill="#22d3ee" fill-opacity="0.28"/>
+    <rect x="272" y="33.904761904761905" width="12" height="6.095238095238096" rx="3" fill="#22d3ee" fill-opacity="0.32"/>
+    <rect x="288" y="37.96825396825397" width="12" height="2.0317460317460316" rx="3" fill="#22d3ee" fill-opacity="0.24"/>
     <rect x="304" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.22"/>
     <rect x="320" y="29.460317460317462" width="12" height="10.53968253968254" rx="3" fill="#22d3ee" fill-opacity="0.41"/>
     <rect x="336" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.22"/>
@@ -272,7 +272,7 @@
     <g transform="translate(154, 14)">
       <rect x="0" y="0" width="140" height="24" rx="12" fill="#0f172a" stroke="#1e3a5f" stroke-width="1"/>
       <text x="12" y="16" font-family="'Courier New', monospace" font-size="9" fill="#475569">TOTAL DAYS</text>
-      <text x="128" y="16" text-anchor="end" font-family="'Courier New', monospace" font-size="9" font-weight="700" fill="#94a3b8">4074</text>
+      <text x="128" y="16" text-anchor="end" font-family="'Courier New', monospace" font-size="9" font-weight="700" fill="#94a3b8">4075</text>
     </g>
 
     <g transform="translate(308, 14)">
