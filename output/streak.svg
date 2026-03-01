@@ -143,7 +143,7 @@
 
     <!-- Date range -->
     <text x="0" y="44" font-family="'Courier New', monospace" font-size="9" fill="#334155" letter-spacing="1">
-      2015-01-01 → 2026-02-28
+      2015-01-01 → 2026-03-01
     </text>
     <text x="0" y="57" font-family="'Courier New', monospace" font-size="9" fill="#1e3a5f">
       11.2 YRS OF DATA
@@ -224,31 +224,31 @@
 
     <!-- Chart area -->
     <g transform="translate(182, 12)">
-      <rect x="0" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.22"/>
-    <rect x="16" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.21"/>
-    <rect x="32" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.20"/>
-    <rect x="48" y="37.20634920634921" width="12" height="2.7936507936507935" rx="3" fill="#22d3ee" fill-opacity="0.26"/>
+      <rect x="0" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.21"/>
+    <rect x="16" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.20"/>
+    <rect x="32" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.23"/>
+    <rect x="48" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.22"/>
     <rect x="64" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.20"/>
     <rect x="80" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.20"/>
     <rect x="96" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.21"/>
     <rect x="112" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.20"/>
     <rect x="128" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.21"/>
-    <rect x="144" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.23"/>
+    <rect x="144" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.22"/>
     <rect x="160" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.21"/>
     <rect x="176" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.20"/>
     <rect x="192" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.20"/>
     <rect x="208" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.20"/>
-    <rect x="224" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.20"/>
+    <rect x="224" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.21"/>
     <rect x="240" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.22"/>
-    <rect x="256" y="35.42857142857143" width="12" height="4.571428571428571" rx="3" fill="#22d3ee" fill-opacity="0.29"/>
-    <rect x="272" y="34.15873015873016" width="12" height="5.841269841269842" rx="3" fill="#22d3ee" fill-opacity="0.32"/>
+    <rect x="256" y="35.55555555555556" width="12" height="4.444444444444445" rx="3" fill="#22d3ee" fill-opacity="0.29"/>
+    <rect x="272" y="34.03174603174603" width="12" height="5.968253968253968" rx="3" fill="#22d3ee" fill-opacity="0.32"/>
     <rect x="288" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.22"/>
-    <rect x="304" y="35.17460317460318" width="12" height="4.825396825396825" rx="3" fill="#22d3ee" fill-opacity="0.30"/>
-    <rect x="320" y="33.269841269841265" width="12" height="6.730158730158731" rx="3" fill="#22d3ee" fill-opacity="0.33"/>
+    <rect x="304" y="29.58730158730159" width="12" height="10.412698412698413" rx="3" fill="#22d3ee" fill-opacity="0.41"/>
+    <rect x="320" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.22"/>
     <rect x="336" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.23"/>
-    <rect x="352" y="36.95238095238095" width="12" height="3.047619047619048" rx="3" fill="#22d3ee" fill-opacity="0.26"/>
-    <rect x="368" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.21"/>
-    <rect x="384" y="37.58730158730159" width="12" height="2.4126984126984126" rx="3" fill="#22d3ee" fill-opacity="0.25"/>
+    <rect x="352" y="37.333333333333336" width="12" height="2.6666666666666665" rx="3" fill="#22d3ee" fill-opacity="0.25"/>
+    <rect x="368" y="37.333333333333336" width="12" height="2.6666666666666665" rx="3" fill="#22d3ee" fill-opacity="0.25"/>
+    <rect x="384" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.20"/>
     <rect x="400" y="38" width="12" height="2" rx="3" fill="#22d3ee" fill-opacity="0.21"/>
     </g>
 
@@ -272,7 +272,7 @@
     <g transform="translate(154, 14)">
       <rect x="0" y="0" width="140" height="24" rx="12" fill="#0f172a" stroke="#1e3a5f" stroke-width="1"/>
       <text x="12" y="16" font-family="'Courier New', monospace" font-size="9" fill="#475569">TOTAL DAYS</text>
-      <text x="128" y="16" text-anchor="end" font-family="'Courier New', monospace" font-size="9" font-weight="700" fill="#94a3b8">4077</text>
+      <text x="128" y="16" text-anchor="end" font-family="'Courier New', monospace" font-size="9" font-weight="700" fill="#94a3b8">4078</text>
     </g>
 
     <g transform="translate(308, 14)">
