@@ -37,7 +37,6 @@ async function fetchContributions() {
 
     total   += cal.totalContributions;
     allDays  = allDays.concat(cal.weeks.flatMap(w => w.contributionDays));
-
     await new Promise(r => setTimeout(r, 200));
   }
 
@@ -66,13 +65,14 @@ function weeklyBars(days) {
   const weeks  = [];
   for (let i = 0; i < recent.length; i += 7) weeks.push(recent.slice(i, i + 7));
 
-  const max  = Math.max(...recent.map(d => d.contributionCount), 1);
-  const W    = 14, GAP = 3, H = 36;
+  const max = Math.max(...recent.map(d => d.contributionCount), 1);
+  const W = 13, GAP = 3, H = 40;
+
   const bars = weeks.map((week, i) => {
     const sum = week.reduce((s, d) => s + d.contributionCount, 0);
     const h   = Math.max(2, (sum / (max * 7)) * H);
-    const op  = (0.15 + (sum / (max * 7)) * 0.85).toFixed(2);
-    return `<rect x="${i * (W + GAP)}" y="${H - h}" width="${W}" height="${h}" rx="2" fill="#c9d1d9" fill-opacity="${op}"/>`;
+    const op  = (0.12 + (sum / (max * 7)) * 0.88).toFixed(2);
+    return `<rect x="${i * (W + GAP)}" y="${H - h}" width="${W}" height="${h}" rx="2" fill="#22d3ee" fill-opacity="${op}"/>`;
   }).join("");
 
   return { bars, w: weeks.length * (W + GAP) - GAP, h: H };
@@ -89,71 +89,50 @@ function buildSVG({ total, days, current, longest }) {
     : "0";
 
   const { bars, w: barW, h: barH } = weeklyBars(days);
-  const barX = (780 - barW) / 2;
+  const barX = (740 - barW) / 2;
 
-  const W = 860, H = 380;
+  const ACCENT = "#22d3ee";
+  const W = 860, H = 400;
 
-  const stat = (x, y, label, value, color = "#c9d1d9") => `
-  <text x="${x}" y="${y}" font-family="'SF Mono','Fira Code',monospace" font-size="9" letter-spacing="1.5" fill="#484f58">${label}</text>
-  <text x="${x}" y="${y + 36}" font-family="'SF Mono','Fira Code',monospace" font-size="32" font-weight="600" fill="${color}">${value}</text>
-  <text x="${x}" y="${y + 52}" font-family="'SF Mono','Fira Code',monospace" font-size="9" fill="#30363d">days</text>`;
+  const card = (x, y, w, h, label, value, sub) => `
+  <rect x="${x}" y="${y}" width="${w}" height="${h}" rx="10" fill="#0d1117" stroke="#21262d" stroke-width="1"/>
+  <rect x="${x}" y="${y}" width="3" height="${h}" rx="1.5" fill="${ACCENT}" opacity="0.9"/>
+  <text x="${x + 20}" y="${y + 28}" font-family="'SF Mono','Fira Code',monospace" font-size="9" letter-spacing="2" fill="#484f58">${label}</text>
+  <text x="${x + 20}" y="${y + 68}" font-family="'SF Mono','Fira Code',monospace" font-size="38" font-weight="600" fill="#e6edf3">${value}</text>
+  <text x="${x + 20}" y="${y + 88}" font-family="'SF Mono','Fira Code',monospace" font-size="10" fill="${ACCENT}" opacity="0.7">${sub}</text>`;
+
+  const pill = (x, y, label, value) => `
+  <text x="${x}" y="${y}" font-family="'SF Mono','Fira Code',monospace" font-size="9" letter-spacing="1.5" fill="#30363d">${label}</text>
+  <text x="${x}" y="${y + 18}" font-family="'SF Mono','Fira Code',monospace" font-size="13" font-weight="600" fill="#8b949e">${value}</text>`;
 
   return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
 
-  <!-- background -->
-  <rect width="${W}" height="${H}" rx="14" fill="#0d1117"/>
-  <rect width="${W}" height="${H}" rx="14" fill="none" stroke="#21262d" stroke-width="1"/>
+  <rect width="${W}" height="${H}" rx="16" fill="#010409"/>
+  <rect width="${W}" height="${H}" rx="16" fill="none" stroke="#21262d" stroke-width="1"/>
 
-  <!-- top rule -->
-  <line x1="40" y1="58" x2="820" y2="58" stroke="#21262d" stroke-width="1"/>
+  <rect x="40" y="0" width="120" height="2" rx="1" fill="${ACCENT}" opacity="0.8"/>
 
-  <!-- header -->
-  <text x="40" y="36" font-family="'SF Mono','Fira Code',monospace" font-size="13" font-weight="600" letter-spacing="2" fill="#e6edf3">${USERNAME}</text>
-  <text x="820" y="28" text-anchor="end" font-family="'SF Mono','Fira Code',monospace" font-size="9" letter-spacing="1" fill="#30363d">contribution stats</text>
-  <text x="820" y="44" text-anchor="end" font-family="'SF Mono','Fira Code',monospace" font-size="9" letter-spacing="1" fill="#21262d">${firstDate} to ${lastDate}</text>
+  <text x="40" y="40" font-family="'SF Mono','Fira Code',monospace" font-size="14" font-weight="600" letter-spacing="2" fill="#e6edf3">${USERNAME}</text>
+  <text x="40" y="56" font-family="'SF Mono','Fira Code',monospace" font-size="9" letter-spacing="1" fill="#30363d">github contribution stats  ·  ${firstDate} to ${lastDate}</text>
 
-  <!-- stat cards -->
-  <!-- current streak -->
-  <rect x="40" y="74" width="240" height="110" rx="10" fill="#161b22" stroke="#21262d" stroke-width="1"/>
-  ${stat(64, 100, "CURRENT STREAK", current, "#e6edf3")}
+  <line x1="40" y1="68" x2="820" y2="68" stroke="#161b22" stroke-width="1"/>
 
-  <!-- longest streak -->
-  <rect x="310" y="74" width="240" height="110" rx="10" fill="#161b22" stroke="#21262d" stroke-width="1"/>
-  ${stat(334, 100, "LONGEST STREAK", longest, "#e6edf3")}
+  ${card(40,  82, 242, 108, "CURRENT STREAK",  current,              "days")}
+  ${card(309, 82, 242, 108, "LONGEST STREAK",  longest,              "days all-time")}
+  ${card(578, 82, 242, 108, "CONTRIBUTIONS",   total.toLocaleString(), "all time")}
 
-  <!-- total -->
-  <rect x="580" y="74" width="240" height="110" rx="10" fill="#161b22" stroke="#21262d" stroke-width="1"/>
-  <text x="604" y="100" font-family="'SF Mono','Fira Code',monospace" font-size="9" letter-spacing="1.5" fill="#484f58">TOTAL CONTRIBUTIONS</text>
-  <text x="604" y="136" font-family="'SF Mono','Fira Code',monospace" font-size="32" font-weight="600" fill="#e6edf3">${total.toLocaleString()}</text>
-  <text x="604" y="152" font-family="'SF Mono','Fira Code',monospace" font-size="9" fill="#30363d">all time</text>
+  <text x="40" y="218" font-family="'SF Mono','Fira Code',monospace" font-size="9" letter-spacing="2" fill="#21262d">LAST 26 WEEKS</text>
 
-  <!-- divider -->
-  <line x1="40" y1="204" x2="820" y2="204" stroke="#161b22" stroke-width="1"/>
+  <g transform="translate(${40 + barX}, 226)">${bars}</g>
 
-  <!-- weekly chart label -->
-  <text x="40" y="224" font-family="'SF Mono','Fira Code',monospace" font-size="9" letter-spacing="1.5" fill="#30363d">LAST 26 WEEKS</text>
+  <line x1="40" y1="${226 + barH + 6}" x2="820" y2="${226 + barH + 6}" stroke="#161b22" stroke-width="1"/>
 
-  <!-- bars -->
-  <g transform="translate(${40 + barX}, 232)">${bars}</g>
-
-  <!-- chart baseline -->
-  <line x1="40" y1="${232 + barH + 4}" x2="820" y2="${232 + barH + 4}" stroke="#21262d" stroke-width="1"/>
-
-  <!-- footer metrics -->
-  <g transform="translate(40, ${232 + barH + 24})">
-    <text font-family="'SF Mono','Fira Code',monospace" font-size="9" fill="#30363d">ACTIVE DAYS</text>
-    <text x="0" y="16" font-family="'SF Mono','Fira Code',monospace" font-size="11" font-weight="600" fill="#8b949e">${active}</text>
-
-    <text x="160" font-family="'SF Mono','Fira Code',monospace" font-size="9" fill="#30363d">CONSISTENCY</text>
-    <text x="160" y="16" font-family="'SF Mono','Fira Code',monospace" font-size="11" font-weight="600" fill="#8b949e">${consistency}%</text>
-
-    <text x="320" font-family="'SF Mono','Fira Code',monospace" font-size="9" fill="#30363d">AVG / ACTIVE DAY</text>
-    <text x="320" y="16" font-family="'SF Mono','Fira Code',monospace" font-size="11" font-weight="600" fill="#8b949e">${avg}</text>
-
-    <text x="480" font-family="'SF Mono','Fira Code',monospace" font-size="9" fill="#30363d">YEARS OF DATA</text>
-    <text x="480" y="16" font-family="'SF Mono','Fira Code',monospace" font-size="11" font-weight="600" fill="#8b949e">${years}</text>
-
-    <text x="780" text-anchor="end" font-family="'SF Mono','Fira Code',monospace" font-size="9" fill="#21262d">updated automatically</text>
+  <g transform="translate(40, ${226 + barH + 22})">
+    ${pill(0,   0, "ACTIVE DAYS",      active)}
+    ${pill(160, 0, "CONSISTENCY",      consistency + "%")}
+    ${pill(320, 0, "AVG / ACTIVE DAY", avg)}
+    ${pill(480, 0, "YEARS OF DATA",    years + " yrs")}
+    <text x="780" y="18" text-anchor="end" font-family="'SF Mono','Fira Code',monospace" font-size="9" fill="#21262d">auto-updated daily</text>
   </g>
 
 </svg>`;
@@ -163,7 +142,6 @@ function buildSVG({ total, days, current, longest }) {
   const { total, days } = await fetchContributions();
   const { current, longest } = streak(days);
   const svg = buildSVG({ total, days, current, longest });
-
   fs.mkdirSync("output", { recursive: true });
   fs.writeFileSync("output/streak.svg", svg);
   console.log("done — output/streak.svg");
