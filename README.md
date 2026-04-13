@@ -10,16 +10,9 @@
 
 
 # 🚀 My GitHub Stats
-![Stats](output/streak.svg)
-<br>
-<br>
 <div align="center">
-  <picture>
-    <img src="https://raw.githubusercontent.com/stha-sanket/stha-sanket/main/output/streak.svg" />
-
-  </picture>
+![Stats](output/streak.svg)
 </div>
-<br>
 <br>
 
 
