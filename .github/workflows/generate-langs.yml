@@ -1,0 +1,36 @@
+name: Generate Language Graph
+
+on:
+  schedule:
+    - cron: '0 0 * * 0'   # every Sunday midnight
+  workflow_dispatch:        # run manually anytime
+  push:
+    branches: [main]
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Generate SVG
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          USERNAME: stha-sanket          # change to your username
+          LANGS_COUNT: 6
+        run: node generate-langs.js
+
+      - name: Commit SVG
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add assets/langs.svg
+          git diff --cached --quiet || git commit -m "chore: update language graph"
+          git push
