@@ -1,4 +1,4 @@
-<img width="1440" height="316" alt="image" src="https://github.com/user-attachments/assets/09ba55f4-3120-4904-b65e-03c5dd0f50c0" /># 💫 About Me :
+# 💫 About Me :
 <br>I’m a **Computer Science undergraduate** who enjoys building **practical, problem-driven applications** using Python and web technologies.I focus on **learning by building**, especially through **hackathons and side projects** that solve real-world problems.<br>
 
 
