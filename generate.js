@@ -1,471 +1,170 @@
 const fs = require("fs");
 
-const username = "stha-sanket";
-const token = process.env.GITHUB_TOKEN;
+const USERNAME = process.env.USERNAME || "stha-sanket";
+const TOKEN    = process.env.GITHUB_TOKEN;
 
-async function getAllContributions() {
-  if (!token) throw new Error("GITHUB_TOKEN is not defined");
+async function fetchContributions() {
+  if (!TOKEN) throw new Error("GITHUB_TOKEN is not defined");
 
   const currentYear = new Date().getFullYear();
-  const startYear = 2015;
-  let allDays = [];
-  let totalContributions = 0;
+  let allDays = [], total = 0;
 
-  console.log(`Fetching contributions for ${username}...`);
+  for (let year = currentYear; year >= 2015; year--) {
+    const from = `${year}-01-01T00:00:00Z`;
+    const to   = year === currentYear ? new Date().toISOString() : `${year}-12-31T23:59:59Z`;
 
-  for (let year = currentYear; year >= startYear; year--) {
-    try {
-      const fromDate = `${year}-01-01T00:00:00Z`;
-      const toDate = year === currentYear
-        ? new Date().toISOString()
-        : `${year}-12-31T23:59:59Z`;
-
-      console.log(`  📅 Fetching ${year}...`);
-
-      const query = `{
-        user(login: "${username}") {
-          contributionsCollection(from: "${fromDate}", to: "${toDate}") {
+    const res = await fetch("https://api.github.com/graphql", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${TOKEN}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ query: `{
+        user(login: "${USERNAME}") {
+          contributionsCollection(from: "${from}", to: "${to}") {
             contributionCalendar {
               totalContributions
               weeks { contributionDays { date contributionCount } }
             }
           }
         }
-      }`;
+      }` }),
+    });
 
-      const res = await fetch("https://api.github.com/graphql", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ query }),
-      });
+    const json = await res.json();
+    const cal  = json.data?.user?.contributionsCollection?.contributionCalendar;
+    if (!cal) continue;
 
-      const json = await res.json();
+    total   += cal.totalContributions;
+    allDays  = allDays.concat(cal.weeks.flatMap(w => w.contributionDays));
 
-      if (json.data?.user) {
-        const calendar = json.data.user.contributionsCollection.contributionCalendar;
-        totalContributions += calendar.totalContributions || 0;
-        const days = calendar.weeks?.flatMap(w => w.contributionDays) || [];
-        allDays = [...allDays, ...days];
-        console.log(`     ✓ ${calendar.totalContributions} contributions in ${year}`);
-      }
-
-      await new Promise(r => setTimeout(r, 300));
-    } catch (e) {
-      console.log(`     ⚠ Error fetching ${year}, skipping...`);
-    }
+    await new Promise(r => setTimeout(r, 200));
   }
 
-  const uniqueDays = Array.from(
+  const days = Array.from(
     new Map(allDays.map(d => [d.date, d])).values()
   ).sort((a, b) => new Date(a.date) - new Date(b.date));
 
-  return { total: totalContributions, days: uniqueDays };
+  return { total, days };
 }
 
-function calculateStreak(days) {
-  if (!days?.length) return { current: 0, longest: 0 };
-
-  let longest = 0, temp = 0, current = 0;
-
-  for (const day of days) {
-    if (day.contributionCount > 0) { temp++; longest = Math.max(longest, temp); }
-    else temp = 0;
+function streak(days) {
+  let longest = 0, run = 0, current = 0;
+  for (const d of days) {
+    run = d.contributionCount > 0 ? run + 1 : 0;
+    longest = Math.max(longest, run);
   }
-
   for (let i = days.length - 1; i >= 0; i--) {
     if (days[i].contributionCount > 0) current++;
     else break;
   }
-
   return { current, longest };
 }
 
-// Generate a mini bar chart of the last 26 weeks
-function generateMiniChart(days) {
-  const recentDays = days.slice(-182); // ~26 weeks
-  const weeks = [];
-  for (let i = 0; i < recentDays.length; i += 7) {
-    weeks.push(recentDays.slice(i, i + 7));
-  }
+function weeklyBars(days) {
+  const recent = days.slice(-182);
+  const weeks  = [];
+  for (let i = 0; i < recent.length; i += 7) weeks.push(recent.slice(i, i + 7));
 
-  const maxCount = Math.max(...recentDays.map(d => d.contributionCount), 1);
-  const barW = 12;
-  const gap = 4;
-  const chartH = 40;
-  const totalW = weeks.length * (barW + gap);
+  const max  = Math.max(...recent.map(d => d.contributionCount), 1);
+  const W    = 14, GAP = 3, H = 36;
+  const bars = weeks.map((week, i) => {
+    const sum = week.reduce((s, d) => s + d.contributionCount, 0);
+    const h   = Math.max(2, (sum / (max * 7)) * H);
+    const op  = (0.15 + (sum / (max * 7)) * 0.85).toFixed(2);
+    return `<rect x="${i * (W + GAP)}" y="${H - h}" width="${W}" height="${h}" rx="2" fill="#c9d1d9" fill-opacity="${op}"/>`;
+  }).join("");
 
-  const bars = weeks.map((week, wi) => {
-    const total = week.reduce((s, d) => s + d.contributionCount, 0);
-    const h = Math.max(2, (total / (maxCount * 7)) * chartH);
-    const x = wi * (barW + gap);
-    const y = chartH - h;
-    // Color intensity based on activity
-    const intensity = total / (maxCount * 7);
-    const alpha = 0.2 + intensity * 0.8;
-    return `<rect x="${x}" y="${y}" width="${barW}" height="${h}" rx="3" fill="#22d3ee" fill-opacity="${alpha.toFixed(2)}"/>`;
-  }).join("\n    ");
-
-  return { bars, totalW, chartH };
+  return { bars, w: weeks.length * (W + GAP) - GAP, h: H };
 }
 
-function generateSVG({ username, current, longest, total, activeDays, totalDays, consistency, avgPerActiveDay, firstDate, lastDate, yearsOfData, days }) {
+function buildSVG({ total, days, current, longest }) {
+  const active      = days.filter(d => d.contributionCount > 0).length;
+  const consistency = days.length ? ((active / days.length) * 100).toFixed(1) : "0.0";
+  const avg         = active ? Math.round(total / active) : 0;
+  const firstDate   = days[0]?.date ?? "";
+  const lastDate    = days[days.length - 1]?.date ?? "";
+  const years       = firstDate && lastDate
+    ? ((new Date(lastDate) - new Date(firstDate)) / (1000 * 60 * 60 * 24 * 365)).toFixed(1)
+    : "0";
 
-  const { bars, totalW, chartH } = generateMiniChart(days);
-  const chartOffsetX = (860 - totalW) / 2;
+  const { bars, w: barW, h: barH } = weeklyBars(days);
+  const barX = (780 - barW) / 2;
 
-  // Format total with commas
-  const totalFormatted = total.toLocaleString();
+  const W = 860, H = 380;
 
-  // Rank badge
-  const rank = total > 5000 ? "ELITE" : total > 2000 ? "PRO" : total > 500 ? "ACTIVE" : "RISING";
-  const rankColor = total > 5000 ? "#f59e0b" : total > 2000 ? "#22d3ee" : total > 500 ? "#34d399" : "#a78bfa";
+  const stat = (x, y, label, value, color = "#c9d1d9") => `
+  <text x="${x}" y="${y}" font-family="'SF Mono','Fira Code',monospace" font-size="9" letter-spacing="1.5" fill="#484f58">${label}</text>
+  <text x="${x}" y="${y + 36}" font-family="'SF Mono','Fira Code',monospace" font-size="32" font-weight="600" fill="${color}">${value}</text>
+  <text x="${x}" y="${y + 52}" font-family="'SF Mono','Fira Code',monospace" font-size="9" fill="#30363d">days</text>`;
 
-  return `<svg width="860" height="420" viewBox="0 0 860 420" xmlns="http://www.w3.org/2000/svg">
-  <defs>
+  return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
 
-    <!-- Base background -->
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#050b14"/>
-      <stop offset="100%" stop-color="#0a1628"/>
-    </linearGradient>
+  <!-- background -->
+  <rect width="${W}" height="${H}" rx="14" fill="#0d1117"/>
+  <rect width="${W}" height="${H}" rx="14" fill="none" stroke="#21262d" stroke-width="1"/>
 
-    <!-- Cyan accent gradient -->
-    <linearGradient id="accentCyan" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#06b6d4"/>
-      <stop offset="100%" stop-color="#22d3ee"/>
-    </linearGradient>
+  <!-- top rule -->
+  <line x1="40" y1="58" x2="820" y2="58" stroke="#21262d" stroke-width="1"/>
 
-    <!-- Amber accent gradient -->
-    <linearGradient id="accentAmber" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#f59e0b"/>
-      <stop offset="100%" stop-color="#fbbf24"/>
-    </linearGradient>
+  <!-- header -->
+  <text x="40" y="36" font-family="'SF Mono','Fira Code',monospace" font-size="13" font-weight="600" letter-spacing="2" fill="#e6edf3">${USERNAME}</text>
+  <text x="820" y="28" text-anchor="end" font-family="'SF Mono','Fira Code',monospace" font-size="9" letter-spacing="1" fill="#30363d">contribution stats</text>
+  <text x="820" y="44" text-anchor="end" font-family="'SF Mono','Fira Code',monospace" font-size="9" letter-spacing="1" fill="#21262d">${firstDate} to ${lastDate}</text>
 
-    <!-- Purple accent gradient -->
-    <linearGradient id="accentPurple" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#7c3aed"/>
-      <stop offset="100%" stop-color="#a78bfa"/>
-    </linearGradient>
+  <!-- stat cards -->
+  <!-- current streak -->
+  <rect x="40" y="74" width="240" height="110" rx="10" fill="#161b22" stroke="#21262d" stroke-width="1"/>
+  ${stat(64, 100, "CURRENT STREAK", current, "#e6edf3")}
 
-    <!-- Green accent gradient -->
-    <linearGradient id="accentGreen" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#059669"/>
-      <stop offset="100%" stop-color="#34d399"/>
-    </linearGradient>
+  <!-- longest streak -->
+  <rect x="310" y="74" width="240" height="110" rx="10" fill="#161b22" stroke="#21262d" stroke-width="1"/>
+  ${stat(334, 100, "LONGEST STREAK", longest, "#e6edf3")}
 
-    <!-- Card 1 fill -->
-    <linearGradient id="card1" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#06b6d4" stop-opacity="0.12"/>
-      <stop offset="100%" stop-color="#06b6d4" stop-opacity="0.04"/>
-    </linearGradient>
+  <!-- total -->
+  <rect x="580" y="74" width="240" height="110" rx="10" fill="#161b22" stroke="#21262d" stroke-width="1"/>
+  <text x="604" y="100" font-family="'SF Mono','Fira Code',monospace" font-size="9" letter-spacing="1.5" fill="#484f58">TOTAL CONTRIBUTIONS</text>
+  <text x="604" y="136" font-family="'SF Mono','Fira Code',monospace" font-size="32" font-weight="600" fill="#e6edf3">${total.toLocaleString()}</text>
+  <text x="604" y="152" font-family="'SF Mono','Fira Code',monospace" font-size="9" fill="#30363d">all time</text>
 
-    <!-- Card 2 fill -->
-    <linearGradient id="card2" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.12"/>
-      <stop offset="100%" stop-color="#f59e0b" stop-opacity="0.04"/>
-    </linearGradient>
+  <!-- divider -->
+  <line x1="40" y1="204" x2="820" y2="204" stroke="#161b22" stroke-width="1"/>
 
-    <!-- Card 3 fill -->
-    <linearGradient id="card3" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#34d399" stop-opacity="0.12"/>
-      <stop offset="100%" stop-color="#34d399" stop-opacity="0.04"/>
-    </linearGradient>
+  <!-- weekly chart label -->
+  <text x="40" y="224" font-family="'SF Mono','Fira Code',monospace" font-size="9" letter-spacing="1.5" fill="#30363d">LAST 26 WEEKS</text>
 
-    <!-- Title shimmer -->
-    <linearGradient id="titleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#e2e8f0"/>
-      <stop offset="40%" stop-color="#ffffff"/>
-      <stop offset="60%" stop-color="#94a3b8"/>
-      <stop offset="100%" stop-color="#e2e8f0"/>
-      <animateTransform attributeName="gradientTransform" type="translate" values="-1.5 0;1.5 0;-1.5 0" dur="4s" repeatCount="indefinite"/>
-    </linearGradient>
+  <!-- bars -->
+  <g transform="translate(${40 + barX}, 232)">${bars}</g>
 
-    <!-- Glow filters -->
-    <filter id="glowCyan" x="-30%" y="-30%" width="160%" height="160%">
-      <feGaussianBlur stdDeviation="6" result="blur"/>
-      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
-    </filter>
+  <!-- chart baseline -->
+  <line x1="40" y1="${232 + barH + 4}" x2="820" y2="${232 + barH + 4}" stroke="#21262d" stroke-width="1"/>
 
-    <filter id="glowAmber" x="-30%" y="-30%" width="160%" height="160%">
-      <feGaussianBlur stdDeviation="5" result="blur"/>
-      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
-    </filter>
+  <!-- footer metrics -->
+  <g transform="translate(40, ${232 + barH + 24})">
+    <text font-family="'SF Mono','Fira Code',monospace" font-size="9" fill="#30363d">ACTIVE DAYS</text>
+    <text x="0" y="16" font-family="'SF Mono','Fira Code',monospace" font-size="11" font-weight="600" fill="#8b949e">${active}</text>
 
-    <filter id="softShadow" x="-5%" y="-5%" width="110%" height="120%">
-      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000" flood-opacity="0.5"/>
-    </filter>
+    <text x="160" font-family="'SF Mono','Fira Code',monospace" font-size="9" fill="#30363d">CONSISTENCY</text>
+    <text x="160" y="16" font-family="'SF Mono','Fira Code',monospace" font-size="11" font-weight="600" fill="#8b949e">${consistency}%</text>
 
-    <filter id="cardGlow" x="-10%" y="-10%" width="120%" height="130%">
-      <feGaussianBlur stdDeviation="3" result="blur"/>
-      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
+    <text x="320" font-family="'SF Mono','Fira Code',monospace" font-size="9" fill="#30363d">AVG / ACTIVE DAY</text>
+    <text x="320" y="16" font-family="'SF Mono','Fira Code',monospace" font-size="11" font-weight="600" fill="#8b949e">${avg}</text>
 
-    <!-- Noise texture for depth -->
-    <filter id="noise">
-      <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/>
-      <feColorMatrix type="saturate" values="0"/>
-      <feBlend in="SourceGraphic" mode="overlay" result="blend"/>
-      <feComposite in="blend" in2="SourceGraphic" operator="in"/>
-    </filter>
+    <text x="480" font-family="'SF Mono','Fira Code',monospace" font-size="9" fill="#30363d">YEARS OF DATA</text>
+    <text x="480" y="16" font-family="'SF Mono','Fira Code',monospace" font-size="11" font-weight="600" fill="#8b949e">${years}</text>
 
-    <!-- Clip card corners -->
-    <clipPath id="cardClip">
-      <rect width="860" height="420" rx="20"/>
-    </clipPath>
-
-  </defs>
-
-  <!-- === BACKGROUND === -->
-  <rect width="860" height="420" rx="20" fill="url(#bg)" filter="url(#softShadow)"/>
-
-  <!-- Grid lines (subtle) -->
-  <g stroke="#ffffff" stroke-opacity="0.025" stroke-width="1">
-    <line x1="0" y1="105" x2="860" y2="105"/>
-    <line x1="0" y1="210" x2="860" y2="210"/>
-    <line x1="0" y1="315" x2="860" y2="315"/>
-    <line x1="215" y1="0" x2="215" y2="420"/>
-    <line x1="430" y1="0" x2="430" y2="420"/>
-    <line x1="645" y1="0" x2="645" y2="420"/>
+    <text x="780" text-anchor="end" font-family="'SF Mono','Fira Code',monospace" font-size="9" fill="#21262d">updated automatically</text>
   </g>
-
-  <!-- Ambient glow orbs -->
-  <ellipse cx="150" cy="80" rx="180" ry="120" fill="#06b6d4" fill-opacity="0.04"/>
-  <ellipse cx="710" cy="340" rx="200" ry="140" fill="#7c3aed" fill-opacity="0.05"/>
-  <ellipse cx="430" cy="210" rx="250" ry="160" fill="#0ea5e9" fill-opacity="0.02"/>
-
-  <!-- Top accent line -->
-  <rect x="0" y="0" width="860" height="2" rx="1" fill="url(#accentCyan)" opacity="0.9">
-    <animate attributeName="opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite"/>
-  </rect>
-
-  <!-- === HEADER SECTION === -->
-  <!-- Left: username + handle -->
-  <g transform="translate(40, 38)">
-    <!-- Tiny decorative bracket -->
-    <text x="0" y="14" font-family="'Courier New', monospace" font-size="11" fill="#06b6d4" fill-opacity="0.7">&lt;/&gt;</text>
-
-    <!-- Username -->
-    <text x="28" y="16" font-family="'Courier New', monospace" font-size="22" font-weight="700" letter-spacing="3" fill="url(#titleGrad)" filter="url(#glowCyan)">
-      ${username}
-    </text>
-
-    <!-- Subtitle -->
-    <text x="28" y="34" font-family="'Courier New', monospace" font-size="10" letter-spacing="2" fill="#475569">
-      GITHUB  CONTRIBUTION  STATS
-    </text>
-  </g>
-
-  <!-- Right: rank badge + date range -->
-  <g transform="translate(820, 20)" text-anchor="end">
-    <!-- Rank badge pill -->
-    <rect x="-66" y="0" width="66" height="22" rx="11" fill="${rankColor}" fill-opacity="0.15" stroke="${rankColor}" stroke-width="1" stroke-opacity="0.6"/>
-    <text x="-33" y="15" text-anchor="middle" font-family="'Courier New', monospace" font-size="10" font-weight="700" letter-spacing="2" fill="${rankColor}">
-      ${rank}
-    </text>
-
-    <!-- Date range -->
-    <text x="0" y="44" font-family="'Courier New', monospace" font-size="9" fill="#334155" letter-spacing="1">
-      ${firstDate} → ${lastDate}
-    </text>
-    <text x="0" y="57" font-family="'Courier New', monospace" font-size="9" fill="#1e3a5f">
-      ${yearsOfData} YRS OF DATA
-    </text>
-  </g>
-
-  <!-- Divider line under header -->
-  <line x1="40" y1="70" x2="820" y2="70" stroke="#1e293b" stroke-width="1"/>
-  <line x1="40" y1="70" x2="280" y2="70" stroke="url(#accentCyan)" stroke-width="1" stroke-opacity="0.4"/>
-
-  <!-- === STAT CARDS === -->
-
-  <!-- CARD 1: Current Streak -->
-  <g transform="translate(40, 88)" filter="url(#cardGlow)">
-    <rect width="245" height="130" rx="14" fill="url(#card1)" stroke="#06b6d4" stroke-width="1" stroke-opacity="0.35"/>
-    <!-- Top micro accent bar -->
-    <rect x="0" y="0" width="80" height="2" rx="1" fill="url(#accentCyan)"/>
-
-    <!-- Label -->
-    <text x="60" y="32" font-family="'Courier New', monospace" font-size="9" letter-spacing="2" fill="#64748b">CURRENT STREAK</text>
-
-    <!-- Value -->
-    <text x="60" y="68" font-family="'Courier New', monospace" font-size="40" font-weight="700" fill="#e2e8f0" filter="url(#glowCyan)">
-      ${current}
-    </text>
-
-    <!-- Unit -->
-    <text x="60" y="88" font-family="'Courier New', monospace" font-size="10" letter-spacing="1" fill="#06b6d4">days</text>
-
-    <!-- Animated pulse ring if current > 0 -->
-    ${current > 0 ? `
-    <circle cx="20" cy="112" r="4" fill="#06b6d4" fill-opacity="0.9">
-      <animate attributeName="r" values="3;6;3" dur="2s" repeatCount="indefinite"/>
-      <animate attributeName="fill-opacity" values="0.9;0.2;0.9" dur="2s" repeatCount="indefinite"/>
-    </circle>
-    <text x="34" y="116" font-family="'Courier New', monospace" font-size="9" fill="#06b6d4" fill-opacity="0.7">ACTIVE NOW</text>
-    ` : `<text x="20" y="116" font-family="'Courier New', monospace" font-size="9" fill="#334155">NO STREAK</text>`}
-  </g>
-
-  <!-- CARD 2: Longest Streak -->
-  <g transform="translate(307, 88)" filter="url(#cardGlow)">
-    <rect width="245" height="130" rx="14" fill="url(#card2)" stroke="#f59e0b" stroke-width="1" stroke-opacity="0.35"/>
-    <rect x="0" y="0" width="80" height="2" rx="1" fill="url(#accentAmber)"/>
-
-    <text x="60" y="32" font-family="'Courier New', monospace" font-size="9" letter-spacing="2" fill="#64748b">LONGEST STREAK</text>
-
-    <text x="60" y="68" font-family="'Courier New', monospace" font-size="40" font-weight="700" fill="#e2e8f0" filter="url(#glowAmber)">
-      ${longest}
-    </text>
-
-    <text x="60" y="88" font-family="'Courier New', monospace" font-size="10" letter-spacing="1" fill="#f59e0b">days all-time</text>
-
-    <!-- Progress bar: current vs longest -->
-    <text x="20" y="112" font-family="'Courier New', monospace" font-size="8" fill="#475569">CURRENT vs BEST</text>
-    <rect x="20" y="116" width="200" height="4" rx="2" fill="#1e293b"/>
-    <rect x="20" y="116" width="${longest > 0 ? Math.round((Math.min(current, longest) / longest) * 200) : 0}" height="4" rx="2" fill="url(#accentAmber)" opacity="0.8"/>
-  </g>
-
-  <!-- CARD 3: Total Contributions -->
-  <g transform="translate(574, 88)" filter="url(#cardGlow)">
-    <rect width="245" height="130" rx="14" fill="url(#card3)" stroke="#34d399" stroke-width="1" stroke-opacity="0.35"/>
-    <rect x="0" y="0" width="80" height="2" rx="1" fill="url(#accentGreen)"/>
-
-    <text x="20" y="44" font-family="monospace" font-size="28">⚡</text>
-
-    <text x="60" y="32" font-family="'Courier New', monospace" font-size="9" letter-spacing="2" fill="#64748b">TOTAL COMMITS</text>
-
-    <text x="60" y="68" font-family="'Courier New', monospace" font-size="${totalFormatted.length > 5 ? '32' : '40'}" font-weight="700" fill="#e2e8f0">
-      ${totalFormatted}
-    </text>
-
-    <text x="60" y="88" font-family="'Courier New', monospace" font-size="10" letter-spacing="1" fill="#34d399">contributions</text>
-
-    <!-- Consistency stat -->
-    <text x="20" y="112" font-family="'Courier New', monospace" font-size="8" fill="#475569">${consistency}% CONSISTENCY · ${avgPerActiveDay}/ACTIVE DAY</text>
-    <rect x="20" y="116" width="200" height="4" rx="2" fill="#1e293b"/>
-    <rect x="20" y="116" width="${Math.round(parseFloat(consistency) * 2)}" height="4" rx="2" fill="url(#accentGreen)" opacity="0.8"/>
-  </g>
-
-  <!-- === MINI BAR CHART === -->
-  <g transform="translate(40, 244)">
-    <!-- Section label -->
-    <text x="0" y="0" font-family="'Courier New', monospace" font-size="9" letter-spacing="2" fill="#334155">LAST 26 WEEKS  ·  WEEKLY ACTIVITY</text>
-
-    <!-- Chart area -->
-    <g transform="translate(${chartOffsetX - 40}, 12)">
-      ${bars}
-    </g>
-
-    <!-- Horizontal baseline -->
-    <line x1="0" y1="${chartH + 14}" x2="780" y2="${chartH + 14}" stroke="#1e293b" stroke-width="1"/>
-  </g>
-
-  <!-- === FOOTER METRICS ROW === -->
-  <g transform="translate(40, 336)">
-    <!-- Divider -->
-    <line x1="0" y1="0" x2="780" y2="0" stroke="#1e293b" stroke-width="1"/>
-
-    <!-- Metric pills -->
-    <!-- Active Days -->
-    <g transform="translate(0, 14)">
-      <rect x="0" y="0" width="140" height="24" rx="12" fill="#0f172a" stroke="#1e3a5f" stroke-width="1"/>
-      <text x="12" y="16" font-family="'Courier New', monospace" font-size="9" fill="#475569">ACTIVE DAYS</text>
-      <text x="128" y="16" text-anchor="end" font-family="'Courier New', monospace" font-size="9" font-weight="700" fill="#22d3ee">${activeDays}</text>
-    </g>
-
-    <g transform="translate(154, 14)">
-      <rect x="0" y="0" width="140" height="24" rx="12" fill="#0f172a" stroke="#1e3a5f" stroke-width="1"/>
-      <text x="12" y="16" font-family="'Courier New', monospace" font-size="9" fill="#475569">TOTAL DAYS</text>
-      <text x="128" y="16" text-anchor="end" font-family="'Courier New', monospace" font-size="9" font-weight="700" fill="#94a3b8">${totalDays}</text>
-    </g>
-
-    <g transform="translate(308, 14)">
-      <rect x="0" y="0" width="140" height="24" rx="12" fill="#0f172a" stroke="#1e3a5f" stroke-width="1"/>
-      <text x="12" y="16" font-family="'Courier New', monospace" font-size="9" fill="#475569">CONSISTENCY</text>
-      <text x="128" y="16" text-anchor="end" font-family="'Courier New', monospace" font-size="9" font-weight="700" fill="#34d399">${consistency}%</text>
-    </g>
-
-    <g transform="translate(462, 14)">
-      <rect x="0" y="0" width="140" height="24" rx="12" fill="#0f172a" stroke="#1e3a5f" stroke-width="1"/>
-      <text x="12" y="16" font-family="'Courier New', monospace" font-size="9" fill="#475569">AVG / ACTIVE</text>
-      <text x="128" y="16" text-anchor="end" font-family="'Courier New', monospace" font-size="9" font-weight="700" fill="#fbbf24">${avgPerActiveDay}</text>
-    </g>
-
-    <g transform="translate(616, 14)">
-      <rect x="0" y="0" width="164" height="24" rx="12" fill="#0f172a" stroke="#1e3a5f" stroke-width="1"/>
-      <text x="12" y="16" font-family="'Courier New', monospace" font-size="9" fill="#475569">YEARS OF DATA</text>
-      <text x="152" y="16" text-anchor="end" font-family="'Courier New', monospace" font-size="9" font-weight="700" fill="#a78bfa">${yearsOfData} yrs</text>
-    </g>
-  </g>
-
-  <!-- === FOOTER === -->
-  <g transform="translate(40, 392)">
-    <text font-family="'Courier New', monospace" font-size="9" fill="#1e3a5f" letter-spacing="1">
-      github.com/${username}
-    </text>
-    <text x="780" text-anchor="end" font-family="'Courier New', monospace" font-size="9" fill="#1e3a5f" letter-spacing="1">
-      UPDATED DAILY  ·  ALL-TIME STATS
-    </text>
-  </g>
-
-  <!-- Bottom accent line -->
-  <rect x="0" y="418" width="860" height="2" rx="1" fill="url(#accentPurple)" opacity="0.5"/>
-
-  <!-- Corner accents -->
-  <path d="M 0 20 L 0 0 L 20 0" stroke="#06b6d4" stroke-width="2" fill="none" stroke-opacity="0.6" stroke-linecap="round"/>
-  <path d="M 840 0 L 860 0 L 860 20" stroke="#06b6d4" stroke-width="2" fill="none" stroke-opacity="0.6" stroke-linecap="round"/>
-  <path d="M 0 400 L 0 420 L 20 420" stroke="#7c3aed" stroke-width="2" fill="none" stroke-opacity="0.4" stroke-linecap="round"/>
-  <path d="M 840 420 L 860 420 L 860 400" stroke="#7c3aed" stroke-width="2" fill="none" stroke-opacity="0.4" stroke-linecap="round"/>
 
 </svg>`;
 }
 
 (async () => {
-  try {
-    console.log("🚀 Starting GitHub stats generator...\n");
+  const { total, days } = await fetchContributions();
+  const { current, longest } = streak(days);
+  const svg = buildSVG({ total, days, current, longest });
 
-    const data = await getAllContributions();
-    const { current, longest } = calculateStreak(data.days);
-
-    const firstDate = data.days[0]?.date ?? "N/A";
-    const lastDate = data.days[data.days.length - 1]?.date ?? "N/A";
-
-    let yearsOfData = 0;
-    if (data.days.length > 0) {
-      const first = new Date(firstDate);
-      const last = new Date(lastDate);
-      yearsOfData = ((last - first) / (1000 * 60 * 60 * 24 * 365)).toFixed(1);
-    }
-
-    const activeDays = data.days.filter(d => d.contributionCount > 0).length;
-    const totalDays = data.days.length;
-    const consistency = totalDays > 0 ? ((activeDays / totalDays) * 100).toFixed(1) : "0.0";
-    const avgPerActiveDay = activeDays > 0 ? Math.round(data.total / activeDays) : 0;
-
-    console.log(`\n📊 Final Stats:`);
-    console.log(`🔥 Current Streak : ${current} days`);
-    console.log(`🏆 Longest Streak : ${longest} days`);
-    console.log(`📈 Total          : ${data.total.toLocaleString()} contributions`);
-    console.log(`📊 Consistency    : ${consistency}%`);
-
-    const svg = generateSVG({
-      username, current, longest,
-      total: data.total,
-      activeDays, totalDays,
-      consistency, avgPerActiveDay,
-      firstDate, lastDate, yearsOfData,
-      days: data.days
-    });
-
-    fs.mkdirSync("output", { recursive: true });
-    fs.writeFileSync("output/streak.svg", svg);
-
-    console.log("\n✅ SVG generated: output/streak.svg");
-
-  } catch (err) {
-    console.error("\n❌ Error:", err);
-    process.exit(1);
-  }
-})();
+  fs.mkdirSync("output", { recursive: true });
+  fs.writeFileSync("output/streak.svg", svg);
+  console.log("done — output/streak.svg");
+})().catch(e => { console.error(e); process.exit(1); });
