@@ -15,12 +15,12 @@
 <div align="center">
   <picture>
     <img src="https://raw.githubusercontent.com/stha-sanket/stha-sanket/main/output/streak.svg" />
-    ![Stats](output/streak.svg)
+
   </picture>
 </div>
 <br>
 <br>
-
+    ![Stats](output/streak.svg)
 
 <!-- Pacman Contribution Graph (Dark/Light Mode) -->
 <picture>
