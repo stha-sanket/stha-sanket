@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="260" viewBox="0 0 320 260">
+  <title>Top Languages — stha-sanket</title>
+
+  <!-- background -->
+  <rect width="320" height="260" rx="12" fill="#161b22" />
+  <rect width="320" height="260" rx="12" fill="none" stroke="#30363d" stroke-width="1" />
+
+  <!-- header -->
+  <text x="20" y="22" font-size="11" fill="#8b949e" font-family="'SF Mono','Fira Code',monospace" letter-spacing="0.5">TOP LANGUAGES</text>
+  <text x="20" y="40" font-size="12" fill="#484f58" font-family="'SF Mono','Fira Code',monospace">@stha-sanket</text>
+  <line x1="20" y1="52" x2="300" y2="52" stroke="#21262d" stroke-width="1" />
+
+  
+    <!-- Python -->
+    <circle cx="24" cy="66" r="3.5" fill="#4584B6" />
+    <text x="34" y="70" font-size="11" fill="#c9d1d9" font-family="'SF Mono','Fira Code',monospace" letter-spacing="0.3">Python</text>
+    <rect x="110" y="61" width="146" height="3" rx="1.5" fill="#21262d" />
+    <rect x="110" y="61" width="136.0" height="3" rx="1.5" fill="#4584B6" />
+    <text x="300" y="70" font-size="10" fill="#484f58" font-family="'SF Mono','Fira Code',monospace" text-anchor="end">93.1%</text>
+    <!-- Jupyter Notebook -->
+    <circle cx="24" cy="94" r="3.5" fill="#6E7681" />
+    <text x="34" y="98" font-size="11" fill="#c9d1d9" font-family="'SF Mono','Fira Code',monospace" letter-spacing="0.3">Jupyter Notebook</text>
+    <rect x="110" y="89" width="146" height="3" rx="1.5" fill="#21262d" />
+    <rect x="110" y="89" width="6.3" height="3" rx="1.5" fill="#6E7681" />
+    <text x="300" y="98" font-size="10" fill="#484f58" font-family="'SF Mono','Fira Code',monospace" text-anchor="end">4.3%</text>
+    <!-- HTML -->
+    <circle cx="24" cy="122" r="3.5" fill="#E44D26" />
+    <text x="34" y="126" font-size="11" fill="#c9d1d9" font-family="'SF Mono','Fira Code',monospace" letter-spacing="0.3">HTML</text>
+    <rect x="110" y="117" width="146" height="3" rx="1.5" fill="#21262d" />
+    <rect x="110" y="117" width="1.6" height="3" rx="1.5" fill="#E44D26" />
+    <text x="300" y="126" font-size="10" fill="#484f58" font-family="'SF Mono','Fira Code',monospace" text-anchor="end">1.1%</text>
+    <!-- TypeScript -->
+    <circle cx="24" cy="150" r="3.5" fill="#3178C6" />
+    <text x="34" y="154" font-size="11" fill="#c9d1d9" font-family="'SF Mono','Fira Code',monospace" letter-spacing="0.3">TypeScript</text>
+    <rect x="110" y="145" width="146" height="3" rx="1.5" fill="#21262d" />
+    <rect x="110" y="145" width="1.3" height="3" rx="1.5" fill="#3178C6" />
+    <text x="300" y="154" font-size="10" fill="#484f58" font-family="'SF Mono','Fira Code',monospace" text-anchor="end">0.9%</text>
+    <!-- JavaScript -->
+    <circle cx="24" cy="178" r="3.5" fill="#F7DF1E" />
+    <text x="34" y="182" font-size="11" fill="#c9d1d9" font-family="'SF Mono','Fira Code',monospace" letter-spacing="0.3">JavaScript</text>
+    <rect x="110" y="173" width="146" height="3" rx="1.5" fill="#21262d" />
+    <rect x="110" y="173" width="0.5" height="3" rx="1.5" fill="#F7DF1E" />
+    <text x="300" y="182" font-size="10" fill="#484f58" font-family="'SF Mono','Fira Code',monospace" text-anchor="end">0.3%</text>
+    <!-- CSS -->
+    <circle cx="24" cy="206" r="3.5" fill="#264DE4" />
+    <text x="34" y="210" font-size="11" fill="#c9d1d9" font-family="'SF Mono','Fira Code',monospace" letter-spacing="0.3">CSS</text>
+    <rect x="110" y="201" width="146" height="3" rx="1.5" fill="#21262d" />
+    <rect x="110" y="201" width="0.4" height="3" rx="1.5" fill="#264DE4" />
+    <text x="300" y="210" font-size="10" fill="#484f58" font-family="'SF Mono','Fira Code',monospace" text-anchor="end">0.3%</text>
+
+  <!-- footer -->
+  <line x1="20" y1="228" x2="300" y2="228" stroke="#21262d" stroke-width="1" />
+  <text x="20" y="248" font-size="10" fill="#484f58" font-family="'SF Mono','Fira Code',monospace">updated automatically</text>
+</svg>
