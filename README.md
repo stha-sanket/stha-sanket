@@ -10,6 +10,7 @@
 
 
 # 🚀 My GitHub Stats
+![Stats](output/streak.svg)
 <br>
 <br>
 <div align="center">
@@ -20,7 +21,7 @@
 </div>
 <br>
 <br>
-    ![Stats](output/streak.svg)
+
 
 <!-- Pacman Contribution Graph (Dark/Light Mode) -->
 <picture>
