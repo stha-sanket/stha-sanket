@@ -15,10 +15,6 @@
 <div align="center">
   <img src="output/streak.svg" />
 </div>
-<div align="center">
-<img src="https://raw.githubusercontent.com/stha-sanket/stha-sanket/main/output/streak.svg" />
-</div>
-<br>
 
 
 <!-- Pacman Contribution Graph (Dark/Light Mode) -->
