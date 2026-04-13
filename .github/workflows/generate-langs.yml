@@ -2,10 +2,13 @@ name: Generate Language Graph
 
 on:
   schedule:
-    - cron: '0 0 * * 0'   # every Sunday midnight
-  workflow_dispatch:        # run manually anytime
+    - cron: '0 0 * * 0'
+  workflow_dispatch:
   push:
     branches: [main]
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   generate:
@@ -18,12 +21,12 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
 
       - name: Generate SVG
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          USERNAME: stha-sanket          # change to your username
+          USERNAME: stha-sanket
           LANGS_COUNT: 6
         run: node generate-langs.js
 
