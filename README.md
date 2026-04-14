@@ -18,7 +18,6 @@
 <!-- Pacman Contribution Graph (Dark/Light Mode) -->
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/stha-sanket/stha-sanket/output/pacman-contribution-graph-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/stha-sanket/stha-sanket/output/pacman-contribution-graph.svg">
   <img alt="Pacman Contribution Graph" src="https://raw.githubusercontent.com/stha-sanket/stha-sanket/output/pacman-contribution-graph.svg">
 </picture>
 
@@ -32,13 +31,6 @@
       style="width: 100%; height: auto; object-fit: cover; border-radius: 8px; transition: transform 0.3s ease-in-out;" 
       onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
   </a>
-</div>
-
-
-
-
-<div>
-  <img style="width: 100%" src="https://capsule-render.vercel.app/api?type=waving&height=100&section=footer&reversal=false&fontSize=70&fontColor=FFFFFF&fontAlign=50&fontAlignY=50&stroke=-&descSize=20&descAlign=50&descAlignY=50&textBg=false&color=gradient" />
 </div>
 
 ### GitHub Stats & Activity Graphs
