@@ -45,3 +45,9 @@
     </td>
   </tr>
 </table>
+
+<p align="center">
+<a href="https://github.com/stha-sanket?tab=repositories">
+    <img src="https://img.shields.io/badge/View_All_Repositories-100000?style=for-the-badge&logo=github&logoColor=white" alt="View Repositories">
+  </a>
+</p>
