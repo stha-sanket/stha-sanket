@@ -1,18 +1,19 @@
-> <div align="center">
 <div align="center">
-
 <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=32&duration=3000&pause=800&color=22D3EE&center=true&vCenter=true&width=600&lines=Hi+👋,+I'm+Sanket;Building+practical+apps;Hackathons+%7C+Problem+solving" />
 
 <p>Building practical apps • Hackathons • Problem solving</p>
 
 </div>
 
-
+<div align="center">
+ 
 ## 💫 About Me
 - 🎓 Computer Science undergraduate  
 - 🛠️ Building **real-world projects** with Python & Web  
 - ⚡ Active in **hackathons & rapid prototyping**  
-- 📚 Learning by shipping, not just studying  
+- 📚 Learning by shipping, not just studying
+
+</div>
  
 ## 🌐 Socials:
 [![Instagram](https://img.shields.io/badge/Instagram-%23E4405F.svg?logo=Instagram&logoColor=white)](https://instagram.com/sanketindev)
