@@ -1,6 +1,7 @@
-# 💫 About Me :
-<br>I’m a **Computer Science undergraduate** who enjoys building **practical, problem-driven applications** using Python and web technologies.I focus on **learning by building**, especially through **hackathons and side projects** that solve real-world problems.<br>
-
+<h1 align="center">Hi 👋, I'm Sanket</h1>
+<p align="center">
+  Building practical apps • Hackathons • Problem solving
+</p>
 
 ## 🌐 Socials:
 [![Instagram](https://img.shields.io/badge/Instagram-%23E4405F.svg?logo=Instagram&logoColor=white)](https://instagram.com/sanketindev) [![LinkedIn](https://img.shields.io/badge/LinkedIn-%230077B5.svg?logo=linkedin&logoColor=white)](https://linkedin.com/in/sanketstha) [![Medium](https://img.shields.io/badge/Medium-12100E?logo=medium&logoColor=white)](https://medium.com/@Sanketshrestha) [![Stack Overflow](https://img.shields.io/badge/-Stackoverflow-FE7A16?logo=stack-overflow&logoColor=white)](https://stackoverflow.com/users/Sanketshrestha) [![X](https://img.shields.io/badge/X-black.svg?logo=X&logoColor=white)](https://x.com/SanketStha101 ) [![email](https://img.shields.io/badge/Email-D14836?logo=gmail&logoColor=white)](mailto:sanketshrestha09@gmail.com) 
