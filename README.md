@@ -8,12 +8,14 @@
 <div align="center">
  
 ## 💫 About Me
+</div>
 - 🎓 Computer Science undergraduate  
 - 🛠️ Building **real-world projects** with Python & Web  
 - ⚡ Active in **hackathons & rapid prototyping**  
 - 📚 Learning by shipping, not just studying
 
-</div>
+
+<div align="center">
  
 ## 🌐 Socials:
 [![Instagram](https://img.shields.io/badge/Instagram-%23E4405F.svg?logo=Instagram&logoColor=white)](https://instagram.com/sanketindev)
@@ -23,6 +25,8 @@
 [![X](https://img.shields.io/badge/X-black.svg?logo=X&logoColor=white)](https://x.com/SanketStha101)
 [![Email](https://img.shields.io/badge/Email-D14836?logo=gmail&logoColor=white)](mailto:sanketshrestha09@gmail.com)
 </div>
+
+
 --------------------------------------
 
 # 💻 Tech Stack:
