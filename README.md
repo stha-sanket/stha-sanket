@@ -1,25 +1,25 @@
 > <div align="center">
-> 
-> <h1>Hi 👋, I'm Sanket</h1>
-> <p>
->   Building practical apps • Hackathons • Problem solving
-> </p>
-> 
-> ## 💫 About Me
-> - 🎓 Computer Science undergraduate  
-> - 🛠️ Building **real-world projects** with Python & Web  
-> - ⚡ Active in **hackathons & rapid prototyping**  
-> - 📚 Learning by shipping, not just studying  
-> 
-> ## 🌐 Socials:
-> [![Instagram](https://img.shields.io/badge/Instagram-%23E4405F.svg?logo=Instagram&logoColor=white)](https://instagram.com/sanketindev)
-> [![LinkedIn](https://img.shields.io/badge/LinkedIn-%230077B5.svg?logo=linkedin&logoColor=white)](https://linkedin.com/in/sanketstha)
-> [![Medium](https://img.shields.io/badge/Medium-12100E?logo=medium&logoColor=white)](https://medium.com/@Sanketshrestha)
-> [![Stack Overflow](https://img.shields.io/badge/-Stackoverflow-FE7A16?logo=stack-overflow&logoColor=white)](https://stackoverflow.com/users/Sanketshrestha)
-> [![X](https://img.shields.io/badge/X-black.svg?logo=X&logoColor=white)](https://x.com/SanketStha101)
-> [![Email](https://img.shields.io/badge/Email-D14836?logo=gmail&logoColor=white)](mailto:sanketshrestha09@gmail.com)
-> 
-> </div>
+<div align="center">
+
+<img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=32&duration=3000&pause=800&color=22D3EE&center=true&vCenter=true&width=600&lines=Hi+👋,+I'm+Sanket;Building+practical+apps;Hackathons+%7C+Problem+solving" />
+
+<p>Building practical apps • Hackathons • Problem solving</p>
+
+</div>
+## 💫 About Me
+- 🎓 Computer Science undergraduate  
+- 🛠️ Building **real-world projects** with Python & Web  
+- ⚡ Active in **hackathons & rapid prototyping**  
+- 📚 Learning by shipping, not just studying  
+ 
+## 🌐 Socials:
+[![Instagram](https://img.shields.io/badge/Instagram-%23E4405F.svg?logo=Instagram&logoColor=white)](https://instagram.com/sanketindev)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-%230077B5.svg?logo=linkedin&logoColor=white)](https://linkedin.com/in/sanketstha)
+[![Medium](https://img.shields.io/badge/Medium-12100E?logo=medium&logoColor=white)](https://medium.com/@Sanketshrestha)
+[![Stack Overflow](https://img.shields.io/badge/-Stackoverflow-FE7A16?logo=stack-overflow&logoColor=white)](https://stackoverflow.com/users/Sanketshrestha)
+[![X](https://img.shields.io/badge/X-black.svg?logo=X&logoColor=white)](https://x.com/SanketStha101)
+[![Email](https://img.shields.io/badge/Email-D14836?logo=gmail&logoColor=white)](mailto:sanketshrestha09@gmail.com)
+</div>
 --------------------------------------
 
 # 💻 Tech Stack:
