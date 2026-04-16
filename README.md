@@ -32,13 +32,13 @@
       onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
   </a>
 </div>
-<img src="https://raw.githubusercontent.com/stha-sanket/stha-sanket/main/output/graph.svg" />
+
 ### GitHub Stats & Activity Graphs
 
 <table align="center">
   <tr>
     <td>
-      <img src="https://github-readme-activity-graph.vercel.app/graph?username=stha-sanket&radius=16&theme=react&area=true&order=5" height="300" />
+      <img src="https://raw.githubusercontent.com/stha-sanket/stha-sanket/main/output/graph.svg" />
     </td>
     <td>
       <img src="assets/langs.svg" height="300" />
