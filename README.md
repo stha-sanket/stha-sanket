@@ -4,16 +4,16 @@
 <p>Building practical apps • Hackathons • Problem solving</p>
 
 </div>
-
 <div align="center">
- 
-## 💫 About Me
-</div>
 
-- 🎓 Computer Science undergraduate  
-- 🛠️ Building **real-world projects** with Python & Web  
-- ⚡ Active in **hackathons & rapid prototyping**  
-- 📚 Learning by shipping, not just studying
+## 💫 About Me
+
+🎓 Computer Science undergraduate  
+🛠️ Building **real-world projects** with Python & Web  
+⚡ Active in **hackathons & rapid prototyping**  
+📚 Learning by shipping, not just studying  
+
+</div>
 
 
 <div align="center">
