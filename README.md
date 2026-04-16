@@ -37,11 +37,16 @@
 
 ## ✍️ Latest Blog
 
-<p align="center">
-  <a href="https://github-readme-medium-recent-article.vercel.app/medium/@sanketshrestha09/0">
-    <img src="https://github-readme-medium-recent-article.vercel.app/medium/@sanketshrestha09/0" width="500"/>
+<div style="width: 100%; text-align: center; margin: 20px 0;">
+  <a href="https://github-readme-medium-recent-article.vercel.app/medium/@sanketshrestha09/0" target="_blank" 
+     style="display: inline-block; width: 100%; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+    <img 
+      src="https://github-readme-medium-recent-article.vercel.app/medium/@sanketshrestha09/0" 
+      alt="Medium post 1" 
+      style="width: 100%; height: auto; object-fit: cover; border-radius: 8px; transition: transform 0.3s ease-in-out;" 
+      onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
   </a>
-</p>
+</div>
 
 ### GitHub Stats & Activity Graphs
 
