@@ -6,6 +6,8 @@
 <p>Building practical apps • Hackathons • Problem solving</p>
 
 </div>
+
+
 ## 💫 About Me
 - 🎓 Computer Science undergraduate  
 - 🛠️ Building **real-world projects** with Python & Web  
