@@ -6,7 +6,7 @@
   <rect x="40" y="0" width="120" height="2" rx="1" fill="#22d3ee" opacity="0.8"/>
 
   <text x="40" y="40" font-family="'SF Mono','Fira Code',monospace" font-size="14" font-weight="600" letter-spacing="2" fill="#e6edf3">stha-sanket</text>
-  <text x="40" y="56" font-family="'SF Mono','Fira Code',monospace" font-size="9" letter-spacing="1" fill="#30363d">github contribution stats  ·  2015-01-01 to 2026-04-13</text>
+  <text x="40" y="56" font-family="'SF Mono','Fira Code',monospace" font-size="9" letter-spacing="1" fill="#30363d">github contribution stats  ·  2015-01-01 to 2026-04-16</text>
 
   <line x1="40" y1="68" x2="820" y2="68" stroke="#161b22" stroke-width="1"/>
 
@@ -14,37 +14,37 @@
   <rect x="40" y="82" width="242" height="108" rx="10" fill="#0d1117" stroke="#21262d" stroke-width="1"/>
   <rect x="40" y="82" width="3" height="108" rx="1.5" fill="#22d3ee" opacity="0.9"/>
   <text x="60" y="110" font-family="'SF Mono','Fira Code',monospace" font-size="9" letter-spacing="2" fill="#484f58">CURRENT STREAK</text>
-  <text x="60" y="150" font-family="'SF Mono','Fira Code',monospace" font-size="38" font-weight="600" fill="#e6edf3">1</text>
+  <text x="60" y="150" font-family="'SF Mono','Fira Code',monospace" font-size="38" font-weight="600" fill="#e6edf3">5</text>
   <text x="60" y="170" font-family="'SF Mono','Fira Code',monospace" font-size="10" fill="#22d3ee" opacity="0.7">days</text>
   
   <rect x="309" y="82" width="242" height="108" rx="10" fill="#0d1117" stroke="#21262d" stroke-width="1"/>
   <rect x="309" y="82" width="3" height="108" rx="1.5" fill="#22d3ee" opacity="0.9"/>
   <text x="329" y="110" font-family="'SF Mono','Fira Code',monospace" font-size="9" letter-spacing="2" fill="#484f58">LONGEST STREAK</text>
-  <text x="329" y="150" font-family="'SF Mono','Fira Code',monospace" font-size="38" font-weight="600" fill="#e6edf3">90</text>
+  <text x="329" y="150" font-family="'SF Mono','Fira Code',monospace" font-size="38" font-weight="600" fill="#e6edf3">92</text>
   <text x="329" y="170" font-family="'SF Mono','Fira Code',monospace" font-size="10" fill="#22d3ee" opacity="0.7">days all-time</text>
   
   <rect x="578" y="82" width="242" height="108" rx="10" fill="#0d1117" stroke="#21262d" stroke-width="1"/>
   <rect x="578" y="82" width="3" height="108" rx="1.5" fill="#22d3ee" opacity="0.9"/>
   <text x="598" y="110" font-family="'SF Mono','Fira Code',monospace" font-size="9" letter-spacing="2" fill="#484f58">CONTRIBUTIONS</text>
-  <text x="598" y="150" font-family="'SF Mono','Fira Code',monospace" font-size="38" font-weight="600" fill="#e6edf3">898</text>
+  <text x="598" y="150" font-family="'SF Mono','Fira Code',monospace" font-size="38" font-weight="600" fill="#e6edf3">1,109</text>
   <text x="598" y="170" font-family="'SF Mono','Fira Code',monospace" font-size="10" fill="#22d3ee" opacity="0.7">all time</text>
 
   <text x="40" y="218" font-family="'SF Mono','Fira Code',monospace" font-size="9" letter-spacing="2" fill="#21262d">LAST 26 WEEKS</text>
 
-  <g transform="translate(203.5, 226)"><rect x="0" y="38" width="13" height="2" rx="2" fill="#22d3ee" fill-opacity="0.13"/><rect x="16" y="38" width="13" height="2" rx="2" fill="#22d3ee" fill-opacity="0.12"/><rect x="32" y="38" width="13" height="2" rx="2" fill="#22d3ee" fill-opacity="0.13"/><rect x="48" y="38" width="13" height="2" rx="2" fill="#22d3ee" fill-opacity="0.15"/><rect x="64" y="38" width="13" height="2" rx="2" fill="#22d3ee" fill-opacity="0.13"/><rect x="80" y="38" width="13" height="2" rx="2" fill="#22d3ee" fill-opacity="0.12"/><rect x="96" y="38" width="13" height="2" rx="2" fill="#22d3ee" fill-opacity="0.12"/><rect x="112" y="38" width="13" height="2" rx="2" fill="#22d3ee" fill-opacity="0.12"/><rect x="128" y="38" width="13" height="2" rx="2" fill="#22d3ee" fill-opacity="0.13"/><rect x="144" y="37.84126984126984" width="13" height="2.158730158730159" rx="2" fill="#22d3ee" fill-opacity="0.17"/><rect x="160" y="36.82539682539682" width="13" height="3.1746031746031744" rx="2" fill="#22d3ee" fill-opacity="0.19"/><rect x="176" y="33.77777777777778" width="13" height="6.222222222222222" rx="2" fill="#22d3ee" fill-opacity="0.26"/><rect x="192" y="38" width="13" height="2" rx="2" fill="#22d3ee" fill-opacity="0.14"/><rect x="208" y="29.460317460317462" width="13" height="10.53968253968254" rx="2" fill="#22d3ee" fill-opacity="0.35"/><rect x="224" y="38" width="13" height="2" rx="2" fill="#22d3ee" fill-opacity="0.14"/><rect x="240" y="37.96825396825397" width="13" height="2.0317460317460316" rx="2" fill="#22d3ee" fill-opacity="0.16"/><rect x="256" y="37.58730158730159" width="13" height="2.4126984126984126" rx="2" fill="#22d3ee" fill-opacity="0.17"/><rect x="272" y="34.79365079365079" width="13" height="5.2063492063492065" rx="2" fill="#22d3ee" fill-opacity="0.23"/><rect x="288" y="38" width="13" height="2" rx="2" fill="#22d3ee" fill-opacity="0.15"/><rect x="304" y="38" width="13" height="2" rx="2" fill="#22d3ee" fill-opacity="0.15"/><rect x="320" y="38" width="13" height="2" rx="2" fill="#22d3ee" fill-opacity="0.16"/><rect x="336" y="36.698412698412696" width="13" height="3.3015873015873014" rx="2" fill="#22d3ee" fill-opacity="0.19"/><rect x="352" y="38" width="13" height="2" rx="2" fill="#22d3ee" fill-opacity="0.15"/><rect x="368" y="38" width="13" height="2" rx="2" fill="#22d3ee" fill-opacity="0.16"/><rect x="384" y="38" width="13" height="2" rx="2" fill="#22d3ee" fill-opacity="0.12"/><rect x="400" y="38" width="13" height="2" rx="2" fill="#22d3ee" fill-opacity="0.13"/></g>
+  <g transform="translate(203.5, 226)"><rect x="0" y="38" width="13" height="2" rx="2" fill="#22d3ee" fill-opacity="0.13"/><rect x="16" y="38" width="13" height="2" rx="2" fill="#22d3ee" fill-opacity="0.12"/><rect x="32" y="38" width="13" height="2" rx="2" fill="#22d3ee" fill-opacity="0.16"/><rect x="48" y="35.682539682539684" width="13" height="4.317460317460318" rx="2" fill="#22d3ee" fill-opacity="0.21"/><rect x="64" y="38" width="13" height="2" rx="2" fill="#22d3ee" fill-opacity="0.12"/><rect x="80" y="38" width="13" height="2" rx="2" fill="#22d3ee" fill-opacity="0.12"/><rect x="96" y="38" width="13" height="2" rx="2" fill="#22d3ee" fill-opacity="0.12"/><rect x="112" y="38" width="13" height="2" rx="2" fill="#22d3ee" fill-opacity="0.12"/><rect x="128" y="34.03174603174603" width="13" height="5.968253968253968" rx="2" fill="#22d3ee" fill-opacity="0.25"/><rect x="144" y="35.55555555555556" width="13" height="4.444444444444445" rx="2" fill="#22d3ee" fill-opacity="0.22"/><rect x="160" y="33.904761904761905" width="13" height="6.095238095238096" rx="2" fill="#22d3ee" fill-opacity="0.25"/><rect x="176" y="37.96825396825397" width="13" height="2.0317460317460316" rx="2" fill="#22d3ee" fill-opacity="0.16"/><rect x="192" y="38" width="13" height="2" rx="2" fill="#22d3ee" fill-opacity="0.14"/><rect x="208" y="29.460317460317462" width="13" height="10.53968253968254" rx="2" fill="#22d3ee" fill-opacity="0.35"/><rect x="224" y="38" width="13" height="2" rx="2" fill="#22d3ee" fill-opacity="0.14"/><rect x="240" y="37.20634920634921" width="13" height="2.7936507936507935" rx="2" fill="#22d3ee" fill-opacity="0.18"/><rect x="256" y="38" width="13" height="2" rx="2" fill="#22d3ee" fill-opacity="0.16"/><rect x="272" y="34.666666666666664" width="13" height="5.333333333333333" rx="2" fill="#22d3ee" fill-opacity="0.24"/><rect x="288" y="38" width="13" height="2" rx="2" fill="#22d3ee" fill-opacity="0.15"/><rect x="304" y="38" width="13" height="2" rx="2" fill="#22d3ee" fill-opacity="0.15"/><rect x="320" y="38" width="13" height="2" rx="2" fill="#22d3ee" fill-opacity="0.16"/><rect x="336" y="33.904761904761905" width="13" height="6.095238095238096" rx="2" fill="#22d3ee" fill-opacity="0.25"/><rect x="352" y="38" width="13" height="2" rx="2" fill="#22d3ee" fill-opacity="0.15"/><rect x="368" y="38" width="13" height="2" rx="2" fill="#22d3ee" fill-opacity="0.16"/><rect x="384" y="38" width="13" height="2" rx="2" fill="#22d3ee" fill-opacity="0.13"/><rect x="400" y="35.17460317460318" width="13" height="4.825396825396825" rx="2" fill="#22d3ee" fill-opacity="0.23"/></g>
 
   <line x1="40" y1="272" x2="820" y2="272" stroke="#161b22" stroke-width="1"/>
 
   <g transform="translate(40, 288)">
     
   <text x="0" y="0" font-family="'SF Mono','Fira Code',monospace" font-size="9" letter-spacing="1.5" fill="#30363d">ACTIVE DAYS</text>
-  <text x="0" y="18" font-family="'SF Mono','Fira Code',monospace" font-size="13" font-weight="600" fill="#8b949e">227</text>
+  <text x="0" y="18" font-family="'SF Mono','Fira Code',monospace" font-size="13" font-weight="600" fill="#8b949e">239</text>
     
   <text x="160" y="0" font-family="'SF Mono','Fira Code',monospace" font-size="9" letter-spacing="1.5" fill="#30363d">CONSISTENCY</text>
-  <text x="160" y="18" font-family="'SF Mono','Fira Code',monospace" font-size="13" font-weight="600" fill="#8b949e">5.5%</text>
+  <text x="160" y="18" font-family="'SF Mono','Fira Code',monospace" font-size="13" font-weight="600" fill="#8b949e">5.8%</text>
     
   <text x="320" y="0" font-family="'SF Mono','Fira Code',monospace" font-size="9" letter-spacing="1.5" fill="#30363d">AVG / ACTIVE DAY</text>
-  <text x="320" y="18" font-family="'SF Mono','Fira Code',monospace" font-size="13" font-weight="600" fill="#8b949e">4</text>
+  <text x="320" y="18" font-family="'SF Mono','Fira Code',monospace" font-size="13" font-weight="600" fill="#8b949e">5</text>
     
   <text x="480" y="0" font-family="'SF Mono','Fira Code',monospace" font-size="9" letter-spacing="1.5" fill="#30363d">YEARS OF DATA</text>
   <text x="480" y="18" font-family="'SF Mono','Fira Code',monospace" font-size="13" font-weight="600" fill="#8b949e">11.3 yrs</text>
