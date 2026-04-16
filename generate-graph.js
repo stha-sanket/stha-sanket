@@ -43,7 +43,7 @@ async function fetchContributions() {
 
   const days = Array.from(new Map(allDays.map(d => [d.date, d])).values())
     .sort((a, b) => new Date(a.date) - new Date(b.date))
-    .slice(-365);
+    .slice(-30);
 
   const total = days.reduce((s, d) => s + d.contributionCount, 0);
   return { days, total };
