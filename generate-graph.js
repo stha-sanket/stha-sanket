@@ -20,7 +20,7 @@ async function fetchYear(year) {
         contributionsCollection(from: "${from}", to: "${to}") {
           contributionCalendar {
             totalContributions
-            weeks { contributionDays { date contributionCount weekday } }
+            weeks { contributionDays { date contributionCount } }
           }
         }
       }
@@ -34,7 +34,6 @@ async function fetchYear(year) {
 async function fetchContributions() {
   if (!TOKEN) throw new Error("GITHUB_TOKEN is not defined");
   const year = new Date().getFullYear();
-  // fetch current year + previous year for a full ~52 week view
   const [cur, prev] = await Promise.all([fetchYear(year), fetchYear(year - 1)]);
 
   const allDays = [
@@ -42,117 +41,118 @@ async function fetchContributions() {
     ...(cur?.weeks.flatMap(w => w.contributionDays) || []),
   ];
 
-  // dedupe and sort
   const days = Array.from(new Map(allDays.map(d => [d.date, d])).values())
-    .sort((a, b) => new Date(a.date) - new Date(b.date));
+    .sort((a, b) => new Date(a.date) - new Date(b.date))
+    .slice(-365);
 
-  // take last 371 days (53 weeks)
-  const recent = days.slice(-371);
-  const total  = recent.reduce((s, d) => s + d.contributionCount, 0);
-  return { days: recent, total };
+  const total = days.reduce((s, d) => s + d.contributionCount, 0);
+  return { days, total };
 }
 
 function buildSVG({ days, total }) {
-  const CELL  = 11;
-  const GAP   = 3;
-  const STEP  = CELL + GAP;
-  const COLS  = 53;
-  const ROWS  = 7;
-  const PAD_L = 32;   // space for day labels
-  const PAD_T = 28;   // space for month labels
-  const PAD_R = 24;
-  const PAD_B = 48;
-
-  const W = PAD_L + COLS * STEP - GAP + PAD_R;
-  const H = PAD_T + ROWS * STEP - GAP + PAD_B;
-
   const ACCENT = "#22d3ee";
 
-  // bucket days into week columns
-  // pad front so col 0 starts on Sunday
-  const firstDay = new Date(days[0].date);
-  const startPad = firstDay.getDay(); // 0=Sun
-  const padded   = [...Array(startPad).fill(null), ...days];
+  const W       = 820;
+  const H       = 220;
+  const PAD_L   = 36;
+  const PAD_R   = 24;
+  const PAD_T   = 28;
+  const PAD_B   = 40;
+  const CARD_W  = W + PAD_L + PAD_R;
+  const CARD_H  = H + PAD_T + PAD_B;
 
-  const weeks = [];
-  for (let i = 0; i < padded.length; i += 7) weeks.push(padded.slice(i, i + 7));
+  const chartW = W;
+  const chartH = H;
 
-  const max = Math.max(...days.map(d => d.contributionCount), 1);
+  const max    = Math.max(...days.map(d => d.contributionCount), 1);
+  const n      = days.length;
 
-  // color scale — 5 levels
-  function cellColor(count) {
-    if (count === 0) return { fill: "#161b22", op: 1 };
-    const lvl = Math.ceil((count / max) * 4);
-    const ops = [0, 0.25, 0.45, 0.7, 1.0];
-    return { fill: ACCENT, op: ops[lvl] };
-  }
+  // map day index -> SVG coords
+  const px = i => PAD_L + (i / (n - 1)) * chartW;
+  const py = c => PAD_T + chartH - (c / max) * chartH;
 
-  // build cells
-  const cells = weeks.map((week, wi) =>
-    week.map((day, di) => {
-      if (!day) return "";
-      const x = PAD_L + wi * STEP;
-      const y = PAD_T + di * STEP;
-      const { fill, op } = cellColor(day.contributionCount);
-      const title = `${day.date}: ${day.contributionCount}`;
-      return `<rect x="${x}" y="${y}" width="${CELL}" height="${CELL}" rx="2" fill="${fill}" fill-opacity="${op}"><title>${title}</title></rect>`;
-    }).join("")
-  ).join("");
+  // smooth line points
+  const points = days.map((d, i) => `${px(i).toFixed(1)},${py(d.contributionCount).toFixed(1)}`).join(" ");
 
-  // month labels
+  // area fill path
+  const area = [
+    `M ${px(0).toFixed(1)},${(PAD_T + chartH).toFixed(1)}`,
+    ...days.map((d, i) => `L ${px(i).toFixed(1)},${py(d.contributionCount).toFixed(1)}`),
+    `L ${px(n - 1).toFixed(1)},${(PAD_T + chartH).toFixed(1)}`,
+    "Z"
+  ].join(" ");
+
+  // y-axis gridlines (4 levels)
+  const gridLines = [0.25, 0.5, 0.75, 1].map(t => {
+    const y   = (PAD_T + chartH - t * chartH).toFixed(1);
+    const val = Math.round(t * max);
+    return `
+    <line x1="${PAD_L}" y1="${y}" x2="${PAD_L + chartW}" y2="${y}" stroke="#161b22" stroke-width="1"/>
+    <text x="${PAD_L - 6}" y="${parseFloat(y) + 4}" text-anchor="end" font-family="'SF Mono','Fira Code',monospace" font-size="8" fill="#30363d">${val}</text>`;
+  }).join("");
+
+  // month labels on x-axis
   const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
   const monthLabels = [];
   let lastMonth = -1;
-  weeks.forEach((week, wi) => {
-    const firstReal = week.find(d => d);
-    if (!firstReal) return;
-    const m = new Date(firstReal.date).getMonth();
+  days.forEach((d, i) => {
+    const m = new Date(d.date).getMonth();
     if (m !== lastMonth) {
-      monthLabels.push(`<text x="${PAD_L + wi * STEP}" y="16" font-family="'SF Mono','Fira Code',monospace" font-size="9" fill="#484f58">${MONTHS[m]}</text>`);
+      monthLabels.push(`<text x="${px(i).toFixed(1)}" y="${PAD_T + chartH + 16}" font-family="'SF Mono','Fira Code',monospace" font-size="9" fill="#484f58">${MONTHS[m]}</text>`);
       lastMonth = m;
     }
   });
 
-  // day labels (Mon, Wed, Fri)
-  const DAY_LABELS = [null, "Mon", null, "Wed", null, "Fri", null];
-  const dayLabels = DAY_LABELS.map((label, i) =>
-    label ? `<text x="${PAD_L - 6}" y="${PAD_T + i * STEP + CELL - 2}" text-anchor="end" font-family="'SF Mono','Fira Code',monospace" font-size="9" fill="#30363d">${label}</text>` : ""
-  ).join("");
-
-  // legend
-  const legendX = W - PAD_R - 6 * (CELL + 2);
-  const legendCells = [0, 0.25, 0.45, 0.7, 1.0].map((op, i) =>
-    `<rect x="${legendX + i * (CELL + 2)}" y="0" width="${CELL}" height="${CELL}" rx="2" fill="${op === 0 ? '#161b22' : ACCENT}" fill-opacity="${op === 0 ? 1 : op}"/>`
-  ).join("");
+  // peak dot — highest single day
+  const peakIdx   = days.reduce((best, d, i) => d.contributionCount > days[best].contributionCount ? i : best, 0);
+  const peakDay   = days[peakIdx];
+  const peakX     = px(peakIdx).toFixed(1);
+  const peakY     = py(peakDay.contributionCount).toFixed(1);
 
   // active days + consistency
   const active      = days.filter(d => d.contributionCount > 0).length;
   const consistency = ((active / days.length) * 100).toFixed(1);
 
-  return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
+  return `<svg width="${CARD_W}" height="${CARD_H}" viewBox="0 0 ${CARD_W} ${CARD_H}" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="${ACCENT}" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="${ACCENT}" stop-opacity="0.01"/>
+    </linearGradient>
+    <clipPath id="chartClip">
+      <rect x="${PAD_L}" y="${PAD_T}" width="${chartW}" height="${chartH}"/>
+    </clipPath>
+  </defs>
 
-  <rect width="${W}" height="${H}" rx="14" fill="#010409"/>
-  <rect width="${W}" height="${H}" rx="14" fill="none" stroke="#21262d" stroke-width="1"/>
+  <!-- card -->
+  <rect width="${CARD_W}" height="${CARD_H}" rx="14" fill="#010409"/>
+  <rect width="${CARD_W}" height="${CARD_H}" rx="14" fill="none" stroke="#21262d" stroke-width="1"/>
 
   <!-- top accent -->
   <rect x="24" y="0" width="80" height="2" rx="1" fill="${ACCENT}" opacity="0.8"/>
 
-  <!-- month labels -->
+  <!-- header -->
+  <text x="24" y="20" font-family="'SF Mono','Fira Code',monospace" font-size="9" letter-spacing="2" fill="#30363d">DAILY CONTRIBUTIONS  ·  LAST 365 DAYS</text>
+
+  <!-- gridlines + y labels -->
+  ${gridLines}
+
+  <!-- area fill -->
+  <path d="${area}" fill="url(#areaGrad)" clip-path="url(#chartClip)"/>
+
+  <!-- line -->
+  <polyline points="${points}" fill="none" stroke="${ACCENT}" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" clip-path="url(#chartClip)" opacity="0.9"/>
+
+  <!-- peak dot -->
+  <circle cx="${peakX}" cy="${peakY}" r="3" fill="${ACCENT}" clip-path="url(#chartClip)"/>
+  <circle cx="${peakX}" cy="${peakY}" r="6" fill="${ACCENT}" fill-opacity="0.15" clip-path="url(#chartClip)"/>
+  <text x="${parseFloat(peakX) + 8}" y="${parseFloat(peakY) - 4}" font-family="'SF Mono','Fira Code',monospace" font-size="8" fill="${ACCENT}" opacity="0.7">${peakDay.contributionCount} on ${peakDay.date}</text>
+
+  <!-- x-axis month labels -->
   ${monthLabels.join("")}
 
-  <!-- day labels -->
-  ${dayLabels}
-
-  <!-- cells -->
-  ${cells}
-
   <!-- footer -->
-  <text x="${PAD_L}" y="${H - 22}" font-family="'SF Mono','Fira Code',monospace" font-size="9" fill="#30363d">${total.toLocaleString()} contributions in the last year  ·  ${consistency}% consistency</text>
-
-  <!-- legend -->
-  <text x="${legendX - 30}" y="${H - 22 + 1}" font-family="'SF Mono','Fira Code',monospace" font-size="9" fill="#30363d">less</text>
-  <g transform="translate(${legendX - 4}, ${H - 32})">${legendCells}</g>
-  <text x="${legendX + 5 * (CELL + 2) + 4}" y="${H - 22 + 1}" font-family="'SF Mono','Fira Code',monospace" font-size="9" fill="#30363d">more</text>
+  <text x="24" y="${CARD_H - 8}" font-family="'SF Mono','Fira Code',monospace" font-size="9" fill="#30363d">${total.toLocaleString()} contributions  ·  ${consistency}% consistency  ·  ${active} active days</text>
 
 </svg>`;
 }
