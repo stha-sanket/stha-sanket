@@ -1,20 +1,7 @@
 <div align="center">
-<img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=32&duration=3000&pause=800&color=22D3EE&center=true&vCenter=true&width=600&lines=Hi+👋,+I'm+Sanket;Building+practical+apps;Hackathons+%7C+Problem+solving" />
-
-<p>Building practical apps • Hackathons • Problem solving</p>
-
+<img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=32&duration=3000&pause=800&color=22D3EE&center=true&vCenter=true&width=600&lines=Hi+👋,+I'm+Sanket;Building+practical+apps;Taking+Part+in+Hackathons;Real+World+Problem+solving" />
 </div>
 <div align="center">
-
-## 💫 About Me
-
-🎓 Computer Science undergraduate  
-🛠️ Building **real-world projects** with Python & Web  
-⚡ Active in **hackathons & rapid prototyping**  
-📚 Learning by shipping, not just studying  
-
-</div>
-
 
 <div align="center">
  
@@ -46,6 +33,8 @@
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/stha-sanket/stha-sanket/output/pacman-contribution-graph-dark.svg">
   <img alt="Pacman Contribution Graph" src="https://raw.githubusercontent.com/stha-sanket/stha-sanket/output/pacman-contribution-graph.svg">
 </picture>
+
+
 ## ✍️ Latest Blog
 
 <p align="center">
