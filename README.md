@@ -9,6 +9,7 @@
  
 ## 💫 About Me
 </div>
+
 - 🎓 Computer Science undergraduate  
 - 🛠️ Building **real-world projects** with Python & Web  
 - ⚡ Active in **hackathons & rapid prototyping**  
