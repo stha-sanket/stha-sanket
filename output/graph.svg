@@ -31,20 +31,20 @@
     <text x="30" y="32" text-anchor="end" font-family="'SF Mono','Fira Code',monospace" font-size="8" fill="#30363d">19</text>
 
   <!-- area fill -->
-  <path d="M 36.0,248.0 L 36.0,236.4 L 64.3,236.4 L 92.6,224.8 L 120.8,224.8 L 149.1,236.4 L 177.4,224.8 L 205.7,236.4 L 233.9,236.4 L 262.2,143.8 L 290.5,248.0 L 318.8,248.0 L 347.0,248.0 L 375.3,248.0 L 403.6,248.0 L 431.9,248.0 L 460.1,236.4 L 488.4,248.0 L 516.7,248.0 L 545.0,213.3 L 573.2,248.0 L 601.5,248.0 L 629.8,190.1 L 658.1,190.1 L 686.3,74.3 L 714.6,109.1 L 742.9,28.0 L 771.2,109.1 L 799.4,224.8 L 827.7,236.4 L 856.0,248.0 L 856.0,248.0 Z" fill="url(#areaGrad)" clip-path="url(#chartClip)"/>
+  <path d="M 36.0,248.0 L 36.0,236.4 L 64.3,224.8 L 92.6,224.8 L 120.8,236.4 L 149.1,224.8 L 177.4,236.4 L 205.7,236.4 L 233.9,143.8 L 262.2,248.0 L 290.5,248.0 L 318.8,248.0 L 347.0,248.0 L 375.3,248.0 L 403.6,248.0 L 431.9,236.4 L 460.1,248.0 L 488.4,248.0 L 516.7,213.3 L 545.0,248.0 L 573.2,248.0 L 601.5,190.1 L 629.8,190.1 L 658.1,74.3 L 686.3,109.1 L 714.6,28.0 L 742.9,109.1 L 771.2,224.8 L 799.4,236.4 L 827.7,248.0 L 856.0,248.0 L 856.0,248.0 Z" fill="url(#areaGrad)" clip-path="url(#chartClip)"/>
 
   <!-- line -->
-  <polyline points="36.0,236.4 64.3,236.4 92.6,224.8 120.8,224.8 149.1,236.4 177.4,224.8 205.7,236.4 233.9,236.4 262.2,143.8 290.5,248.0 318.8,248.0 347.0,248.0 375.3,248.0 403.6,248.0 431.9,248.0 460.1,236.4 488.4,248.0 516.7,248.0 545.0,213.3 573.2,248.0 601.5,248.0 629.8,190.1 658.1,190.1 686.3,74.3 714.6,109.1 742.9,28.0 771.2,109.1 799.4,224.8 827.7,236.4 856.0,248.0" fill="none" stroke="#22d3ee" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" clip-path="url(#chartClip)" opacity="0.9"/>
+  <polyline points="36.0,236.4 64.3,224.8 92.6,224.8 120.8,236.4 149.1,224.8 177.4,236.4 205.7,236.4 233.9,143.8 262.2,248.0 290.5,248.0 318.8,248.0 347.0,248.0 375.3,248.0 403.6,248.0 431.9,236.4 460.1,248.0 488.4,248.0 516.7,213.3 545.0,248.0 573.2,248.0 601.5,190.1 629.8,190.1 658.1,74.3 686.3,109.1 714.6,28.0 742.9,109.1 771.2,224.8 799.4,236.4 827.7,248.0 856.0,248.0" fill="none" stroke="#22d3ee" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" clip-path="url(#chartClip)" opacity="0.9"/>
 
   <!-- peak dot -->
-  <circle cx="742.9" cy="28.0" r="3" fill="#22d3ee" clip-path="url(#chartClip)"/>
-  <circle cx="742.9" cy="28.0" r="6" fill="#22d3ee" fill-opacity="0.15" clip-path="url(#chartClip)"/>
-  <text x="750.9" y="24" font-family="'SF Mono','Fira Code',monospace" font-size="8" fill="#22d3ee" opacity="0.7">19 on 2026-04-16</text>
+  <circle cx="714.6" cy="28.0" r="3" fill="#22d3ee" clip-path="url(#chartClip)"/>
+  <circle cx="714.6" cy="28.0" r="6" fill="#22d3ee" fill-opacity="0.15" clip-path="url(#chartClip)"/>
+  <text x="722.6" y="24" font-family="'SF Mono','Fira Code',monospace" font-size="8" fill="#22d3ee" opacity="0.7">19 on 2026-04-16</text>
 
   <!-- x-axis month labels -->
-  <text x="36.0" y="264" font-family="'SF Mono','Fira Code',monospace" font-size="9" fill="#484f58">Mar</text><text x="318.8" y="264" font-family="'SF Mono','Fira Code',monospace" font-size="9" fill="#484f58">Apr</text>
+  <text x="36.0" y="264" font-family="'SF Mono','Fira Code',monospace" font-size="9" fill="#484f58">Mar</text><text x="290.5" y="264" font-family="'SF Mono','Fira Code',monospace" font-size="9" fill="#484f58">Apr</text>
 
   <!-- footer -->
-  <text x="24" y="280" font-family="'SF Mono','Fira Code',monospace" font-size="9" fill="#30363d">95 contributions  ·  63.3% consistency  ·  19 active days</text>
+  <text x="24" y="280" font-family="'SF Mono','Fira Code',monospace" font-size="9" fill="#30363d">94 contributions  ·  60.0% consistency  ·  18 active days</text>
 
 </svg>
