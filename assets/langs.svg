@@ -15,8 +15,8 @@
     <circle cx="24" cy="66" r="3.5" fill="#4584B6" />
     <text x="34" y="70" font-size="11" fill="#c9d1d9" font-family="'SF Mono','Fira Code',monospace" letter-spacing="0.3">Python</text>
     <rect x="110" y="61" width="146" height="3" rx="1.5" fill="#21262d" />
-    <rect x="110" y="61" width="135.6" height="3" rx="1.5" fill="#4584B6" />
-    <text x="300" y="70" font-size="10" fill="#484f58" font-family="'SF Mono','Fira Code',monospace" text-anchor="end">92.9%</text>
+    <rect x="110" y="61" width="135.9" height="3" rx="1.5" fill="#4584B6" />
+    <text x="300" y="70" font-size="10" fill="#484f58" font-family="'SF Mono','Fira Code',monospace" text-anchor="end">93.1%</text>
     <!-- Jupyter Notebook -->
     <circle cx="24" cy="94" r="3.5" fill="#6E7681" />
     <text x="34" y="98" font-size="11" fill="#c9d1d9" font-family="'SF Mono','Fira Code',monospace" letter-spacing="0.3">Jupyter Notebook</text>
@@ -27,8 +27,8 @@
     <circle cx="24" cy="122" r="3.5" fill="#E44D26" />
     <text x="34" y="126" font-size="11" fill="#c9d1d9" font-family="'SF Mono','Fira Code',monospace" letter-spacing="0.3">HTML</text>
     <rect x="110" y="117" width="146" height="3" rx="1.5" fill="#21262d" />
-    <rect x="110" y="117" width="2.0" height="3" rx="1.5" fill="#E44D26" />
-    <text x="300" y="126" font-size="10" fill="#484f58" font-family="'SF Mono','Fira Code',monospace" text-anchor="end">1.4%</text>
+    <rect x="110" y="117" width="1.7" height="3" rx="1.5" fill="#E44D26" />
+    <text x="300" y="126" font-size="10" fill="#484f58" font-family="'SF Mono','Fira Code',monospace" text-anchor="end">1.2%</text>
     <!-- TypeScript -->
     <circle cx="24" cy="150" r="3.5" fill="#3178C6" />
     <text x="34" y="154" font-size="11" fill="#c9d1d9" font-family="'SF Mono','Fira Code',monospace" letter-spacing="0.3">TypeScript</text>
