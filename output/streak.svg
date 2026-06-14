@@ -14,7 +14,7 @@
   <rect x="40" y="82" width="242" height="108" rx="10" fill="#0d1117" stroke="#21262d" stroke-width="1"/>
   <rect x="40" y="82" width="3" height="108" rx="1.5" fill="#22d3ee" opacity="0.9"/>
   <text x="60" y="110" font-family="'SF Mono','Fira Code',monospace" font-size="9" letter-spacing="2" fill="#484f58">CURRENT STREAK</text>
-  <text x="60" y="150" font-family="'SF Mono','Fira Code',monospace" font-size="38" font-weight="600" fill="#e6edf3">0</text>
+  <text x="60" y="150" font-family="'SF Mono','Fira Code',monospace" font-size="38" font-weight="600" fill="#e6edf3">3</text>
   <text x="60" y="170" font-family="'SF Mono','Fira Code',monospace" font-size="10" fill="#22d3ee" opacity="0.7">days</text>
   
   <rect x="309" y="82" width="242" height="108" rx="10" fill="#0d1117" stroke="#21262d" stroke-width="1"/>
@@ -26,7 +26,7 @@
   <rect x="578" y="82" width="242" height="108" rx="10" fill="#0d1117" stroke="#21262d" stroke-width="1"/>
   <rect x="578" y="82" width="3" height="108" rx="1.5" fill="#22d3ee" opacity="0.9"/>
   <text x="598" y="110" font-family="'SF Mono','Fira Code',monospace" font-size="9" letter-spacing="2" fill="#484f58">CONTRIBUTIONS</text>
-  <text x="598" y="150" font-family="'SF Mono','Fira Code',monospace" font-size="38" font-weight="600" fill="#e6edf3">1,197</text>
+  <text x="598" y="150" font-family="'SF Mono','Fira Code',monospace" font-size="38" font-weight="600" fill="#e6edf3">1,198</text>
   <text x="598" y="170" font-family="'SF Mono','Fira Code',monospace" font-size="10" fill="#22d3ee" opacity="0.7">all time</text>
 
   <text x="40" y="218" font-family="'SF Mono','Fira Code',monospace" font-size="9" letter-spacing="2" fill="#21262d">LAST 26 WEEKS</text>
@@ -38,7 +38,7 @@
   <g transform="translate(40, 288)">
     
   <text x="0" y="0" font-family="'SF Mono','Fira Code',monospace" font-size="9" letter-spacing="1.5" fill="#30363d">ACTIVE DAYS</text>
-  <text x="0" y="18" font-family="'SF Mono','Fira Code',monospace" font-size="13" font-weight="600" fill="#8b949e">268</text>
+  <text x="0" y="18" font-family="'SF Mono','Fira Code',monospace" font-size="13" font-weight="600" fill="#8b949e">269</text>
     
   <text x="160" y="0" font-family="'SF Mono','Fira Code',monospace" font-size="9" letter-spacing="1.5" fill="#30363d">CONSISTENCY</text>
   <text x="160" y="18" font-family="'SF Mono','Fira Code',monospace" font-size="13" font-weight="600" fill="#8b949e">6.4%</text>
