@@ -39,10 +39,10 @@
   <!-- peak dot -->
   <circle cx="36.0" cy="248.0" r="3" fill="#22d3ee" clip-path="url(#chartClip)"/>
   <circle cx="36.0" cy="248.0" r="6" fill="#22d3ee" fill-opacity="0.15" clip-path="url(#chartClip)"/>
-  <text x="44" y="244" font-family="'SF Mono','Fira Code',monospace" font-size="8" fill="#22d3ee" opacity="0.7">0 on 2026-07-30</text>
+  <text x="44" y="244" font-family="'SF Mono','Fira Code',monospace" font-size="8" fill="#22d3ee" opacity="0.7">0 on 2026-07-31</text>
 
   <!-- x-axis month labels -->
-  <text x="36.0" y="264" font-family="'SF Mono','Fira Code',monospace" font-size="9" fill="#484f58">Jul</text><text x="92.6" y="264" font-family="'SF Mono','Fira Code',monospace" font-size="9" fill="#484f58">Aug</text>
+  <text x="36.0" y="264" font-family="'SF Mono','Fira Code',monospace" font-size="9" fill="#484f58">Jul</text><text x="64.3" y="264" font-family="'SF Mono','Fira Code',monospace" font-size="9" fill="#484f58">Aug</text>
 
   <!-- footer -->
   <text x="24" y="280" font-family="'SF Mono','Fira Code',monospace" font-size="9" fill="#30363d">0 contributions  ·  0.0% consistency  ·  0 active days</text>
